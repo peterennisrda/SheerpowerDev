@@ -1,0 +1,114 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_002.spsrc
+! System : .
+! Author : peterennisrda
+! Company: RDA
+! Date   : January 24, 2019
+! Purpose: 
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Retrieve registry key settings for user profile
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+TheOutputFile$ = "@PROFILE_DATA.txt"
+UserName$ = "peterennis"
+
+!Desktop$ = "\\misdc01\FolderRedirections\" + UserName$ + "\Desktop"
+!MyMusic$ = " \\misdc01\FolderRedirections\" + UserName$ + "\My Music"
+!MyPictures$ = "\\misdc01\FolderRedirections\" + UserName$ + "\My pictures"
+!MyVideos$ = "\\misdc01\FolderRedirections\" + UserName$ + "\My video"
+!MyDocuments$ = "\\misdc01\FolderRedirections\" + UserName$ + "\Documents"
+
+RegKeyUserShellFolders$ = "\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
+RegKeyShellFolders$ = "\HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders"
+
+! User Shell Folders - Variables
+HKCU_UserDesktop$ = RegKeyUserShellFolders$ + "\Desktop"
+HKCU_UserFavorites$ = RegKeyUserShellFolders$ + "\Favorites"
+HKCU_UserMyMusic$ = RegKeyUserShellFolders$ + "\My Music"
+HKCU_UserMyPictures$ = RegKeyUserShellFolders$ + "\My Pictures"
+HKCU_UserMyVideo$ = RegKeyUserShellFolders$ + "\My Video"
+HKCU_UserPersonal$ = RegKeyUserShellFolders$ + "\Personal"
+
+! Shell Folders - Variables
+HKCU_ShellDesktop$ = RegKeyShellFolders$ + "\Desktop"
+HKCU_ShellFavorites$ = RegKeyShellFolders$ + "\Favorites"
+HKCU_ShellMyMusic$ = RegKeyShellFolders$ + "\My Music"
+HKCU_ShellMyPictures$ = RegKeyShellFolders$ + "\My Pictures"
+HKCU_ShellMyVideo$ = RegKeyShellFolders$ + "\My Video"
+HKCU_ShellPersonal$ = RegKeyShellFolders$ + "\Personal"
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open file out_ch:name TheOutputFile$, access output
+
+!  User Shell Folders - Output
+print #out_ch,#0:">>List of user profile REG entries for PC"
+
+ask system, symbol HKCU_UserDesktop$:value result$
+print #out_ch,#0:"Desktop: ";result$
+
+ask system, symbol HKCU_UserFavorites$:value result$
+print #out_ch,#0:"Favorites: ";result$
+
+ask system, symbol HKCU_UserMyMusic$:value result$
+print #out_ch,#0:"Music: ";result$
+
+ask system, symbol HKCU_UserMyPictures$:value result$
+print #out_ch,#0:"Pictures: ";result$
+
+ask system, symbol HKCU_UserMyVideo$:value result$
+print #out_ch,#0:"Video: ";result$
+
+ask system, symbol HKCU_UserPersonal$:value result$
+print #out_ch,#0:"Personal: ";result$
+print #out_ch,#0
+
+! User Shell Folders - Output
+print #out_ch,#0:">>List of shell profile REG entries for PC"
+
+ask system, symbol HKCU_ShellDesktop$:value result$
+print #out_ch,#0:"Desktop: ";result$
+
+ask system, symbol HKCU_ShellFavorites$:value result$
+print #out_ch,#0:"Favorites: ";result$
+
+ask system, symbol HKCU_ShellMyMusic$:value result$
+print #out_ch,#0:"Music: ";result$
+
+ask system, symbol HKCU_ShellMyPictures$:value result$
+print #out_ch,#0:"Pictures: ";result$
+
+ask system, symbol HKCU_ShellMyVideo$:value result$
+print #out_ch,#0:"Video: ";result$
+
+ask system, symbol HKCU_ShellPersonal$:value result$
+print #out_ch,#0:"Personal: ";result$
+print #out_ch,#0
+
+close #out_ch
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! 
+!  open file myfile_ch: name 'myfile.txt', access outin
+!  do
+!    line input #myfile_ch, eof eof?: z0$ 
+!    if eof? then exit do
+!  loop
+!  close #myfile_ch 
+!  
+
+end

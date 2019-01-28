@@ -1,0 +1,42 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_001.spsrc
+! System : .
+! Author : peterennisrda
+! Company: RDA
+! Date   : January 24, 2019
+! Purpose: Learning SheerPower
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Example to retrieve and ouput a registry setting
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open file out_ch:name "@REG_DATA.txt", access output
+print #out_ch:"List of interesting REG entries for PC"
+
+MSSQL17ver$ = "\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server 2017 " +
+	"Redist\MSODBCSQL13\1033\CurrentVersion\Version"
+ask system, symbol MSSQL17ver$:value valofMSSQL17ver$
+print #out_ch,#0:"MSSQL17 Version: ";valofMSSQL17ver$
+
+close #out_ch
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end
