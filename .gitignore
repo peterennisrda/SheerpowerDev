@@ -1,4 +1,5 @@
 *.spsrc-1
+sp4gl_system_info.txt
 .vs/ProjectSettings.json
 .vs/slnx.sqlite
 .vs/VSWorkspaceState.json
