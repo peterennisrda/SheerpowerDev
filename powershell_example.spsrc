@@ -20,13 +20,19 @@ crlf$ = chr$(13)+chr$(10)
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 // Make a nice file name based on the current folder (the "@")
+
 temp_file$ = filespec$('@temp_'+uuid$+'.txt')
+print 'temp_file$ = ' + temp_file$
 
 cmd$ = 'powershell ' + quote$('Get-Service WinRM  | format-list > ' + temp_file$)
+print 'cmd$ = ' + cmd$
 pass cmd$
 
 contents$ = fileinfo$(temp_file$, 'contents')
+print "Before I Am!!! ", contents$, "Here I Am!"
+print
 contents$ = change$(contents$, chr$(0)) // get rid of unicode nulls
+print contents$
 
 kill conditional: temp_file$
 
@@ -35,6 +41,8 @@ kill conditional: temp_file$
 name$ = 'DisplayName         : Windows Remote Management ('
 z0 =pos(contents$, name$)
 z1 = pos(contents$, ')', z0+len(name$))
+print z0, z1
+
 data$ = contents$[z0+len(name$):z1-1]
 print 'The data is: '; data$
 
