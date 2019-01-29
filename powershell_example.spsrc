@@ -1,0 +1,50 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: powershell_example.spsrc
+! System : .
+! Author : Daniel Esbensen
+! Company: RDA
+! Date   : January 28, 2019
+! Purpose: test parsing a power shell command
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+crlf$ = chr$(13)+chr$(10)
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+// Make a nice file name based on the current folder (the "@")
+temp_file$ = filespec$('@temp_'+uuid$+'.txt')
+
+cmd$ = 'powershell ' + quote$('Get-Service WinRM  | format-list > ' + temp_file$)
+pass cmd$
+
+contents$ = fileinfo$(temp_file$, 'contents')
+contents$ = change$(contents$, chr$(0)) // get rid of unicode nulls
+
+kill conditional: temp_file$
+
+// parse out what we want
+
+name$ = 'DisplayName         : Windows Remote Management ('
+z0 =pos(contents$, name$)
+z1 = pos(contents$, ')', z0+len(name$))
+data$ = contents$[z0+len(name$):z1-1]
+print 'The data is: '; data$
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end
