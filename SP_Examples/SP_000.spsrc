@@ -19,6 +19,9 @@
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+generate_menu_list
+HALT
+
 do
   line input menu '"Calculator" = calc,"DOS Prompt" = dos,"EXIT"': ans$
   if  _exit  then  exit do
@@ -39,6 +42,9 @@ stop
 !         R o u t i n e s
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+routine generate_menu_list
+  pass nowait: '$$'
 
+end routine 
 
 end
