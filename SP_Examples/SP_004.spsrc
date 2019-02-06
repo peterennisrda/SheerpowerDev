@@ -1,0 +1,49 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_004.spsrc
+! System : .
+! Author : peterennisrda
+! Company: RDA
+! Date   : February 01, 2019
+! Purpose: ODBC connection test to Access 64 bit accdb
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Database sample from FMS Inc.,
+! Converted to Access 2016 accdb file
+! Ref: https://www.fmsinc.com/microsoftaccess/query/index.html
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open structure con: name 'Orders in FMSQUERY'
+extract structure con       
+  sort ascending by con('Customer ID') 
+end extract 
+print 'Orders List' 
+print 
+
+for each con 
+  print con('Order ID'); ' '; con('Customer ID'), con('Order Date'), con('Freight') 
+  next con 
+close structure con 
+
+end 
+
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end

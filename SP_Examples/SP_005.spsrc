@@ -1,10 +1,10 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-! Program: powershell_example.spsrc
+! Program: SP_005.spsrc
 ! System : .
 ! Author : Daniel Esbensen
 ! Company: RDA
 ! Date   : January 28, 2019
-! Purpose: test parsing a power shell command
+! Purpose: Test parsing a power shell command
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -1,0 +1,58 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_010.spsrc
+! System : .
+! Author : peterennisrda
+! Company: RDA
+! Date   : February 01, 2019
+! Purpose: ASK TABLE FIELD: item
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open table cl: name 'sheerpower:assets\client' 
+ask table cl: fields num_fields 
+for i = 1 to num_fields 
+  clear
+  ask table cl, field #i: description b$ 
+  ask table cl, field #i: prompt a$ 
+  ask table cl, field #i: position a% 
+  ask table cl, field #i: length b% 
+  ask table cl, field #i: heading f$ 
+  ask table cl, field #i: printmask c$, & 
+                                screenmask d$, & 
+                                help e$ 
+  print at 5,5: '' 
+  print 'Description   : '; b$ 
+  print 'Prompt        : '; a$ 
+  print 'Position      : '; a% 
+  print 'Field length  :' ; b% 
+  print 'Rpt. heading  : '; f$ 
+  print 'Print mask    : '; c$ 
+  print 'Screen mask   : '; d$ 
+  print 'Help          : '; e$ 
+  delay
+next i 
+close table cl 
+end
+  
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end

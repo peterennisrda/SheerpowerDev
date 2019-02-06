@@ -1,2 +1,0 @@
-List of interesting REG entries for PC
-MSSQL17 Version: 14.0.1000.169

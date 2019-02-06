@@ -1,14 +1,15 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-! Program: SP_001.spsrc
+! Program: SP_011.spsrc
 ! System : .
 ! Author : peterennisrda
 ! Company: RDA
-! Date   : January 24, 2019
-! Purpose: Learning SheerPower
+! Date   : February 04, 2019
+! Purpose: Dnamically change the taskbar icon
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-! Example to retrieve and ouput a registry setting
+! Icons converted from EMOJIONE Free using Axialis IconWorkshop
+! Ref: https://www.emojione.com/
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         I n i t i a l i z a t i o n
@@ -20,15 +21,15 @@
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-open file out_ch:name "@REG_DATA.txt", access output
-print #out_ch:"List of interesting REG entries for PC"
 
-MSSQL17ver$ = "\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft SQL Server 2017 " +
-	"Redist\MSODBCSQL13\1033\CurrentVersion\Version"
-ask system, symbol MSSQL17ver$:value valofMSSQL17ver$
-print #out_ch,#0:"MSSQL17 Version: ";valofMSSQL17ver$
+here$ = filespec$('@\assets\')
 
-close #out_ch
+set icon here$+"smiley.ico"
+print "Check out the taskbar icon... it's a smiley!"
+delay
+set icon here$+"frowney.ico"
+print "and now... it's sad!"
+end
 
 stop
 
