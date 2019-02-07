@@ -1,0 +1,322 @@
+|-- Name >> Customers
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 91
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- OrderByOn >> False
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- Orientation >> 0
+|-- DatasheetForeColor12 >> 33554432
+|-- DefaultView >> 2
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- Customer ID (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Customer ID
+|------ OrdinalPosition >> 1
+|------ Size >> 5
+|------ SourceField >> Customer ID
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Unique five-character code based on customer name.
+|------ InputMask >> >LLLLL
+|------ ColumnOrder >> 1
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1875
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Company Name (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Company Name
+|------ OrdinalPosition >> 2
+|------ Size >> 40
+|------ SourceField >> Company Name
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> True
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 4800
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Contact Name (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Contact Name
+|------ OrdinalPosition >> 3
+|------ Size >> 30
+|------ SourceField >> Contact Name
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2565
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Contact Title (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Contact Title
+|------ OrdinalPosition >> 4
+|------ Size >> 30
+|------ SourceField >> Contact Title
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2865
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Address (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Address
+|------ OrdinalPosition >> 5
+|------ Size >> 60
+|------ SourceField >> Address
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Street or post-office box.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 3945
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- City (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> City
+|------ OrdinalPosition >> 6
+|------ Size >> 15
+|------ SourceField >> City
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1860
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Region (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Region
+|------ OrdinalPosition >> 7
+|------ Size >> 15
+|------ SourceField >> Region
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> State or province.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1125
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Postal Code (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Postal Code
+|------ OrdinalPosition >> 8
+|------ Size >> 10
+|------ SourceField >> Postal Code
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1830
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Country (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Country
+|------ OrdinalPosition >> 9
+|------ Size >> 15
+|------ SourceField >> Country
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1590
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Phone (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Phone
+|------ OrdinalPosition >> 10
+|------ Size >> 24
+|------ SourceField >> Phone
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Phone number includes country code or area code.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2145
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Fax (Field in Customers)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Fax
+|------ OrdinalPosition >> 11
+|------ Size >> 24
+|------ SourceField >> Fax
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Phone number includes country code or area code.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2145
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Total Sales (Field in Customers)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 5
+|------ Name >> Total Sales
+|------ OrdinalPosition >> 12
+|------ Size >> 8
+|------ SourceField >> Total Sales
+|------ SourceTable >> Customers
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1950
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ TextAlign >> 0
+|------ AggregateType >> -1

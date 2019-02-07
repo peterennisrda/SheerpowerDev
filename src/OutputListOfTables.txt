@@ -1,0 +1,11 @@
+[Age Groups]  False
+[Countries]   False
+[Customers]   False
+[Fortune100]  False
+[Order Details]             False
+[Orders]      False
+[Patients]    False
+[Phrases]     False
+[Products]    False
+[States]      False
+[Titles]      False

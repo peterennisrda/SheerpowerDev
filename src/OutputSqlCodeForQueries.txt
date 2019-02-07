@@ -1,0 +1,136 @@
+<<<[Basic: Total Avg Patient]>>>
+SELECT DISTINCTROW States.State, Patients.Gender, Patients.Age, Patients.Weight, Avg(Patients.Cholesterol) AS AvgOfCholesterol
+FROM States INNER JOIN Patients ON States.State = Patients.State
+GROUP BY States.State, Patients.Gender, Patients.Age, Patients.Weight;
+
+<<<[Basics: Access Functions]>>>
+SELECT DISTINCTROW Countries.Country, Len([Country]) AS Length
+FROM Countries
+WHERE (((Len([Country]))>10))
+ORDER BY Len([Country]) DESC;
+
+<<<[Basics: Calculated Field]>>>
+SELECT [Order Details].*, [Unit Price]*[Quantity]*(1-[Discount]) AS Sales
+FROM [Order Details]
+WITH OWNERACCESS OPTION;
+
+<<<[Basics: Function StripLead]>>>
+SELECT DISTINCTROW StripLead([Names]) AS Adjusted, Titles.Names AS Original
+FROM Titles
+ORDER BY StripLead([Names]);
+
+<<<[Basics: Parameters]>>>
+PARAMETERS [State Abbreviation] Text ( 255 );
+SELECT DISTINCTROW Patients.*
+FROM Patients
+WHERE (((Patients.State)=[State Abbreviation]));
+
+<<<[Basics: Parameters Two]>>>
+PARAMETERS [Enter State Name:] Text ( 255 ), [Enter Minimum Age:] Short;
+SELECT DISTINCTROW Patients.*
+FROM Patients
+WHERE (((Patients.Age)>=[Enter Minimum Age:]) AND ((Patients.State)=[Enter State Name:]));
+
+<<<[Basics: Random Records]>>>
+SELECT Patients.*
+FROM Patients
+WHERE (((Rnd([ID]))<0.25));
+
+<<<[Basics: Top 10 Least Profitable Companies]>>>
+SELECT TOP 10 Fortune100.*
+FROM Fortune100
+ORDER BY Fortune100.Profits;
+
+<<<[Basics: Top 10 Most Profitable Companies]>>>
+SELECT TOP 10 Fortune100.*
+FROM Fortune100
+ORDER BY Fortune100.Profits DESC;
+
+<<<[Crosstab of Patients GenderColumn]>>>
+TRANSFORM Avg(Patients.Cholesterol) AS [The Value]
+SELECT Patients.State, Avg(Patients.Cholesterol) AS [Row Summary]
+FROM Patients
+GROUP BY Patients.State
+PIVOT Patients.Gender;
+
+<<<[Crosstab of Patients w/State Name]>>>
+TRANSFORM Avg(Patients.Cholesterol) AS [The Value]
+SELECT States.Name, Avg(Patients.Cholesterol) AS [Row Summary]
+FROM Patients INNER JOIN States ON Patients.State = States.State
+GROUP BY States.Name
+PIVOT Patients.Gender;
+
+<<<[Fortune100 By FirstLetter]>>>
+SELECT Left([Company],1) AS Letter, Count(Fortune100.Company) AS [Count], Avg(Fortune100.Sales) AS AvgOfSales, Avg(Fortune100.Profits) AS AvgOfProfits
+FROM Fortune100
+GROUP BY Left([Company],1);
+
+<<<[Fortune100 PercentOfTotals]>>>
+SELECT Fortune100.Company, Fortune100.Sales, 100*[Sales]/[TotalSales] AS [Sales%], Fortune100.Profits, [Profits]/[TotalProfits] AS [Profit%]
+FROM Fortune100, [Fortune100 Totals]
+ORDER BY Fortune100.Sales DESC;
+
+<<<[Fortune100 Totals]>>>
+SELECT Sum(Fortune100.Sales) AS TotalSales, Sum(Fortune100.Profits) AS TotalProfits
+FROM Fortune100;
+
+<<<[Frequency: Age Distribution]>>>
+SELECT DISTINCTROW [Age Groups].[Group Name], Count(Patients.ID) AS CountOfID
+FROM Patients, [Age Groups]
+WHERE (((Patients.Age) Between [Minimum] And [Maximum]))
+GROUP BY [Age Groups].[Group Name], [Age Groups].[Group ID]
+ORDER BY [Age Groups].[Group ID];
+
+<<<[Multi-table left join]>>>
+SELECT DISTINCTROW States.State, States.Name, Max(Patients.Age) AS MaxOfAge, Avg(Patients.Cholesterol) AS AvgOfCholesterol
+FROM States LEFT JOIN Patients ON States.State = Patients.State
+GROUP BY States.State, States.Name;
+
+<<<[Multi-table Not-In]>>>
+SELECT DISTINCTROW States.State, States.Name
+FROM States LEFT JOIN Patients ON States.State = Patients.State
+WHERE (((Patients.State) Is Null));
+
+<<<[Multi-table Not-In-No Patients Over 60]>>>
+SELECT DISTINCTROW States.State, States.Name
+FROM States LEFT JOIN qryPatientsOver60 ON States.State = qryPatientsOver60.State
+WHERE (((qryPatientsOver60.State) Is Null));
+
+<<<[Multi-table select]>>>
+SELECT DISTINCTROW Customers.[Company Name], Customers.[Contact Name], Products.[English Name]
+FROM Products INNER JOIN ((Customers INNER JOIN Orders ON Customers.[Customer ID] = Orders.[Customer ID]) INNER JOIN [Order Details] ON Orders.[Order ID] = [Order Details].[Order ID]) ON Products.[Product ID] = [Order Details].[Product ID]
+WHERE (((Products.[English Name])="Licorice Syrup"));
+
+<<<[qryCustomerSales]>>>
+SELECT Orders.[Customer ID], Sum([Unit Price]*[Quantity]*(1-[Discount])) AS Sales
+FROM Orders INNER JOIN [Order Details] ON Orders.[Order ID] = [Order Details].[Order ID]
+GROUP BY Orders.[Customer ID];
+
+<<<[qryPatientsOver60]>>>
+SELECT Patients.State
+FROM Patients
+WHERE (((Patients.Age)>60))
+GROUP BY Patients.State;
+
+<<<[qryTopCustomers]>>>
+SELECT qryCustomerSales.Sales, Customers.*
+FROM Customers INNER JOIN qryCustomerSales ON Customers.[Customer ID] = qryCustomerSales.[Customer ID]
+ORDER BY qryCustomerSales.Sales DESC;
+
+<<<[Union Query All States]>>>
+SELECT States.State, States.Name
+FROM States;
+
+<<<[Union Query Blank State]>>>
+SELECT "" AS State, "" AS Name
+FROM States
+WHERE (((States.State)="VA"));
+
+<<<[Union Query State List with Blank]>>>
+SELECT "" AS State, "" AS Name
+FROM States
+WHERE (((States.State)="VA"));
+
+UNION SELECT States.State, States.Name
+FROM States;
+

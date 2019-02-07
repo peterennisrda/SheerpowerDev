@@ -1,0 +1,144 @@
+-----------------
+TABLE: Age Groups
+-----------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+Group ID             AutoNumber      4                  
+Group Name           Text            50                 
+Minimum              Double          8                  
+Maximum              Double          8                  
+
+
+----------------
+TABLE: Countries
+----------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+Country              Text            20                 
+
+
+----------------
+TABLE: Customers
+----------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION                                       
+=================    ============    ====    ==================================================
+Customer ID          Text            5       Unique five-character code based on customer name.
+Company Name         Text            40                                                        
+Contact Name         Text            30                                                        
+Contact Title        Text            30                                                        
+Address              Text            60      Street or post-office box.                        
+City                 Text            15                                                        
+Region               Text            15      State or province.                                
+Postal Code          Text            10                                                        
+Country              Text            15                                                        
+Phone                Text            24      Phone number includes country code or area code.  
+Fax                  Text            24      Phone number includes country code or area code.  
+Total Sales          Currency        8                                                         
+
+
+-----------------
+TABLE: Fortune100
+-----------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+Company              Text            255                
+Sales                Currency        8                  
+Profits              Currency        8                  
+
+
+--------------------
+TABLE: Order Details
+--------------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION                         
+=================    ============    ====    ====================================
+Order ID             Long Integer    4       Same as Order ID in Orders table    
+Product ID           Long Integer    4       Same as Product ID in Products table
+Unit Price           Currency        8                                           
+Quantity             Integer         2                                           
+Discount             Single          4                                           
+
+
+-------------
+TABLE: Orders
+-------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION                                       
+=================    ============    ====    ==================================================
+Order ID             Long Integer    4       Unique order number from invoice.                 
+Customer ID          Text            5       Same as Customer ID in Customers table.           
+Employee ID          Long Integer    4       Same as Employee ID in Employees table.           
+Ship Name            Text            40      Name of person or company to receive the shipment.
+Ship Address         Text            60      Street address only -- no post-office box allowed.
+Ship City            Text            15                                                        
+Ship Region          Text            15      State or province.                                
+Ship Postal Code     Text            10                                                        
+Ship Country         Text            15                                                        
+Ship Via             Long Integer    4       Same as Shipper ID in Shippers table.             
+Order Date           Date/Time       8                                                         
+Required Date        Date/Time       8                                                         
+Shipped Date         Date/Time       8                                                         
+Freight              Currency        8                                                         
+
+
+---------------
+TABLE: Patients
+---------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+ID                   Integer         2                  
+State                Text            2                  
+Gender               Text            1                  
+Age                  Double          8                  
+Weight               Double          8                  
+Height               Double          8                  
+Cholesterol          Double          8                  
+Systolic             Integer         2                  
+Diastolic            Integer         2                  
+
+
+--------------
+TABLE: Phrases
+--------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+Original             Text            50                 
+New                  Text            50                 
+ProperCase           Text            50                 
+UpperCase            Text            50                 
+LowerCase            Text            50                 
+
+
+---------------
+TABLE: Products
+---------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION                                  
+=================    ============    ====    =============================================
+Product ID           AutoNumber      4       Number automatically assigned to new product.
+Supplier ID          Long Integer    4       Same as Supplier ID in Suppliers table.      
+Category ID          Long Integer    4       Same as Category ID in Categories table.     
+Product Name         Text            40                                                   
+English Name         Text            40                                                   
+Quantity Per Unit    Text            20      (e.g., 24-count case, 1-liter bottle).       
+Unit Price           Currency        8                                                    
+Units In Stock       Integer         2                                                    
+Units On Order       Integer         2                                                    
+Reorder Level        Integer         2       Minimum units to maintain in stock.          
+Discontinued         Yes/No          1       Yes means item is no longer available.       
+
+
+-------------
+TABLE: States
+-------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+State                Text            3                  
+Name                 Text            20                 
+
+
+-------------
+TABLE: Titles
+-------------
+FIELD NAME           FIELD TYPE      SIZE    DESCRIPTION
+=================    ============    ====    ===========
+Names                Text            50                 
+
+

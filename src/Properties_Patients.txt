@@ -1,0 +1,249 @@
+|-- Name >> Patients
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 200
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- OrderByOn >> False
+|-- Orientation >> 0
+|-- DatasheetForeColor12 >> 33554432
+|-- DefaultView >> 2
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- ID (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> ID
+|------ OrdinalPosition >> 0
+|------ Size >> 2
+|------ SourceField >> ID
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 645
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- State (Field in Patients)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> State
+|------ OrdinalPosition >> 1
+|------ Size >> 2
+|------ SourceField >> State
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 855
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> False
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|------ IMEMode >> 0
+|------ IMESentenceMode >> 3
+|-- Gender (Field in Patients)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Gender
+|------ OrdinalPosition >> 2
+|------ Size >> 1
+|------ SourceField >> Gender
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 675
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DisplayControl >> 109
+|------ UnicodeCompression >> False
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|------ IMEMode >> 0
+|------ IMESentenceMode >> 3
+|-- Age (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 7
+|------ Name >> Age
+|------ OrdinalPosition >> 3
+|------ Size >> 8
+|------ SourceField >> Age
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 690
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Weight (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 7
+|------ Name >> Weight
+|------ OrdinalPosition >> 4
+|------ Size >> 8
+|------ SourceField >> Weight
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1095
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Height (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 7
+|------ Name >> Height
+|------ OrdinalPosition >> 5
+|------ Size >> 8
+|------ SourceField >> Height
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1035
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Cholesterol (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 7
+|------ Name >> Cholesterol
+|------ OrdinalPosition >> 6
+|------ Size >> 8
+|------ SourceField >> Cholesterol
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1755
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Systolic (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> Systolic
+|------ OrdinalPosition >> 7
+|------ Size >> 2
+|------ SourceField >> Systolic
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1260
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Diastolic (Field in Patients)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> Diastolic
+|------ OrdinalPosition >> 8
+|------ Size >> 2
+|------ SourceField >> Diastolic
+|------ SourceTable >> Patients
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1350
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ DecimalPlaces >> 255
+|------ DisplayControl >> 109
+|------ TextAlign >> 0
+|------ AggregateType >> -1
