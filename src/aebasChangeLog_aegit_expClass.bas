@@ -39,9 +39,14 @@ Option Explicit
 '
 ' =============================================================================================================================
 ' Tasks:
+' %180 -
+' %179 -
+' %178 -
+' %177 -
+' %176 -
 ' %175 -
 ' %174 -
-' %173 -
+' %173 - Kill file error for "Basics: Access Functions" etc. - needs fix for file names
 ' %170 - Add feature to allow scrolling of big list in form _chtBigList
 ' %166 - Update and test basUTF8
 ' %162 - Encoding - manual conversion, Ref: http://opinions.co.il/ogdan/converting-microsoft-access-database-tables-in-local-encoding-into-utf-8-encoding/
@@ -106,7 +111,7 @@ Option Explicit
 '
 '
 ' 20190206 - v217
-    ' FIXED - %172 - Error  - varTablesArray has no value; set explicit message for for this error
+    ' FIXED - %172 - Error  - varTablesArray has no value; set explicit message for this error
 ' 20180611 - v216
     ' FIXED - %171 - Define tables for xml data export outside of aegitClassTest
 ' 20180402 - v215
