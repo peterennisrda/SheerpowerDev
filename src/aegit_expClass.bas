@@ -686,6 +686,27 @@ Public Property Let XMLFolderBe(ByVal strXMLFolderBe As String)
     Debug.Print , "aegitXMLFolderBe = " & aegitXMLFolderBe
 End Property
 
+'-----------------------------------------------------------
+
+Private Function RemoveIllegalCharacters(ByVal strText As String) As String
+
+    ' Ref: https://access-programmers.co.uk/forums/showthread.php?t=261147
+
+    Const cstrIllegals As String = "\,/,:,*,?,"",<,>,|"
+    
+    Dim lngCounter As Long
+    Dim astrChars() As String
+    
+    astrChars() = Split(cstrIllegals, ",")
+    
+    For lngCounter = LBound(astrChars()) To UBound(astrChars())
+        strText = Replace(strText, astrChars(lngCounter), vbNullString)
+    Next lngCounter
+    
+    RemoveIllegalCharacters = strText
+
+End Function
+
 Private Sub aeHideTable(strTableName As String)
     With CurrentDb
         With .TableDefs(strTableName)
@@ -2948,6 +2969,8 @@ Private Sub KillProperly(ByVal Killfile As String)
     'Debug.Print "KillProperly"
     On Error GoTo PROC_ERR
 
+'    On Error GoTo 0
+
 TryAgain:
     If Len(Dir$(Killfile)) > 0 Then
         SetAttr Killfile, vbNormal
@@ -2962,6 +2985,7 @@ PROC_ERR:
         Pause (0.25)
         Resume TryAgain
     ElseIf Err = 53 Then     ' File not found
+        MsgBox "Erl=" & Erl & " Error " & Err.Number & " Killfile=" & Killfile & " (" & Err.Description & ") in procedure KillProperly of Class aegit_expClass", vbCritical, "ERROR"
         Resume PROC_EXIT
     End If
     MsgBox "Erl=" & Erl & " Error " & Err.Number & " Killfile=" & Killfile & " (" & Err.Description & ") in procedure KillProperly of Class aegit_expClass", vbCritical, "ERROR"
@@ -6067,7 +6091,7 @@ Private Sub VerifySetup()   '(Optional ByVal varDebug As Variant)
         End If
         'Debug.Print , "aestrXMLDataLocation = " & aestrXMLDataLocation
         If Not FolderExists(aestrXMLDataLocation) Then
-            MsgBox "aestrXMLDataLocation does not exist!", vbCritical, "VerifySetup"
+            MsgBox "1. aestrXMLDataLocation does not exist!", vbCritical, "VerifySetup"
             Stop
         End If
     ElseIf aegitFrontEndApp Then
@@ -6097,9 +6121,9 @@ Private Sub VerifySetup()   '(Optional ByVal varDebug As Variant)
             MsgBox "aestrXMLLocation does not exist!", vbCritical, "VerifySetup"
             Stop
         End If
-        'Debug.Print , "aestrXMLDataLocation = " & aestrXMLDataLocation
+        Debug.Print , "aestrXMLDataLocation = " & aestrXMLDataLocation
         If Not FolderExists(aestrXMLDataLocation) Then
-            MsgBox "aestrXMLDataLocation does not exist!", vbCritical, "VerifySetup"
+            MsgBox "2. aestrXMLDataLocation does not exist!", vbCritical, "VerifySetup"
             Stop
         End If
     ElseIf Not aegitFrontEndApp Then
