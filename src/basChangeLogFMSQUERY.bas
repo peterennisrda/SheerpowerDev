@@ -14,7 +14,7 @@ Public Function EXPORT_FMSQUERY(Optional ByVal varDebug As Variant)
     Const THE_FRONT_END_APP = True
     Const THE_SOURCE_FOLDER = ".\src\"
     Const THE_XML_FOLDER = ".\src\xml\"
-    Const THE_XML_DATA_FOLDER = ".\srcl\xmldata\"
+    Const THE_XML_DATA_FOLDER = ".\src\xmldata\"
     Const THE_BACK_END_SOURCE_FOLDER = "NONE"
     Const THE_BACK_END_XML_FOLDER = "NONE"
     Const THE_BACK_END_DB1 = "NONE"
@@ -88,13 +88,14 @@ End Sub
 '
 '=============================================================================================================================
 ' Tasks:
-' #005 -
-' #004 -
-' #003 -
-' #002 -
-' #001 - Setup for inital aegit export
+' %005 -
+' %004 -
+' %003 -
+' %001 - Setup for inital aegit export
 '=============================================================================================================================
 '
 '
+'20190205 - v002
+    ' FIXED - %002 - Typo on XMLDataLocation
 '20190205 - v001 - First version
     ' First commit
