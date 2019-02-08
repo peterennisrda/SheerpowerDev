@@ -1,0 +1,47 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_016.spsrc
+! System : .
+! Author : peterennisrda
+! Company: RDA
+! Date   : February 07, 2019
+! Purpose: Program to check the file name length
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+out_file$ = filespec$('@long_names.txt')
+open file out_ch: name out_file$, access output
+
+open table file_master: name '@..\data\file_master'
+
+extract table file_master
+  include len(file_master(filename)) > 143
+  print #out_ch:  file_master(full_filename)
+  print #out_ch:
+end extract
+close #out_ch
+pass url: out_file$
+print 'Found: '; _extracted
+delay
+
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end
