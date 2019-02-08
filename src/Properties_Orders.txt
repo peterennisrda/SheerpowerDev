@@ -1,0 +1,352 @@
+|-- Name >> Orders
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 1078
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- OrderByOn >> False
+|-- Orientation >> 0
+|-- DatasheetForeColor12 >> 33554432
+|-- DefaultView >> 2
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- Order ID (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Order ID
+|------ OrdinalPosition >> 0
+|------ Size >> 4
+|------ SourceField >> Order ID
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Unique order number from invoice.
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 1
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1320
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Customer ID (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Customer ID
+|------ OrdinalPosition >> 1
+|------ Size >> 5
+|------ SourceField >> Customer ID
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> True
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Customer ID in Customers table.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1875
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Employee ID (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Employee ID
+|------ OrdinalPosition >> 2
+|------ Size >> 4
+|------ SourceField >> Employee ID
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Employee ID in Employees table.
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1890
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship Name (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Ship Name
+|------ OrdinalPosition >> 3
+|------ Size >> 40
+|------ SourceField >> Ship Name
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Name of person or company to receive the shipment.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 4080
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship Address (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Ship Address
+|------ OrdinalPosition >> 4
+|------ Size >> 60
+|------ SourceField >> Ship Address
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Street address only -- no post-office box allowed.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 3585
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship City (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Ship City
+|------ OrdinalPosition >> 5
+|------ Size >> 15
+|------ SourceField >> Ship City
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1950
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship Region (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Ship Region
+|------ OrdinalPosition >> 6
+|------ Size >> 15
+|------ SourceField >> Ship Region
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> State or province.
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1995
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship Postal Code (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Ship Postal Code
+|------ OrdinalPosition >> 7
+|------ Size >> 10
+|------ SourceField >> Ship Postal Code
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2535
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship Country (Field in Orders)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Ship Country
+|------ OrdinalPosition >> 8
+|------ Size >> 15
+|------ SourceField >> Ship Country
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1980
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Ship Via (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Ship Via
+|------ OrdinalPosition >> 9
+|------ Size >> 4
+|------ SourceField >> Ship Via
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Shipper ID in Shippers table.
+|------ DecimalPlaces >> 255
+|------ ColumnWidth >> 1290
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Order Date (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 8
+|------ Name >> Order Date
+|------ OrdinalPosition >> 10
+|------ Size >> 8
+|------ SourceField >> Order Date
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> Medium Date
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1665
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Required Date (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 8
+|------ Name >> Required Date
+|------ OrdinalPosition >> 11
+|------ Size >> 8
+|------ SourceField >> Required Date
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> Medium Date
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2115
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Shipped Date (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 8
+|------ Name >> Shipped Date
+|------ OrdinalPosition >> 12
+|------ Size >> 8
+|------ SourceField >> Shipped Date
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> Medium Date
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2010
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Freight (Field in Orders)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 5
+|------ Name >> Freight
+|------ OrdinalPosition >> 13
+|------ Size >> 8
+|------ SourceField >> Freight
+|------ SourceTable >> Orders
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> $#,##0.00;($#,##0.00)
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1380
+|------ TextAlign >> 0
+|------ AggregateType >> -1

@@ -1,0 +1,50 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: ping.spsrc
+! System : .
+! Author : Ray Christensen
+! Company: RDA
+! Date   : March 27, 2018
+! Purpose: Ping Sheerpower server using a URL callback
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! This test assumes a running Sheerpower server with "api" as
+! the location of a ping.html callback
+
+servername$ = "put-your-server-name-here"
+
+url$="http://" + servername$ + "/scripts/spiis.dll/api/ping.html"
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+do
+  print "pinging right now ";fulltime$(0,3);
+  when exception in
+    open file url_ch: name url$
+    line input #url_ch: rec$
+    close #url_ch
+    print '...success: ';rec$
+  use
+    print '... failed --- did you remember to change the server name and api location ???'
+  end when
+  delay 30*60
+  
+loop
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end

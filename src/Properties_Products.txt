@@ -1,0 +1,248 @@
+|-- Name >> Products
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 77
+|-- ValidationRule >> 
+|-- ValidationText >> 
+--------------------------------------------------
+|-- Product ID (Field in Products)
+|------ Attributes >> 17
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Product ID
+|------ OrdinalPosition >> 0
+|------ Size >> 4
+|------ SourceField >> Product ID
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Number automatically assigned to new product.
+|------ ColumnWidth >> 1020
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|-- Supplier ID (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Supplier ID
+|------ OrdinalPosition >> 1
+|------ Size >> 4
+|------ SourceField >> Supplier ID
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Supplier ID in Suppliers table.
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1050
+|-- Category ID (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Category ID
+|------ OrdinalPosition >> 2
+|------ Size >> 4
+|------ SourceField >> Category ID
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Category ID in Categories table.
+|------ DecimalPlaces >> 255
+|------ ColumnWidth >> 1110
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|-- Product Name (Field in Products)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Product Name
+|------ OrdinalPosition >> 3
+|------ Size >> 40
+|------ SourceField >> Product Name
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> True
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2415
+|-- English Name (Field in Products)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> English Name
+|------ OrdinalPosition >> 4
+|------ Size >> 40
+|------ SourceField >> English Name
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 2415
+|-- Quantity Per Unit (Field in Products)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Quantity Per Unit
+|------ OrdinalPosition >> 5
+|------ Size >> 20
+|------ SourceField >> Quantity Per Unit
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> (e.g., 24-count case, 1-liter bottle).
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1590
+|-- Unit Price (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 5
+|------ Name >> Unit Price
+|------ OrdinalPosition >> 6
+|------ Size >> 8
+|------ SourceField >> Unit Price
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> $#,##0.00;($#,##0.00)
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 945
+|-- Units In Stock (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> Units In Stock
+|------ OrdinalPosition >> 7
+|------ Size >> 2
+|------ SourceField >> Units In Stock
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 0
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> General Number
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1320
+|-- Units On Order (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> Units On Order
+|------ OrdinalPosition >> 8
+|------ Size >> 2
+|------ SourceField >> Units On Order
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 0
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> General Number
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1365
+|-- Reorder Level (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> Reorder Level
+|------ OrdinalPosition >> 9
+|------ Size >> 2
+|------ SourceField >> Reorder Level
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> 0
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Minimum units to maintain in stock.
+|------ Format >> General Number
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1305
+|-- Discontinued (Field in Products)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 1
+|------ Name >> Discontinued
+|------ OrdinalPosition >> 10
+|------ Size >> 1
+|------ SourceField >> Discontinued
+|------ SourceTable >> Products
+|------ DataUpdatable >> False
+|------ DefaultValue >> =No
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Yes means item is no longer available.
+|------ Format >> Yes/No
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1215

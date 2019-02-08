@@ -1,0 +1,103 @@
+|-- Name >> Fortune100
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 100
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- Orientation >> 0
+|-- OrderByOn >> False
+|-- DefaultView >> 2
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- DatasheetForeColor12 >> 33554432
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- Company (Field in Fortune100)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Company
+|------ OrdinalPosition >> 0
+|------ Size >> 255
+|------ SourceField >> Company
+|------ SourceTable >> Fortune100
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> True
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 3495
+|------ ColumnOrder >> 1
+|------ ColumnHidden >> False
+|------ DisplayControl >> 109
+|------ IMEMode >> 0
+|------ IMESentenceMode >> 3
+|------ UnicodeCompression >> True
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Sales (Field in Fortune100)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 5
+|------ Name >> Sales
+|------ OrdinalPosition >> 1
+|------ Size >> 8
+|------ SourceField >> Sales
+|------ SourceTable >> Fortune100
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1650
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ Format >> $#,##0.00;($#,##0.00)
+|------ DecimalPlaces >> 0
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Profits (Field in Fortune100)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 5
+|------ Name >> Profits
+|------ OrdinalPosition >> 2
+|------ Size >> 8
+|------ SourceField >> Profits
+|------ SourceTable >> Fortune100
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 1575
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ Format >> $#,##0.00;($#,##0.00)
+|------ DecimalPlaces >> 0
+|------ TextAlign >> 0
+|------ AggregateType >> -1

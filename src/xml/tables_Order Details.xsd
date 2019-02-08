@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:od="urn:schemas-microsoft-com:officedata">
+  <xsd:element name="dataroot">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Order_x0020_Details" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="generated" type="xsd:dateTime"></xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Order_x0020_Details">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <od:index index-name="PrimaryKey" index-key="Order_x0020_ID Product_x0020_ID " primary="yes" unique="yes" clustered="no" order="asc asc"></od:index>
+        <od:index index-name="Product ID" index-key="Product_x0020_ID " primary="no" unique="no" clustered="no" order="asc"></od:index>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="Order_x0020_ID" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int"></xsd:element>
+        <xsd:element name="Product_x0020_ID" minOccurs="0" od:jetType="longinteger" od:sqlSType="int" type="xsd:int"></xsd:element>
+        <xsd:element name="Unit_x0020_Price" minOccurs="1" od:jetType="currency" od:sqlSType="money" od:nonNullable="yes" type="xsd:double"></xsd:element>
+        <xsd:element name="Quantity" minOccurs="1" od:jetType="integer" od:sqlSType="smallint" od:nonNullable="yes" type="xsd:short"></xsd:element>
+        <xsd:element name="Discount" minOccurs="1" od:jetType="single" od:sqlSType="real" od:nonNullable="yes" type="xsd:float"></xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
+

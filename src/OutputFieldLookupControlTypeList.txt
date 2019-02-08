@@ -1,0 +1,85 @@
+[Age Groups]
+              [Group ID]     0            
+              [Group Name]   109          TextBox
+              [Minimum]      109          TextBox
+              [Maximum]      109          TextBox
+[Countries]
+              [Country]      109          TextBox
+[Customers]
+              [Customer ID]  109          TextBox
+              [Company Name]               109          TextBox
+              [Contact Name]               109          TextBox
+              [Contact Title]              109          TextBox
+              [Address]      109          TextBox
+              [City]         109          TextBox
+              [Region]       109          TextBox
+              [Postal Code]  109          TextBox
+              [Country]      109          TextBox
+              [Phone]        109          TextBox
+              [Fax]          109          TextBox
+              [Total Sales]  109          TextBox
+[Fortune100]
+              [Company]      109          TextBox
+              [Sales]        109          TextBox
+              [Profits]      109          TextBox
+[Order Details]
+              [Order ID]     109          TextBox
+              [Product ID]   109          TextBox
+              [Unit Price]   109          TextBox
+              [Quantity]     109          TextBox
+              [Discount]     109          TextBox
+[Orders]
+              [Order ID]     109          TextBox
+              [Customer ID]  109          TextBox
+              [Employee ID]  109          TextBox
+              [Ship Name]    109          TextBox
+              [Ship Address]               109          TextBox
+              [Ship City]    109          TextBox
+              [Ship Region]  109          TextBox
+              [Ship Postal Code]           109          TextBox
+              [Ship Country]               109          TextBox
+              [Ship Via]     109          TextBox
+              [Order Date]   109          TextBox
+              [Required Date]              109          TextBox
+              [Shipped Date]               109          TextBox
+              [Freight]      109          TextBox
+[Patients]
+              [ID]           109          TextBox
+              [State]        109          TextBox
+              [Gender]       109          TextBox
+              [Age]          109          TextBox
+              [Weight]       109          TextBox
+              [Height]       109          TextBox
+              [Cholesterol]  109          TextBox
+              [Systolic]     109          TextBox
+              [Diastolic]    109          TextBox
+[Phrases]
+              [Original]     109          TextBox
+              [New]          109          TextBox
+              [ProperCase]   109          TextBox
+              [UpperCase]    109          TextBox
+              [LowerCase]    109          TextBox
+[Products]
+              [Product ID]   109          TextBox
+              [Supplier ID]  109          TextBox
+              [Category ID]  109          TextBox
+              [Product Name]               109          TextBox
+              [English Name]               109          TextBox
+              [Quantity Per Unit]          109          TextBox
+              [Unit Price]   109          TextBox
+              [Units In Stock]             109          TextBox
+              [Units On Order]             109          TextBox
+              [Reorder Level]              109          TextBox
+              [Discontinued]               109          TextBox
+[States]
+              [State]        109          TextBox
+              [Name]         109          TextBox
+[Titles]
+              [Names]        109          TextBox
+Count of Check box = 0
+Count of Text box  = 66
+Count of List box  = 0
+Count of Combo box = 0
+Count of Else      = 1
+Count of Display Controls = 66
+Count of All Fields = 66

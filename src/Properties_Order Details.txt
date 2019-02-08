@@ -1,0 +1,149 @@
+|-- Name >> Order Details
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 2820
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- OrderByOn >> False
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- Orientation >> 0
+|-- DatasheetForeColor12 >> 33554432
+|-- DefaultView >> 2
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- Order ID (Field in Order Details)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Order ID
+|------ OrdinalPosition >> 0
+|------ Size >> 4
+|------ SourceField >> Order ID
+|------ SourceTable >> Order Details
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Order ID in Orders table
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 1
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1320
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Product ID (Field in Order Details)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 4
+|------ Name >> Product ID
+|------ OrdinalPosition >> 1
+|------ Size >> 4
+|------ SourceField >> Product ID
+|------ SourceTable >> Order Details
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Description >> Same as Product ID in Products table
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1620
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Unit Price (Field in Order Details)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 5
+|------ Name >> Unit Price
+|------ OrdinalPosition >> 2
+|------ Size >> 8
+|------ SourceField >> Unit Price
+|------ SourceTable >> Order Details
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> True
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> $#,##0.00;($#,##0.00)
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1485
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Quantity (Field in Order Details)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 3
+|------ Name >> Quantity
+|------ OrdinalPosition >> 3
+|------ Size >> 2
+|------ SourceField >> Quantity
+|------ SourceTable >> Order Details
+|------ DataUpdatable >> False
+|------ DefaultValue >> 1
+|------ ValidationRule >> >0
+|------ ValidationText >> Quantity must be greater than 0
+|------ Required >> True
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> General Number
+|------ DecimalPlaces >> 255
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1485
+|------ TextAlign >> 0
+|------ AggregateType >> -1
+|-- Discount (Field in Order Details)
+|------ Attributes >> 1
+|------ CollatingOrder >> 1033
+|------ Type >> 6
+|------ Name >> Discount
+|------ OrdinalPosition >> 4
+|------ Size >> 4
+|------ SourceField >> Discount
+|------ SourceTable >> Order Details
+|------ DataUpdatable >> False
+|------ DefaultValue >> 0
+|------ ValidationRule >> Between 0 And 1
+|------ ValidationText >> You must enter a value with a percent sign.
+|------ Required >> True
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ Format >> Percent
+|------ DecimalPlaces >> 0
+|------ ColumnOrder >> 0
+|------ ColumnHidden >> False
+|------ ColumnWidth >> 1395
+|------ TextAlign >> 0
+|------ AggregateType >> -1

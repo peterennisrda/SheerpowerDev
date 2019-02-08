@@ -1,0 +1,52 @@
+|-- Name >> Titles
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 14
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- OrderByOn >> True
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- OrderBy >> Titles.Names
+|-- Orientation >> 0
+|-- DatasheetForeColor12 >> 33554432
+|-- DefaultView >> 2
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- Names (Field in Titles)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Names
+|------ OrdinalPosition >> 0
+|------ Size >> 50
+|------ SourceField >> Names
+|------ SourceTable >> Titles
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 4350
+|------ ColumnOrder >> 1
+|------ ColumnHidden >> False
+|------ TextAlign >> 0
+|------ AggregateType >> -1

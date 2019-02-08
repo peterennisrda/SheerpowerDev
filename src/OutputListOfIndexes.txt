@@ -1,0 +1,90 @@
+<<<[Age Groups]>>>
+              Index:[PrimaryKey]
+                            Field Name:Group ID
+>[PrimaryKey] [Group ID], 
+========================================
+<<<[Countries]>>>
+              Index:[PrimaryKey]
+                            Field Name:Country
+>[PrimaryKey] [Country], 
+========================================
+<<<[Customers]>>>
+              Index:[City]
+                            Field Name:City
+>[City]       [City], 
+              Index:[Company Name]
+                            Field Name:Company Name
+>[Company Name]             [Company Name], 
+              Index:[PostalName]
+                            Field Name:Postal Code
+                            Field Name:Contact Name
+>[PostalName] [Contact Name], 
+              Index:[PrimaryKey]
+                            Field Name:Customer ID
+>[PrimaryKey] [Customer ID], 
+              Index:[Region]
+                            Field Name:Region
+>[Region]     [Region], 
+========================================
+<<<[Fortune100]>>>
+              Index:[PrimaryKey]
+                            Field Name:Company
+>[PrimaryKey] [Company], 
+========================================
+<<<[Order Details]>>>
+              Index:[PrimaryKey]
+                            Field Name:Order ID
+                            Field Name:Product ID
+>[PrimaryKey] [Product ID], 
+              Index:[Product ID]
+                            Field Name:Product ID
+>[Product ID] [Product ID], 
+========================================
+<<<[Orders]>>>
+              Index:[Customer ID]
+                            Field Name:Customer ID
+>[Customer ID]              [Customer ID], 
+              Index:[Employee ID]
+                            Field Name:Employee ID
+>[Employee ID]              [Employee ID], 
+              Index:[Order Date]
+                            Field Name:Order Date
+>[Order Date] [Order Date], 
+              Index:[PrimaryKey]
+                            Field Name:Order ID
+>[PrimaryKey] [Order ID], 
+========================================
+<<<[Patients]>>>
+              Index:[PrimaryKey]
+                            Field Name:ID
+>[PrimaryKey] [ID], 
+========================================
+<<<[Phrases]>>>
+              Index:[PrimaryKey]
+                            Field Name:Original
+>[PrimaryKey] [Original], 
+========================================
+<<<[Products]>>>
+              Index:[Category ID]
+                            Field Name:Category ID
+>[Category ID]              [Category ID], 
+              Index:[PrimaryKey]
+                            Field Name:Product ID
+>[PrimaryKey] [Product ID], 
+              Index:[Product Name]
+                            Field Name:Product Name
+>[Product Name]             [Product Name], 
+              Index:[Supplier ID]
+                            Field Name:Supplier ID
+>[Supplier ID]              [Supplier ID], 
+========================================
+<<<[States]>>>
+              Index:[PrimaryKey]
+                            Field Name:State
+>[PrimaryKey] [State], 
+========================================
+<<<[Titles]>>>
+              Index:[PrimaryKey]
+                            Field Name:Names
+>[PrimaryKey] [Names], 
+========================================

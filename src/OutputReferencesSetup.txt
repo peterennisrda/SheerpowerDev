@@ -1,0 +1,30 @@
+>==> The Project References >==>
+              vbaProj.Name = FMSQUERY
+              vbaProj.Type = '100'
+              Access version = 16.0
+              ADO (ActiveX Data Object) version = 10.0
+              DAO (DbEngine)  version = 16.0
+              DAO (CodeDb)    version = 12.0
+              DAO (CurrentDb) version = 12.0
+              <@_@>
+                   References:
+                            VBA           Visual Basic For Applications
+                                          C:\PROGRA~1\COMMON~1\MICROS~1\VBA\VBA7.1\VBE7.DLL
+                                          {000204EF-0000-0000-C000-000000000046}
+                            Access        Microsoft Access 16.0 Object Library
+                                          C:\Program Files\Microsoft Office\Office16\MSACC.OLB
+                                          {4AFFC9A0-5F99-101B-AF4E-00AA003F0F07}
+                            stdole        OLE Automation
+                                          C:\Windows\System32\stdole2.tlb
+                                          {00020430-0000-0000-C000-000000000046}
+                            VBIDE         Microsoft Visual Basic for Applications Extensibility 5.3
+                                          C:\Program Files (x86)\Common Files\Microsoft Shared\VBA\VBA6\VBE6EXT.OLB
+                                          {0002E157-0000-0000-C000-000000000046}
+                            ADODB         Microsoft ActiveX Data Objects 2.1 Library
+                                          C:\Program Files\Common Files\System\ado\msado21.tlb
+                                          {00000201-0000-0010-8000-00AA006D2EA4}
+                            DAO           Microsoft Office 16.0 Access database engine Object Library
+                                          C:\Program Files\Common Files\Microsoft Shared\OFFICE16\ACEDAO.DLL
+                                          {4AC9E1DA-5BAD-4AC7-86E3-24F4CDCECA28}
+              <*_*>
+<==<

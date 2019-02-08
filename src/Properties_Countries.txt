@@ -1,0 +1,51 @@
+|-- Name >> Countries
+|-- Updatable >> True
+|-- DateCreated >> DateCreated
+|-- LastUpdated >> LastUpdated
+|-- Connect >> 
+|-- Attributes >> 0
+|-- SourceTableName >> 
+|-- RecordCount >> 113
+|-- ValidationRule >> 
+|-- ValidationText >> 
+|-- DatasheetFontName >> Arial
+|-- DatasheetFontHeight >> 10
+|-- DatasheetFontWeight >> 400
+|-- DatasheetFontItalic >> False
+|-- DatasheetFontUnderline >> False
+|-- TabularCharSet >> 162
+|-- TabularFamily >> 34
+|-- DatasheetForeColor >> 33554432
+|-- OrderByOn >> False
+|-- Orientation >> 0
+|-- DatasheetForeColor12 >> 33554432
+|-- DefaultView >> 2
+|-- GUID >> GUID
+|-- DisplayViewsOnSharePointSite >> 1
+|-- TotalsRow >> False
+|-- FilterOnLoad >> False
+|-- OrderByOnLoad >> True
+|-- HideNewField >> False
+--------------------------------------------------
+|-- Country (Field in Countries)
+|------ Attributes >> 2
+|------ CollatingOrder >> 1033
+|------ Type >> 10
+|------ Name >> Country
+|------ OrdinalPosition >> 0
+|------ Size >> 20
+|------ SourceField >> Country
+|------ SourceTable >> Countries
+|------ DataUpdatable >> False
+|------ DefaultValue >> 
+|------ ValidationRule >> 
+|------ ValidationText >> 
+|------ Required >> False
+|------ AllowZeroLength >> False
+|------ AppendOnly >> False
+|------ Expression >> 
+|------ ColumnWidth >> 3585
+|------ ColumnOrder >> 1
+|------ ColumnHidden >> False
+|------ TextAlign >> 0
+|------ AggregateType >> -1

@@ -1,0 +1,52 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_014.spsrc
+! System : .
+! Author : peterennisrda
+! Company: RDA
+! Date   : February 07, 2019
+! Purpose: Test for Sheerpower Scripting Language Extension (LSP Version)
+! Ref    : https://marketplace.visualstudio.com/items?itemName=Maerekai.sheerpower-lsp#overview
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Copied from "language tst.spsrc" of 
+! https://github.com/imarc-inc/vscode-extensions
+
+! this is a test comment line
+// this is also a test comment line
+
+%include '@foobar.spinc'
+
+%debug test=5 ! foobada
+DIM foobar(50)
+DECLARE test
+
+delay 5
+
+halt
+open file cgi_ch: name "foobar"
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! fred 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+private routine fred with joe, bloggs, returning test
+end routine
+
+ask system : parameter param$
+
+open structure foo:  name '@test', access outin
+close structure foo
+
+print #cgi_ch: "test"
+
+routine test_fred with foobar,
+    returning thingy,
+    whatsit
+
+    !some other stuff...
+end routine
+
+%debug print 'test'
+
+fred with joe 1, bloggs 2, returing result
