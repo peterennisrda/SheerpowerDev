@@ -78,12 +78,41 @@ if is_production? then
   end when
 end if
 
+open structure session  : name '@..\data\session', access outin
+
+//--------------------------------
+
+! Cleanup for production start
+
+//--------------------------------
+
+
+print 'Launching programs...'
+
+do
+  delay launch_delay
+  pass nowait: here$ + 'SP_handler.spsrc'
+  delay 1
+  ! only start one handler if running development code
+  if not is_production? then exit do
+
+  pass nowait: here$ + 'SP_handler.spsrc'
+  delay 1
+end do
 
 
 
 
 
+//--------------------------------
 
+! Startup completed
+
+//--------------------------------
+
+print 'Startup completed '; date$(days(date$), 3); ' at '; time$
+delay 5
+abort
 
 
 stop
