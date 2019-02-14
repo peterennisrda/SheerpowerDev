@@ -28,6 +28,24 @@ end if
 
 print 'is_production? = ', is_production?
 
+here$ = filespec$('@', 'location')
+
+print 'here$ = ', here$
+
+poolfile$  = filespec$('sheerpower:sphandlers\spiis.gblpool')
+html_path$ = filespec$('@..\wwwroot')
+
+print 'poolfile$ = ', poolfile$
+print 'html_path$ = ', html_path$
+
+
+z0$ = ''
+//if "80" <> "80" then z0$ = ' -port 80'
+//webserver$ = filespec$('sheerpower:sphandlers\spins_webserver.exe') +
+//             z0$ +
+//             ' -wwwroot "' + html_path$ + '"'
+
+
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
