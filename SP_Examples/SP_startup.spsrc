@@ -67,6 +67,18 @@ print server_name$ + ' Startup '; version$; &
 
 set icon '@..\source\smiley.ico'
 
+set system, logical '_shutdown': value 'NO'  // reset shutdown flag
+
+if is_production? then
+  print '*** Waiting a minute for other layers to startup ***'
+  when exception in
+    line input prompt 'Press ENTER to continue sooner...', 
+               timeout 1*60: ans$
+  use
+  end when
+end if
+
+
 
 
 
