@@ -15,11 +15,14 @@
 !         I n i t i a l i z a t i o n
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+server_name$ = 'SRV'
+is_port8080? = true
+
 // Set production server false for dev/test
-set system, logical 'SRV_production': value 'NO'
+set system, logical '_production': value 'NO'
 
 is_production? = true
-ask system, logical 'SRV_production': value z0$
+ask system, logical '_production': value z0$
 if z0$ = 'YES' then
   is_production? = true
 else
@@ -38,17 +41,36 @@ html_path$ = filespec$('@..\wwwroot')
 print 'poolfile$ = ', poolfile$
 print 'html_path$ = ', html_path$
 
-
 z0$ = ''
-//if "80" <> "80" then z0$ = ' -port 80'
-//webserver$ = filespec$('sheerpower:sphandlers\spins_webserver.exe') +
-//             z0$ +
-//             ' -wwwroot "' + html_path$ + '"'
+if is_port8080? then z0$ = ' -port 8080'
+
+print 'z0$ = ', z0$
+
+webserver$ = filespec$('sheerpower:sphandlers\spins_webserver.exe') +
+             z0$ +
+             ' -wwwroot "' + html_path$ + '"'
+
+print 'webserver$ = ', webserver$
+
+// Delay between TYPES of applications being launched
+// (set higher to detect on-screen errors)
+launch_delay = .5
 
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+version$ = 'version 1.0'
+print server_name$ + ' Startup '; version$; &
+       ' -- started '; date$(days(date$), 3); ' at '; time$
+
+set icon '@..\source\smiley.ico'
+
+
+
+
+
 
 
 
