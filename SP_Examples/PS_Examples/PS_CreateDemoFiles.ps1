@@ -1,7 +1,7 @@
 ﻿# Ref: https://blogs.technet.microsoft.com/heyscriptingguy/2018/09/15/using-powershell-to-create-a-folder-of-demo-data/
 
 # Provide Folder name and create it
-$Folder='C:\Demo'
+$Folder='C:\SP_Demo_Data'
 
 New-Item -ItemType Directory -Path $Folder
 
