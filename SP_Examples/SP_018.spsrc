@@ -1,0 +1,87 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_018.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : February 22, 2019
+! Purpose: Create file list from a directory
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Create a list of files from dirlocation$
+dirlocation$ = 'c:\windows'
+
+! Store the files in tempfilelist$
+//tempfilelist$   = filespec$('c:\temp\temp_' + uuid$ + '.txt')
+tempfilelist$   = filespec$('c:\temp\tempfilelist.txt')
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+if findfile$(tempfilelist$) = '' then
+  create_filelist
+else  
+  print tempfilelist$ + ' Exists!!!'
+  
+  menu$ ='%nomouseover, NO, YES, %title "Recreate YES/NO ?               "'
+  line input menu menu$ : ans$
+  
+  print "Your answer is " + ans$
+  if ans$ = "NO" then
+    // Continue using the same data
+  else
+    print "Recreating file list..."
+    create_filelist
+  end if
+end if
+
+HALT
+
+
+
+delay
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c r e a t e _ f i l e l i s t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Create the data file with all full file names
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    The data file is created
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine create_filelist
+  ! Create tempfilelist$
+  cmd$ = 'dir /A:-D /B /S ' + dirlocation$  + ' > ' + tempfilelist$
+  print 'cmd$ = ' + cmd$
+  pass cmd$
+  print 'DONE!!!'
+end routine
+
+
+
+
+end
