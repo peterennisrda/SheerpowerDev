@@ -1,0 +1,158 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: loader.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : February 22, 2019
+! Purpose: Load files into the filemaster table
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Create a list of files from dirlocation$
+dirlocation$ = 'c:\windows'
+
+! Store the files in tempfilelist$
+//tempfilelist$   = filespec$('c:\temp\temp_' + uuid$ + '.txt')
+tempfilelist$   = filespec$('c:\temp\tempfilelist.txt')
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+if findfile$(tempfilelist$) = '' then
+  create_filelist
+else  
+  print tempfilelist$ + ' Exists!!!'
+  
+  menu$ ='%nomouseover, NO, YES, %title "Recreate YES/NO ?               "'
+  line input menu menu$ : ans$
+  
+  print "Your answer is " + ans$
+  if ans$ = "NO" then
+    // Continue using the same data
+  else
+    print "Recreating file list..."
+    create_filelist
+  end if
+end if
+
+
+open table filemaster: name '@..\data\filemaster', access outin
+
+open file in_ch: name tempfilelist$
+
+add_counter = 0
+dup_counter = 0
+do
+  line input #in_ch, eof eof?: rec$
+  if eof? then exit do
+  process_one_file
+loop
+close #in_ch
+
+print 'Records added: '; add_counter
+print 'Duplicates   : '; dup_counter
+
+
+
+HALT
+
+
+
+delay
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r o c e s s _ o n e _ f i l e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Process one file.  The full file name with its location is
+!    in REC$.
+!
+! Expected on entry:
+!    rec$  = the full file name with location
+!    filemaster() is open
+!    add_counter = # of filemaster records added
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    A new filemaster() record is added and filled in.
+!    add_counter is updated if needed
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine process_one_file
+  
+  full_file$ = rec$
+  full_name$ = fileinfo$(full_file$, 'name,type')
+  file_type$ = mid(fileinfo$(full_file$, 'type'), 2) // skip the dot
+  if file_type$ = '' then exit routine // not a file, probably a folder
+  
+  sta++
+  if sta >= 1000 then
+    sta = 0
+    print 'Added so far: '; add_counter
+    print 'Dups so far : '; dup_counter
+  end if
+  
+  set table filemaster, field full_file: key full_file$
+  if _extracted > 0 then
+    dup_counter++
+    exit routine
+  end if
+  
+  revision_date$ = fileinfo$(full_file$, 'revision_date')
+  
+  add table filemaster
+    filemaster(full_file)     = full_file$
+    filemaster(full_name)     = full_name$
+    filemaster(file_type)     = file_type$
+    filemaster(revision_date) = revision_date$
+  end add
+  add_counter++
+   
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c r e a t e _ f i l e l i s t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Create the data file with all full file names
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    The data file is created
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine create_filelist
+  ! Create tempfilelist$
+  cmd$ = 'dir /A:-D /B /S ' + dirlocation$  + ' > ' + tempfilelist$
+  print 'cmd$ = ' + cmd$
+  pass cmd$
+  print 'DONE!!!'
+end routine
+
+
+
+
+end

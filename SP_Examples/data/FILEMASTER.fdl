@@ -1,0 +1,42 @@
+
+FILE
+        NAME              "FILEMASTER.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              685
+        ALLOCATION        1000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "FILE_TYPE"
+        SEG0_LENGTH       21
+        SEG0_POSITION     527
+        TYPE              string
+
+KEY   1
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "FULL_FILE"
+        SEG0_LENGTH       256
+        SEG0_POSITION     0
+        TYPE              string
+
+KEY   2
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "FULL_NAME"
+        SEG0_LENGTH       256
+        SEG0_POSITION     256
+        TYPE              string
+
+KEY   3
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "REVISION_DATE"
+        SEG0_LENGTH       15
+        SEG0_POSITION     512
+        TYPE              string
