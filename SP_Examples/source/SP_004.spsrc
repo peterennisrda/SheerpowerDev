@@ -5,6 +5,7 @@
 ! Company: RDA
 ! Date   : February 01, 2019
 ! Purpose: ODBC connection test to Access 64 bit accdb
+! NOTE   : This will fail as ODBC is out of date in Sheerpower
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
