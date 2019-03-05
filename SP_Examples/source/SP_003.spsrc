@@ -20,7 +20,6 @@
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
   do
     line input menu '"calculator" = calc,"DOS prompt" = dos,"exit"': ans$ 
     if  _exit  then  exit do

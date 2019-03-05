@@ -1,0 +1,368 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: EXAMPLE_api.spsrc
+! System : Simplified tasks
+! Author : Peter Ennis
+! Company: Resource Development Associates
+! Date   : 3-Mar-2019
+! Purpose: Simple example of using the API
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ask system: program this_program$
+
+handler_name$ = 'EXAMPLE-API'
+
+log_msg$ = ''
+
+dim lines$(0)
+dim block$(0)  // blocks of lines
+
+
+//%include '@common_values.spinc'
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+version$ = 'V1.0'
+
+print 'EXAMPLE API '; version$; &
+       ' -- started '; date$(days(date$), 3); ' at '; time$
+
+is_production? = true
+
+set icon '@..\assets\EXAMPLE.ico'
+set system: process 'EXAMPLE API'
+
+
+open file cgi_ch: name 'cgi://' + handler_name$
+
+open file log_ch: name 'textwindow://EXAMPLE API Log?width=120', access output
+
+//open table ip_master               : name '@..\data\ip_master', access outin
+
+
+is_waiting? = false
+do
+  unlock all: commit 
+  line input #cgi_ch: method$
+  if method$ = '' then
+    if not is_waiting? then
+      print #log_ch:
+      print #log_ch: fulltime$(seconds(fulltime$), 3);' Waiting...'
+      is_waiting? = true
+    end if
+    wait_counter++
+    if wait_counter > 10 then
+      wait_counter = 1
+      //check_for_shutdown
+      check_new_code
+    end if
+    repeat do 
+  end if
+  is_waiting? = false
+  
+  get_env_variables
+
+  log_msg$ = client_ip$ + '>> http://' + http_host$ + '/' + path_info$
+  if query_string$ > '' then log_msg$ = log_msg$ + '?' + query_string$
+  log_it  
+  
+  process$ = lcase$(path_info$)
+
+  file_type$ = element$(process$, 2, '.')
+  process$   = element$(process$, 1, '.')
+
+  //*****  Set no-caching so browsers that support it will not cache ****
+  //*****  our data.
+  z$ = 'Pragma: no-cache'
+  print #cgi_ch : "HTTP/1.1 200 OK" + chr$(13) + chr$(10) + z$
+  print #cgi_ch:
+  
+
+  // Now we do the real work that was requested
+  // process$ is the major process that we are in
+  // processform$ is the form specific information
+  //print 'Process: '; process$
+  
+  msg$ = ''
+  error$ = ''
+  select case process$
+  case 'ping'
+    print #cgi_ch: 'Pong at '; fulltime$(seconds(fulltime$), 4)
+  
+  case 'example'
+    process_example
+    
+  case else
+    print #log_ch: '?? Unknown process: '; process$
+  end select
+
+loop
+
+close #cgi_ch
+stop
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ n e w _ c o d e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if there is a new version of this program.
+!    If so, set our change_state to wating for new code
+!    Each cycle see if we have exclusive access to our code
+!    If we get exclusive access, then the new code is ready
+!    so restart ourselves.
+!
+!    This method keeps the current code running without
+!    interruption while the new code is loading.
+!
+! Expected on entry:
+!
+!    this_program$ = full filespec of this program
+!
+! Locals used:
+!    change_phase$ = current phase, eg. waiting_for_new_code
+!
+! Results on exit:
+!    change_phase$ reflects the new phase if any
+!    we restart this program if it has changed
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_new_code: private last_datetime$, change_phase$
+  
+  select case change_phase$
+  
+  case ''
+    z0$ = fileinfo$(this_program$, 'revision_date')
+    if last_datetime$ = '' then  // do nothing the first time we are here
+      last_datetime$ = z0$
+      exit routine
+    end if
+    if last_datetime$ = z0$ then exit routine  // nothing changed
+    change_phase$ = 'waiting_for_new_code'
+    
+  case 'waiting_for_new_code'
+    when exception in
+      open file temp_ch: name this_program$, lock
+      close #temp_ch
+      change_phase$ = 'restart'
+    use
+    end when
+    
+  case 'restart'
+    delay 1 // handle any race conditions, such as file flushing etc...
+    pass noreturn: this_program$
+    
+  end select
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e t _ e n v _ v a r i a b l e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Get the enviromental variables from the browser
+!
+! Expected on entry:
+!>	cgi_ch        = Channel to the browser 
+!
+!
+! Locals used:
+!
+!
+! Results on exit:
+!>	query_string$ = Any query string supplied
+!>	path_info$    = Path from the request
+!>	client_ip$    = ip address of the client machine
+!>	cookie$       = Any cookies stored so far 
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine get_env_variables
+  ask #cgi_ch, symbol 'env:QUERY_STRING' : value query_string$
+  ask #cgi_ch, symbol 'env:PATH_INFO'    : value path_info$
+  ask #cgi_ch, symbol 'env:REMOTE_ADDR'  : value client_ip$
+  ask #cgi_ch, symbol 'env:HTTP_COOKIE'  : value cookie$
+  ask #cgi_ch, symbol 'env:HTTP_HOST'    : value http_host$
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! l o g _ i t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    print a message to the log file
+!
+! Expected on entry:
+!
+!>	log_ch   = channel number for the log file
+!>	log_msg$ = message to be logged
+!
+! Locals used:
+!
+! Results on exit:
+!   message is written to the log file
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine log_it
+  print #log_ch: fulltime$(seconds(fulltime$), 3); ' '; log_msg$
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r o c e s s _ e x a m p l e
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Process information coming in from clients
+!
+! Expected on entry:
+!    client_ip$       = Client's IP address
+!    symbol>> user    = name if the user
+!    symbol>> system  = name of the system
+!    symbol>> rdait_version = version of the code (in case it needs a forced update)
+!    symbol>> type    = type of data we are receiving (login, systeminfo, tasklist, etc)
+!    symbol>> data    = TYPE specific data (usually base64 encoded)
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine process_example
+
+  type$ = getsymbol$('type')
+  
+  select case type$
+
+
+  case 'true'
+    contents$ = base64decode$(getsymbol$('true'))
+    print #log_ch: 'true EXAMPLE data type: '; type$
+    
+  case else
+    print #log_ch: '??? Unknown EXAMPLE data type: '; type$
+    
+  end select
+
+  
+  print #cgi_ch: '$status success'
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r o c e s s _ o n e _ s y s t e m _ l i n e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Process one line from systeminfo output
+!
+! Expected on entry:
+!    line$ = one line from the output
+!    user$ = user name
+!    system$ = name of the system
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    we update ip_master
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine process_one_system_line
+  
+  max_item_name_len = 27
+
+  current_datetime$ = fulltime$
+  
+  item_name$ = "itemname"      //trim$(left(line$, max_item_name_len))
+  item_value$= "itemvalue"     //trim$(mid(line$,  max_item_name_len+1))
+  
+  //print #log_ch: item_name$; tab(30); item_value$
+  
+
+  
+  select case item_name$
+  
+  case 'true:'
+    print #log_ch: 'true EXAMPLE data type: '; type$
+
+  case else
+    
+  end select
+  
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! l o a d _ t e x t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Load text from the file contents.  Each text line ends with
+!    a cr(13)lf(10)
+!
+! Expected on entry:
+!    contents$ = contents of the file
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    lines$() = all text lines
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine load_text
+  
+  redim lines$(0)
+  eol$ = chr$(13)+chr$(10)
+  scan_pos = 1
+  do
+    z0 = pos(contents$, eol$, scan_pos)
+    if z0 = 0 then exit do
+    one_line$ = contents$[scan_pos:z0-1]
+    scan_pos = z0+len(eol$)
+    if one_line$ = '' then repeat do
+    lines$(0) = one_line$
+  loop
+  
+//  print #log_ch: '========= line data ======='
+//  for idx = 1 to size(lines$)
+//    print #log_ch: idx;tab(5); lines$(idx)
+//  next idx
+//  print #log_ch: '============='
+//  print #log_ch:
+  
+  
+  
+end routine
+
+
+
+
+end
