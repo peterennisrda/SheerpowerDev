@@ -19,7 +19,7 @@
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-open table cl: name 'sheerpower:assets\client' 
+open table cl: name '@..\assets\client' 
 ask table cl: fields num_fields 
 for i = 1 to num_fields 
   clear

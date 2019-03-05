@@ -14,8 +14,9 @@
 !         I n i t i a l i z a t i o n
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-TheOutputFile$ = "@\output\PROFILE_DATA.txt"
-UserName$ = "peterennis"
+TheOutputFile$ = "@..\output\PROFILE_DATA.txt"
+//UserName$ = "peterennis"
+input 'Please enter your user name': UserName$ 
 
 !Desktop$ = "\\misdc01\FolderRedirections\" + UserName$ + "\Desktop"
 !MyMusic$ = " \\misdc01\FolderRedirections\" + UserName$ + "\My Music"

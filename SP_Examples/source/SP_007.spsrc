@@ -22,10 +22,10 @@
 
 // Play some sounds 
 for i = 1 to 3 
-  media '@assets\yes.wav' 
+  media '@..\assets\yes.wav' 
 next i 
 
-media '@assets\sorry.wav' 
+media '@..\assets\sorry.wav' 
 end 
 
 

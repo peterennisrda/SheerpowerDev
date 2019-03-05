@@ -20,7 +20,7 @@
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-open table cl: name 'sheerpower:assets\client' 
+open table cl: name '@..\assets\client' 
 extract table cl, field last: partial key 'Rod' 
 end extract
 

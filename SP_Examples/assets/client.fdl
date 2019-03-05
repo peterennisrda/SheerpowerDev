@@ -1,0 +1,19 @@
+                CLIENT.fdl
+
+FILE
+        NAME              "CLIENT.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              400
+        ALLOCATION        1500
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "PHONE"
+        SEG0_LENGTH       10
+        SEG0_POSITION     60
+        TYPE              string
