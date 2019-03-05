@@ -11,6 +11,9 @@
 ! Icons converted from EMOJIONE Free using Axialis IconWorkshop
 ! Ref: https://www.emojione.com/
 
+! NOTE: The small icon in the SPDEV console will change
+! and if the taskbar icons are not grouped it will show there also
+
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         I n i t i a l i z a t i o n
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,7 +25,8 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-here$ = filespec$('@\assets\')
+here$ = filespec$('@..\assets\')
+print "here$ = " + here$
 
 set icon here$+"smiley.ico"
 print "Check out the taskbar icon... it's a smiley!"
