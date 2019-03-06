@@ -1,0 +1,28 @@
+// The code below illustrates the %SPSCRIPT tag 
+// causing the HTML to be displayed in a browser window 
+ 
+[[%spscript]]
+ 
+<html> 
+<head> 
+  <title>Greetings!</title> 
+</head> 
+<h2>Welcome to my website!</h2> 
+ 
+[[/%spscript]]
+
+
+// start a Sheerpower code area 
+[[%spcode]] 
+  a=45 
+  b=10 
+  
+// end the code area and start the Sheerpower script area 
+[[%spscript]] 
+ 
+// embed the Sheerpower code within the script area between [[ ]] 
+// the "=" in front of the expression causes the results to display in the browser 
+<h2><font color=darkgreen>The answer is [[=a+b]].</font></h2> 
+ 
+[[/%spscript]] 
+// end the script area and begin the code area 

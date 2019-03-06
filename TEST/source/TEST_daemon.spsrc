@@ -1,0 +1,944 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_daemon.spsrc
+! System : test
+! Author : Peter
+! Company: RDA
+! Date   : 05-Mar-2019
+! Purpose: test
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ask system: program this_program$
+this_name$= filespec$(this_program$, 'name')
+
+is_production? = false
+ask system, logical 'TEST_production': value z0$
+if z0$ = 'YES' then  is_production? = true
+
+batch_loc$        = fileinfo$('@..\batch\')
+processed_loc$    = fileinfo$('@..\processed\')
+log_loc$          = fileinfo$('@..\log\')
+here$             = fileinfo$('@')
+domain$           = 'localhost'
+
+here_device$ = filespec$(here$, 'device')
+here_path$   = element$(filespec$(here$, 'location'), 2, ':')
+
+max_purge_files = 100
+dim purge_files$(max_purge_files)
+
+nightly_processing_start$ = '23:00'
+
+// number of minutes between heart beats
+// The minimum work cycle is every THIS HEARTBEAT.
+heartbeat_interval_mins = 1
+heartbeat_interval_secs = heartbeat_interval_mins * 60
+
+
+dim files$(0)
+
+bcc_emails$   = ''
+mailfrom$     = ''
+friendlyname$ = ''
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+version$ = 'V1.0'
+
+print 'TEST Daemon '; version$; &
+       ' -- started '; date$(days(date$), 3); ' at '; time$
+
+set icon '@..\source\TEST.ico'
+set system: process 'TEST Daemon'
+
+
+open_tables
+
+
+
+// Delete any older heartbeat version of ourselves in case of restarts
+// that don't go through cmh_startup -- cmh_startup deletes all entries.
+extract structure heartbeat, field heartbeat_key: partial key this_name$
+end extract
+for each heartbeat
+  delete structure heartbeat
+next heartbeat
+
+// Now set up the heartbeat for ourselves!
+setup_heartbeat
+
+
+
+error$ = ''
+
+// Interval counters for launching various tasks
+// We start them off at their max values in order to cause them
+// to all trigger immediately
+interval_2mins   =   2
+interval_10mins  =  10
+interval_30mins  =  30
+interval_60mins  =  60
+interval_120mins = 120
+interval_180mins = 180
+interval_240mins = 240
+
+
+do
+  
+  print fulltime$(seconds(fulltime$), 3); ' -- Heartbeat work cycle started ---'
+  heartbeat(last_heartbeat) = change$(fulltime$, ' ', '')
+ 
+  // We check these critical timers often to start things as quickly as we can
+  if interval_2mins >= 2 then          
+    do_2mins_work
+    interval_2mins = 0
+  end if
+  
+  if interval_10mins >= 10 then          
+    do_10mins_work
+    interval_10mins = 0
+  end if
+  
+  if interval_30mins >= 30 then          
+    do_30mins_work
+    interval_30mins = 0
+  end if
+  
+  if interval_120mins >= 120 then
+    do_120mins_work
+    interval_120mins = 0
+  end if
+          
+  if interval_180mins >= 180 then
+    do_180mins_work
+    interval_180mins = 0
+  end if
+  
+  print fulltime$(seconds(fulltime$), 3); ' -- Heartbeat work cycle completed ---'
+  print
+ 
+  unlock all: commit
+  do_delay
+  interval_2mins   = interval_2mins   + heartbeat_interval_mins
+  interval_10mins  = interval_10mins  + heartbeat_interval_mins
+  interval_30mins  = interval_30mins  + heartbeat_interval_mins
+  interval_60mins  = interval_60mins  + heartbeat_interval_mins
+  interval_120mins = interval_120mins + heartbeat_interval_mins
+  interval_180mins = interval_180mins + heartbeat_interval_mins
+  interval_240mins = interval_240mins + heartbeat_interval_mins
+loop
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! o p e n _ t a b l e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Open all tables
+!
+!  ** Remember to update  CLOSE_TABLES  whenver you change THIS routine **
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!>   tables are opened
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine open_tables
+  
+  open structure heartbeat   : name '@..\data\heartbeat',   access outin
+  open structure daemon_work : name '@..\data\daemon_work', access outin, default read
+  open table user_login      : name '@..\data\user_login',  access outin
+  open table error_audit     : name '@..\data\error_audit', access outin
+  open table user_audit      : name '@..\data\user_audit',  access outin
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e t u p _ h e a r t b e a t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Set up the heartbeat information
+!
+! Since we just have one daemon running at a time
+! we delete all old daemon entries and then add outseleves in
+!
+! Expected on entry:
+!    heartbeat() is open
+!    this_name$  = name of this program (no filetype or path info)
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    a unique heartbeat() record is created for this program
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine setup_heartbeat: private unique_file$, unique_name$
+  
+  // Figure out our unique name first so we can store it as THIS heartbeat
+  open file unique_ch: name this_name$, unique, access output
+  ask #unique_ch: name unique_file$
+
+  unique_name$ = filespec$(unique_file$, 'name')
+  add structure heartbeat
+    heartbeat(heartbeat_key) = unique_name$
+    heartbeat(last_heartbeat) = change$(fulltime$, ' ', '')
+    heartbeat(expected_heartbeat_secs) = 10 * 60  // We better have a heart beat every 10 minutes or there is a problem!
+  end add
+  
+  close #unique_ch
+  kill unique_file$
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ 2  m i n s  _ w o r k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Do work that we need to do every 2 minutes
+!
+! Expected on entry:
+!    nothing
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_2mins_work
+  
+  
+end routine
+
+
+
+
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ 1 0 m i n s _ w o r k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Do work that we need to do every 10 minutes
+!
+! Expected on entry:
+!    nothing
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_10mins_work
+  
+  print fulltime$(seconds(fulltime$), 3); ' -- 10 Minute work cycle started ---'
+
+  nightly_processing         // check if we start any nightly processing tasks
+  do_daemon_work             // process daemon work records
+
+  print fulltime$(seconds(fulltime$), 3); ' -- 10 Minute work cycle completed ---'
+
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ 3 0 m i n s _ w o r k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Do work that we need to do every 30 minutes
+!
+! Expected on entry:
+!    nothing
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_30mins_work
+  
+  print fulltime$(seconds(fulltime$), 3); ' -- 30 Minute work cycle started ---'
+
+  //process_one_game_tick  
+  
+  print fulltime$(seconds(fulltime$), 3); ' -- 30 Minute work cycle completed ---'
+
+end routine
+
+
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ 1 2 0 m i n s _ w o r k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Take care of work that we do every 120 minutes
+!
+! Expected on entry:
+!    nothing
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    ALl 120 minute work is done
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_120mins_work
+  print fulltime$(seconds(fulltime$), 3); ' -- 120 Minute work cycle started ---'
+
+  print fulltime$(seconds(fulltime$), 3); ' -- 120 Minute work cycle completed ---'
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ 1 8 0 m i n s _ w o r k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Take care of work that we do every 180 minutes
+!
+! Expected on entry:
+!    nothing
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    ALl 120 minute work is done
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_180mins_work
+  
+//  print fulltime$(seconds(fulltime$), 3); ' -- 180 Minute work cycle started ---'
+//
+
+//
+//  print fulltime$(seconds(fulltime$), 3); ' -- 180 Minute work cycle completed ---'
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ d e l a y 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Delay between operations
+!
+!    Wait for 1 minute 60 times = 1 hour
+!
+! Expected on entry:
+!  heartbeat_interval_secs = # of seconds to delay
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    We start a new copy of ourselves if the code changed
+!    or we just wait for the time to pass
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_delay: private expire_secs
+  expire_secs = time(5) + heartbeat_interval_secs
+  unlock all
+  do
+    delay 1
+    if time(5) > expire_secs then exit do
+    do_daemon_work
+    check_new_code  // see if the source code has changed
+    check_for_shutdown
+  loop
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ d a e m o n _ w o r k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Process work requests in the  daemon_work() table
+!
+! Expected on entry:
+!    daemon_work() = daemon work table
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    we do whatever work is requested of us
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_daemon_work
+  //print 'Start Daemon Work '; date$(days(date$), 3);' '; time$  
+  worktime$ = change$(fulltime$, ' ', '')
+  extract structure daemon_work
+    include worktime$ >= daemon_work(scheduled_datetime)
+    sort by daemon_work(scheduled_datetime)
+  end extract
+  work_count = 0
+  work_header_shown? = false
+  for each daemon_work
+    work_type$ = daemon_work(work_type)
+    
+    if not work_header_shown? then
+      print 'Started Daemon Work '; date$(days(date$), 3);' '; time$  
+      work_header_shown? = true
+    end if
+    
+    select case work_type$
+
+    case else
+      print '?? Unknown work type: '; work_type$
+      iterate for
+    end select
+
+    delete structure daemon_work // delete the work record when done
+    work_count++
+  next daemon_work
+  
+  if work_count > 0 then
+    print 'Completed Daemon Work, work items: '; work_count; &
+        '  at '; date$(days(date$), 3);' '; time$
+  end if
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ f o r _ s h u t d o w n 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if a shutodwn was requested or not.
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_for_shutdown
+  ask system, logical 'TEST_shutdown': value z0$
+  if z0$ = 'YES' then 
+    print '** Shutting down on '; date$(days(date$),4); ' at '; time$
+    close all
+    abort
+  end if
+end routine
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! w r i t e _ u s e r _ a u d i t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Write a user_audit() record
+!
+! Expected on entry:
+!    user_login()  is current
+!    audit_type   = audit type name (download, login, etc)
+!    data1$       = additional data to audit (type specific)
+!    data2$       = additional data to audit (type specific)
+!    data3$       = additional data to audit (type specific)
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    An audit record is written
+!    data1$,data2$,data3$ are cleared
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine write_user_audit with audit_type
+  
+  add table user_audit
+    user_audit(user_gid) = user_login(user_gid)
+    user_audit(datetime) = fulltime$
+    user_audit(type)     = audit_type
+    user_audit(lastname) = user_login(lastname)
+    user_audit(data1)    = data1$
+    user_audit(data2)    = data2$
+    user_audit(data3)    = data3$
+  end add
+  
+  data1$ = ''
+  data2$ = ''
+  data3$ = ''
+  
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! w r i t e _ e r r o r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Write an error to the error_audit() table and we write to the
+!    error log window.
+!
+! Expected on entry:
+!    error_text  = error text to write out
+!    error_audit()  is open
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    The error_audit() table is written to as is the log channel
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine write_error with error_text
+  
+  add table error_audit
+    error_audit(error_gid) = date$ + uuid$
+    error_audit(routine)   = ''
+    error_audit(datetime)  = fulltime$
+    error_audit(error_text)= error_text       
+  end add
+  
+  print fulltime$(seconds(fulltime$), 3);' ?? '; error_text
+  
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e n d _ f a t a l _ e r r o r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Send the "appropriate people" that we had a fatal error.
+!
+! Expected on entry:
+!    this_name$  = name of this program (no file type or path)
+!    error$ = error text
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine send_fatal_error
+ 
+  mailfrom$ = ''
+  sendto$   = ''
+  server$   = ''
+
+  email$ = 'mailto://'   + sendto$   + 
+            '?subject='  + this_name$ + ' -- Unexpected error'  +
+            '&mailfrom=' + mailfrom$
+  email$ = email$ + '&server='+server$
+
+  open file mailto_ch: name email$, access output
+  
+  for idx = 1 to elements(error$, chr$(13)+chr$(10))
+    z$ = element$(error$, idx, chr$(13)+chr$(10))
+    print #mailto_ch : z$
+  next idx
+  close #mailto_ch
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p u r g e _ p r o c e s s e d _ f o l d e r
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+!
+! Brief description:
+!    see if there are any files in the processed folder that
+!    are due to be purged
+!    Right now this is after 14 days
+!
+! Expected on entry:
+!>	processed_loc$  = location of processed files 
+!
+!
+! Locals used:
+!>	max_purge_files = count of files to be purged
+!>	purge_files$()  = names of files to purge 
+!
+!
+! Results on exit:
+!>  any processed files 14 days old are deleted
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine purge_processed_folder
+  print '  Purging Processed folder...'
+
+  idx   = 0
+  idx1  = 0
+  today = days(date$)
+  do
+    idx++
+    z1$ = findfile$(processed_loc$ + '*.*', idx)
+    if  z1$ = '' then exit do
+    z2$ = fileinfo$(z1$, 'creation_date')
+    z1  = days(element$(z2$, 1, ' '))
+    if  today - z1 <= 7 then repeat do
+    idx1++
+    if  idx1 > max_purge_files then
+      max_purge_files = max_purge_files + 20
+      redim purge_files$(max_purge_files)
+    end if
+    purge_files$(idx1) = z1$
+  loop
+  for idx = 1 to idx1
+    when exception in
+      kill purge_files$(idx)
+    use
+    end when
+//    if  not _error then print '    Killed: '; purge_files$(idx)
+  next idx
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ n e w _ c o d e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if there is a new version of this program.
+!    If so, set our change_state to wating for new code
+!    Each cycle see if we have exclusive access to our code
+!    If we get exclusive access, then the new code is ready
+!    so restart ourselves.
+!
+!    This method keeps the current code running without
+!    interruption while the new code is loading.
+!
+! Expected on entry:
+!
+!    this_program$ = full filespec of this program
+!
+! Locals used:
+!    change_phase$ = current phase, eg. waiting_for_new_code
+!
+! Results on exit:
+!    change_phase$ reflects the new phase if any
+!    we restart this program if it has changed
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_new_code: private last_datetime$, change_phase$
+  
+  select case change_phase$
+  
+  case ''
+    z0$ = fileinfo$(this_program$, 'revision_date')
+    if last_datetime$ = '' then  // do nothing the first time we are here
+      last_datetime$ = z0$
+      exit routine
+    end if
+    if last_datetime$ = z0$ then exit routine  // nothing changed
+    change_phase$ = 'waiting_for_new_code'
+    
+  case 'waiting_for_new_code'
+    when exception in
+      open file temp_ch: name this_program$, lock
+      close #temp_ch
+      change_phase$ = 'restart'
+    use
+    end when
+    
+  case 'restart'
+    delay 1 // handle any race conditions, such as file flushing etc...
+    pass noreturn: this_program$
+    
+  end select
+  
+end routine
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! n i g h t l y _ p r o c e s s i n g 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Handle nightly processing tasks that 
+!    involve other processes being started
+!
+! Expected on entry:
+!    nightly_processing_start$  = starting time of nightly processing
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    we launch all nightly processing tasks
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine nightly_processing: private last_date$
+  z0$ = time$  // store time in case it changes between statements
+  if  z0$ < nightly_processing_start$  then  exit routine
+
+  if  last_date$ = date$ then exit routine
+  last_date$ = date$  // run once a day for now
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! D O  S U B S T I T U T I O N S
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!   look for substitution tokens (<<...>>)
+!   if found, then break it up into its pieces and call the
+!   find_subvalue routine to handle substituting the real
+!   data into it
+!
+! Expected on entry:
+!>	rec$           = text line from the template file 
+!
+! Locals used:
+!>	leftpos        = position of the << 
+!>	rightpos       = position of the >> 
+!>	subvalue$      = result of find_subvalue
+!
+! Results on exit:
+!>	subsymbol$     = symbol (contents of the <<>>)
+!>	subsymbol_arg$ = argument of replacement text (contains field name)
+!>	extras$        = 3rd element of token with more data in it 
+!>	optional_name$ = optional field name in a token 
+!>	javascript$    = any javascript in the token 
+!>	rules$         = any rule to be executed (ask_code) 
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!routine do_substitutions with record, returning new_record, private leftpos,rightpos, rec$
+routine do_substitutions 
+  leftpos = 1
+  do
+    leftpos = pos(rec$, "[[", leftpos)
+    if leftpos = 0 then exit do
+    rightpos = pos(rec$, "]]", leftpos+2)
+    if rightpos = 0 then exit do
+    z0$            = rec$[leftpos+2:rightpos-1]
+    subsymbol$     = lcase$(element$(z0$, 1, ' '))
+    subsymbol_arg$ = element$(z0$, 2, ' ')
+    extras$        = element$(z0$, 3, ' ')
+    subsymbol_arg1$  = ucase$(element$(extras$, 1, '|'))
+    subsymbol_arg2$ = ucase$(element$(extras$, 2, '|'))
+    optional_name_uncased$  = element$(extras$, 1, '|')
+    optional_name$  = ucase$(optional_name_uncased$)
+    tabindex$       = element$(extras$, 2, '|')
+    if  tabindex$ <> '' then tabindex$ = ' tabindex=' + quote$(unquote$(tabindex$))
+    javascript$     = element$(extras$, 3, '|')
+    subsymbol_opts$ = ucase$(element$(extras$, 4, '|'))
+    rules$          = ucase$(element$(extras$, 5, '|'))
+    find_subvalue  // this routine should be in the calling handler
+    rec$[leftpos:rightpos+1] = subvalue$
+    leftpos = leftpos + len(subvalue$)
+  loop
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! F I N D   S U B V A L U E
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!   Given a subsitution symbol, make the substitution if valid.
+!   If no substitution value, just return an error status.
+! 
+! Expected:
+!   subsymbol$  = symbol name (in lower case)
+!   subsymbol_arg$     = any argument  ( <<subsymbol subarg>> )
+!
+! Results:
+!   _error = TRUE  if an error
+!   subvalue$  = substituted value (if any)
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine find_subvalue
+  subvalue$ = ''
+
+  select case subsymbol$
+    
+    case else
+      print '?? Unknown substitution symbol: '; subsymbol$ 
+  end select
+  
+end routine
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! m a k e _ f r i e n d l y _ d a t e t i m e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Given a datetime stamp, return a friendly spoken one
+!    If the hh:mm is missing, then just give the date.
+!
+! Expected on entry:
+!    datetime = a fulltime of some datetime
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    friendly = the friendly version
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine make_friendly_datetime with datetime,  returning friendly
+  
+  friendly = ''
+  in_datetime$ = datetime
+  date_part$ = element$(datetime, 1, ' ')
+  time_part$ = element$(datetime, 2, ' ')
+
+  make_spoken_time with datetime in_datetime$, returning spoken spoken_time$
+  if spoken_time$ <> '' then spoken_time$ = ' at ' + spoken_time$
+  
+  date_part_days = days(date_part$)
+  elapsed_days = days(date$) - date_part_days
+  
+  select case elapsed_days
+  case 0
+    friendly = 'today' + spoken_time$
+  case 1
+    friendly = 'yesterday' + spoken_time$
+  case 2,3,4,5
+    friendly = str$(elapsed_days) + ' days ago' + spoken_time$
+  case -1
+    friendly = 'tomorrow at ' + spoken_time$
+  case -2,-3,-4,-5
+    friendly = 'in ' + str$(-elapsed_days) + ' days' + spoken_time$
+  case else
+    friendly = date$(date_part_days, 4) + spoken_time$
+  end select
+  
+  
+    
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! m a k e _ s p o k e n _ t i m e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Make the spoken time giben
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine make_spoken_time with datetime, returning spoken
+    // If they gave us the time, then figure it out
+    
+  date_part$ = element$(datetime, 1, ' ')
+  time_part$ = element$(datetime, 2, ' ')
+  
+  spoken_time$ = ''
+  if time_part$ <> '' then
+    hh$ = time_part$[1:2]
+    mm$ = time_part$[3:4]
+    ampm$ = ' a.m.'
+    z0 = val(hh$)
+    if z0 >= 12 then
+      z0 = z0 - 12
+      if z0 = 0 then z0 = 12
+      hh$ = str$(z0)
+      ampm$ = ' p.m.'
+    end if
+    spoken_time$ =  hh$ + ':' + mm$ + ampm$
+  end if
+  spoken = spoken_time$
+  
+end routine
+
+
+
+
+
+%include '@send_email.spinc'
+
+
+
+
+
+end

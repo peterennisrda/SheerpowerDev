@@ -1,0 +1,794 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_critical.spsrc
+! System : test
+! Author : Peter
+! Company: RDA
+! Date   : 05-Mar-2019
+! Purpose: test
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+here$ = fileinfo$('@')
+
+genloc$ = fileinfo$('@..\generated\')
+
+is_production? = true
+  
+ask system: program this_program$
+
+z$ = fileinfo$('@..\')
+z = pos(z$, ':')
+disk$ = z$[1:z]
+top_folder$ = mid$(z$, z+1)
+source_folder$ = top_folder$ + 'source\'
+ars_folder$ = filespec$('sheerpower:\ars')
+ars_backup$ = ars_folder$ + '\arsbackup'
+
+
+// backup start and ending times (+- an hour just to be sure)
+backup_start$  = '03:00:00'
+backup_end$    = '04:00:00'
+
+zip_password$ = lcase$('TEST') + 'backup' + lcase$('TEST')
+
+delay_minutes = 2 // wait for this long between cycles  (at least 3 cycles per hour)
+
+
+
+max_backup_folders = 999
+dim backup_folders$(max_backup_folders)
+  
+
+max_sevenzipfiles = 99
+dim sevenzipfiles$(max_sevenzipfiles)
+
+max_oldzipfiles = 99
+dim old_zipfiles$(max_oldzipfiles)
+
+
+seven_zip$ = '"C:\Program Files\7-Zip\7z.exe"'
+
+// email information
+debug_email? = false
+sendto$   = ''
+mailfrom$ = 'backup_message@'
+
+seven_zip$ = '"C:\Program Files\7-Zip\7z.exe"'
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+version$ = 'V1.0'
+
+print 'TEST Critical '; version$; &
+       ' -- started '; date$(days(date$), 3); ' at '; time$
+
+set icon '@..\source\TEST.ico'
+set system: process 'TEST Critical'
+
+open structure heartbeat: name '@..\data\heartbeat', access outin, default read
+
+
+zip_location$     = 'c:\zipfiles\'
+offsite_location$ = 'c:\dropbox\'
+
+
+
+delay 10  // wait for other things to start
+do
+  print fulltime$(seconds(fulltime$), 3);'  Critical work started'
+  check_backup_time
+  check_heartbeats
+  print fulltime$(seconds(fulltime$), 3);'  All critical work completed'
+  print
+  do_delay
+loop
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ b a c k u p _ t i m e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if we are during backup time or not.
+!    Right now we set this at 3:00 am 
+!
+! Expected on entry:
+!    last_date$  = the last date that we did our backup check
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_backup_time: private last_date$
+  if not is_production? then exit routine
+  if last_date$ = date$ then exit routine  // nothing to do
+
+  z0$ = time$
+  if z0$ < backup_start$  then exit routine  !++ change dme June 06, 2005
+  if z0$ > backup_end$ then exit routine   // just run between start/end times
+
+  do_the_backup
+  last_date$ = date$
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ t h e _ b a c k u p 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    DO the actual backup
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_the_backup
+  
+  print
+  print '******************************************************************'
+  print 'Backups started '; date$(days(date$), 3); ' '; time$
+
+  create_backup_command_files !++djs++ 08-feb-2006 make backups date specific
+  delete_old_backup_zip_files !++djs++ 08-feb-2006 make backups date_specific
+
+  pass nowait, window: backup_offsite_command$  !++ change dme June 10, 2005
+  delay 5  // wait for things to get rolling
+
+
+  print 'Backups launched. Continuing...'; date$(days(date$), 3); ' '; time$
+  print '******************************************************************'
+  print
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ h e a r t b e a t s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check program heartbeats to make sure they are okay
+!
+! Expected on entry:
+!    heartbeat() is open
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    e send a fatal email is any heartbeats have stopped
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_heartbeats
+  print tab(3);' --Checking heartbeats--'
+  extract structure heartbeat
+    include pos(heartbeat(heartbeat_key), 'TEST_') = 1 // just for this system
+    exclude heartbeat(expected_heartbeat_secs) = 0 // skip if disabled
+  end extract
+  
+  for each heartbeat
+    expected_heartbeat_failure = heartbeat(expected_heartbeat_secs)
+    elapsed = seconds(fulltime$) - seconds(heartbeat(last_heartbeat))
+    print tab(5);heartbeat(heartbeat_key);', elapsed '; elapsed;'seconds'
+    if elapsed < expected_heartbeat_failure then iterate for
+    error$ = 'Heartbeat stopped for ' + heartbeat(heartbeat_key) + ', last was ' +
+             fulltime$(seconds(heartbeat(last_heartbeat)), 3)
+    print '?? '; error$
+    send_fatal_error
+    if pos(heartbeat(heartbeat_key), 'TEST_HANDLER') = 1 then
+      heartbeat(expected_heartbeat_secs) = 0  // disable handler gripes after 1st time
+    end if
+  next heartbeat
+  unlock structure heartbeat
+  print tab(3);' --Heartbeat checking completed--'
+
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e n d _ f a t a l _ e r r o r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Send the "appropriate people" that we had a fatal error.
+!
+! Expected on entry:
+!    error$ = error text
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine send_fatal_error
+
+  
+  email$ = 'mailto://'   + sendto$   + 
+           '?subject='  + 'TEST_CRITICAL -- heartbeat stopped'  +
+           '&mailfrom=' + mailfrom$ + 
+           '&username=' +
+           '&password=' +
+           '&server='
+           
+  if debug_email? then
+    mailto_ch = 0
+    debug_email? = false
+  else
+    open file mailto_ch: name email$, access output
+  end if
+  
+  for idx = 1 to elements(error$, chr$(13)+chr$(10))
+    z$ = element$(error$, idx, chr$(13)+chr$(10))
+    print #mailto_ch : z$
+  next idx
+  if mailto_ch > 0 then close #mailto_ch
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ d e l a y 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Delay between operations
+!
+!    Wait for 1 minute 60 times = 1 hour
+!
+! Expected on entry:
+!  delay_minutes = # of minutes to delay    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    We start a new copy of ourselves if the code changed
+!    or we just wait for the time to pass
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_delay: private waitsecs
+  unlock all
+  for waitsecs = 1 to delay_minutes*60
+    delay 1  // wait a second at a time
+    check_new_code  // see if the source code has changed
+    check_for_shutdown
+  next waitsecs
+end routine
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ f o r _ s h u t d o w n 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if a shutodwn was requested or not.
+!    Logical TEST_shutdown will be "YES" if we should shutdown
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!   program aborted if we are supposed to stop
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_for_shutdown
+  ask system, logical 'TEST_shutdown': value z0$
+  if z0$ = 'YES' then 
+    print '** Shutting down on '; date$(days(date$),4); ' at '; time$
+    close all
+    abort
+  end if
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ n e w _ c o d e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if there is a new version of this program.
+!    If so, set our change_state to wating for new code
+!    Each cycle see if we have exclusive access to our code
+!    If we get exclusive access, then the new code is ready
+!    so restart ourselves.
+!
+!    This method keeps the current code running without
+!    interruption while the new code is loading.
+!
+! Expected on entry:
+!
+!    this_program$ = full filespec of this program
+!
+! Locals used:
+!    change_phase$ = current phase, eg. waiting_for_new_code
+!
+! Results on exit:
+!    change_phase$ reflects the new phase if any
+!    we restart this program if it has changed
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_new_code: private last_datetime$, change_phase$
+  
+  select case change_phase$
+  
+  case ''
+    z0$ = fileinfo$(this_program$, 'revision_date')
+    if last_datetime$ = '' then  // do nothing the first time we are here
+      last_datetime$ = z0$
+      exit routine
+    end if
+    if last_datetime$ = z0$ then exit routine  // nothing changed
+    change_phase$ = 'waiting_for_new_code'
+    
+  case 'waiting_for_new_code'
+    when exception in
+      open file temp_ch: name this_program$, lock
+      close #temp_ch
+      change_phase$ = 'restart'
+    use
+    end when
+    
+  case 'restart'
+    close all
+    delay 1 // handle any race conditions, such as file flushing etc...
+    pass noreturn: this_program$
+    
+  end select
+  
+end routine
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c r e a t e _ b a c k u p _ c o m m a n d _ f i l e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    write the backup.bat file and the .ftp files so that the 
+!    zip file name can be date specific
+!
+! Expected on entry:
+!
+!
+! Locals used:
+!
+!
+! Results on exit:
+!>	todays_zipfile_name$     = zip file name for normal data folder 
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine create_backup_command_files
+  create_backup_bat
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c r e a t e _ b a c k u p _ b a t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    create the backup.bat file for today
+!
+! Expected on entry:
+!>	ars_backup$        = ars backup command 
+!>	backup_ftp_count   = count of ftps to be done 
+!>	backup_ftp_genname$() = generated name of the "ftp" set 
+!
+!
+! Locals used:
+!
+!
+! Results on exit:
+!>  backup commands are written to the bat file
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine create_backup_bat
+  
+  backup_filename$ = filespec$('@..\generated\generated_backup.bat')
+
+  backup_offsite_command$ = backup_filename$ + ' > ' + genloc$ + 'generated_backup_bat.results'
+
+  open file bck_ch : name backup_filename$, access output
+
+  backup_path$ = 'c:\backups\'
+
+  top_level_folder$   = filespec$('@..\')
+  backup_folder_count = 0
+  load_backup_subfolders
+
+
+  print #bck_ch : 'rem TEST nightly backup -- run by TEST_critical'
+  print #bck_ch : 'rem'
+  print #bck_ch : 'echo on'
+  print #bck_ch : 'rem delete old files first'
+  
+  // The folder we backup into is based on the name of the
+  // top level folder we are backing up from.
+  // For example:  \sf,\sf-authorize
+  // Might backup into:
+  //    \backups\sf\*.*
+  //    \backups\sf-authorize\*.* 
+  for idx = 1 to backup_folder_count
+    from_backup_folder$ = backup_folders$(idx)
+    make_backup_full_path
+    // Now force the folders to exist
+    placeholder_file$ = backup_full_path$+'temp.tmp'
+    open file temp: name placeholder_file$, access output
+    close #temp
+    kill placeholder_file$
+    
+    // write out the delete command to the batch file
+    print #bck_ch : 'del '; backup_full_path$; '*.*  /Q'
+  next idx
+
+  generate_backup_commands
+  
+  
+  generate_sevenzip_commands
+  
+  print #bck_ch : 'rem'
+  print #bck_ch : 'rem and finally send the zip files of backups offsite'
+  print #bck_ch: disk$
+  print #bck_ch: 'cd '; fileinfo$(here$, 'directory')
+  
+  print #bck_ch : '"'; here$; 'TEST_finish_backup_processing.spsrc'; '"'
+  
+  
+  print #bck_ch : 'exit'
+  
+  
+  close #bck_ch
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! l o a d _ b a c k u p _ s u b f o l d e r s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Generate a list of subfolders given a top level folder
+!
+! Expected on entry:
+!    top_level_folder$ = the top level folder to start with
+!    backup_folder_count = number of folders already stored
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    backup_folders$()  is loaded
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine load_backup_subfolders
+  dirfile$ = filespec$('@dir_temp.tmp')
+  pass 'dir ' + top_level_folder$ + '/S  > ' + dirfile$
+  open file dir_ch: name dirfile$ 
+  folder_level_name$ = top_level_folder$
+  do
+    line input #dir_ch, eof eof?: rec$
+    if eof? then exit do
+    
+    // handle when we switch to a new top level folder
+    z0$ = 'Directory of '
+    z0 = pos(rec$, z0$)
+    if z0 = 0 then repeat do
+    folder_level_name$ = trim$(mid(rec$, z0+len(z0$))) + '\'
+    print folder_level_name$
+    dirname$ = lcase$(folder_level_name$)
+    filter_dirnames
+    if not dir_ok? then repeat do
+    backup_folder_count++
+    backup_folders$(backup_folder_count) = folder_level_name$
+  loop
+  close #dir_ch
+  kill dirfile$
+ 
+//  for i=1 to backup_folder_count
+//    print i, backup_folders$(i)
+//  next i
+//  halt
+//
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! f i l t e r _ d i r n a m e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Filter directory names to get rid of those that we will
+!    no be backing up.  For example, we do not backup TEMP folders.
+!
+! Expected on entry:
+!    dirname$  = name to check (in lower case..no slashes or backslashes)
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!  dir_ok?  = true if this is an okay name    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine filter_dirnames
+  dir_ok? = false
+  
+  if pos(dirname$, '\archive\')          > 0 then exit routine
+  if pos(dirname$, '\data_backup\')      > 0 then exit routine
+  if pos(dirname$, '\data_backup_big\')  > 0 then exit routine
+  if pos(dirname$, '\pdf\')              > 0 then exit routine
+  if pos(dirname$, '\hcdocs\')           > 0 then exit routine
+  if pos(dirname$, '\log\')              > 0 then exit routine
+  
+  // These we skip as sub-folders
+  if pos(dirname$, '\temp-')        > 0 then exit routine
+  if pos(dirname$, '-temp\')        > 0 then exit routine
+  if pos(dirname$, 'assessments\')  > 0 then exit routine
+  
+  dir_ok? = true
+
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e n e r a t e _ b a c k u p _ c o m m a n d s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Generate the backup commands
+!
+! Expected on entry:
+!    backup_folders()  is available
+!    bck_ch  = backup file channel
+!    backup_from_top_folders$  = csv list of top level folders to backup
+!    backup_path$  = device and top level folder to backup into
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine generate_backup_commands
+
+  print #bck_ch : 'rem'
+  print #bck_ch : 'rem now do the backups'
+  
+  for idx = 1 to backup_folder_count
+    
+     from_backup_folder$ = backup_folders$(idx)
+     make_backup_full_path
+     
+     // We have to backup data files in sections because too many files open can be a problem
+     if is_data? then
+       for ltr = ascii('0') to ascii('9')
+         ltr$ = chr$(ltr)
+         print #bck_ch : ars_backup$; ' '; &
+                         from_backup_folder$; ltr$;'*.*         '; &
+                         backup_full_path$
+       next ltr
+       for ltr = ascii('A') to ascii('Z')
+         ltr$ = chr$(ltr)
+         print #bck_ch : ars_backup$; ' '; &
+                         from_backup_folder$; ltr$;'*.*         '; &
+                         backup_full_path$
+       next ltr
+     else
+       print #bck_ch : ars_backup$; ' '; &
+                       from_backup_folder$;'*.*         '; &
+                       backup_full_path$
+     end if
+     
+  next idx
+  
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! m a k e _ b a c k u p _ f u l l _ p a t h 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Given the from folder, make up the backup folder.
+!    We have a special case of changing \data\ to \data_backup\
+!    This is done so an ARSRESTORE can look like:
+!       arsrestore \xxx\data_backup\*.*  \yyy\data\
+!    as ARSRESTORE does not allow restoring into the same folder as
+!    the backups -- as this could allow for clobbering data.
+!
+! Expected on entry:
+!    from_backup_folder$  = \xxx\yyy\
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    backup_full_path$  = full path for the backup.
+!    is_data?  = true  if this is a data path
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine make_backup_full_path
+  
+  is_data? = false
+  
+  z0$ = filespec$(from_backup_folder$, 'directory')
+  z0$[1:1] = ''  // no leading slash as the backup_path$ has this already
+  z0 = pos(z0$, '\data\')
+  if z0 > 0 then 
+    z0$ = left(z0$, z0-1) + '\data_backup\'
+    is_data? = true
+  end if
+  
+  z0 = pos(z0$, '\data_big\')
+  if z0 > 0 then 
+    z0$ = left(z0$, z0-1) + '\data_big_backup\'
+    is_data? = true
+  end if
+  
+  backup_full_path$ = backup_path$ + z0$
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e n e r a t e _ s e v e n _  z i p _ c o m m a n d s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Generate the sevenzip commands needed to backup everything.
+!    Also generate the commands to move the zipfiles to offsite
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    sevenzipfile_count = # of sevenzip files we generated
+!    sevenzipfiles$()   = list of sevenzip files that we generated
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine generate_sevenzip_commands
+  
+  // Make sure that the ZIP location exists
+  open file temp: name zip_location$ + 'placeholder.txt', access output
+  close #temp
+
+  // Make sure that the OFFSITE location exists
+  open file temp: name offsite_location$ + 'placeholder.txt', access output
+  close #temp
+
+
+  print #bck_ch : 'rem'
+  print #bck_ch : 'rem now make a zip file of the backups'  
+  
+  now$ = date$
+  sevenzipfile_count = 0
+  backup_path$ = 'c:\backups\'
+  
+  todays_zipfile_name$ = 'TEST_backup_' + now$ + '.zip'
+  
+  sevenzipfile_name$ = zip_location$ + todays_zipfile_name$
+
+  print #bck_ch: 'rem *** Backup for TEST ***'
+  print #bck_ch : 'del '; zip_location$; todays_zipfile_name$; ' /Q'
+  print #bck_ch : 'pushd '; backup_path$ // get to OUR top level
+  
+  print #bck_ch : seven_zip$; ' a -tzip -p'; zip_password$; ' '; &
+                sevenzipfile_name$; ' *.* -r'
+
+  print #bck_ch: 
+  print #bck_ch: 'rem ** Move to offsite folder as well **'
+  print #bck_ch: 'copy/y/v '; zip_location$; todays_zipfile_name$; &
+                         ' '; offsite_location$
+  
+  sevenzipfile_count++
+  sevenzipfiles$(sevenzipfile_count) = sevenzipfile_name$
+     
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d e l e t e _ o l d _ b a c k u p _ z i p _ f i l e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    only keep 7 days of the backups around so find any that are 
+!    earlier and kill them
+!
+! Expected on entry:
+!>	zip_location$ = disk and folder for the zip files
+!
+!
+! Locals used:
+!
+!
+! Results on exit:
+!>  any zip files older than 7 days are deleted
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine delete_old_backup_zip_files
+  
+  keepdate$ = date$(days(date$)-7)
+  zipspec$ = zip_location$ + '*_backup_*.zip'
+  old_zipfile_count = 0
+  for idx = 1 to 99999
+  
+    one_zipfile$ = findfile$(zipspec$, idx)
+    if  one_zipfile$ = '' then exit for
+    
+    // Isolate the date part of the filename
+    // and append to the delete list any old files
+    z0$ = element$(one_zipfile$, 2, '_backup_');
+    filedate$ = element$(z0$, 1, '.')
+
+    if filedate$ >= keepdate$ then iterate for
+    
+    old_zipfile_count++
+    old_zipfiles$(old_zipfile_count) = one_zipfile$  
+  
+  next idx
+  
+  for idx = 1 to old_zipfile_count
+    one_zipfile$ = old_zipfiles$(idx)
+    when exception in
+      kill one_zipfile$
+    use
+    end when
+    if  _error then iterate for
+    print 'Deleted old zip file: '; one_zipfile$
+  next idx
+  
+end routine
+
+end

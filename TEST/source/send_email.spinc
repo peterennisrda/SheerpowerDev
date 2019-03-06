@@ -1,0 +1,80 @@
+body_file$ = ''
+subject$   = ''
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e n d _ e m a i l 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!   We store the email data into the variable that contains the 
+!   email sending command line, and send the email. 
+!
+! Expected on entry:
+!   mailfrom$   = the value of the sender's email address
+!   sendto$     = the value of the recipient's email address
+!   subject$    = the subject line for the email
+!   body_file$  = the file containing the body of the email
+!   bcc_emails$ = list of people to get the BCC of this email
+!   attach1$, attach2$, ... = attachments if any
+!
+! Locals used:
+!
+!
+! Results on exit:
+!   email$ = stores the command line that contains the SMTP server name,
+!            'to' email address, 'from' email address and the subject 
+!            line of the email.  
+!
+!  attach1$, attach2$, ... are cleared            
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine send_email
+  
+  if sendto$ = '' then
+    write_error with error_text 'Sendto is empty... skipping'
+    exit routine
+  end if
+  
+  email_cmd$ = 'mailto://'   + sendto$   + 
+           '?subject='   + subject$  +
+           '&mailfrom='  + mailfrom$ + 
+           '&friendlyname=' + friendlyname$ +
+           '&bcc='       + bcc_emails$ +
+           '&mime_type=' + 'html' +
+           '&server='    + 'mail.authsmtp.com' +
+           '&username=' +
+           '&password=' +
+           '&port=2525'
+  
+  // Handle any attachments
+  if attach1$ <> '' then email_cmd$ = email_cmd$ + '&attach=' + attach1$
+  if attach2$ <> '' then email_cmd$ = email_cmd$ + '&attach=' + attach2$
+  if attach3$ <> '' then email_cmd$ = email_cmd$ + '&attach=' + attach3$
+  if attach4$ <> '' then email_cmd$ = email_cmd$ + '&attach=' + attach4$
+  attach1$ = ''
+  attach2$ = ''
+  attach3$ = ''
+  attach4$ = ''
+  
+  open file mailto_ch: name email_cmd$, access output
+  
+  open file body_ch: name body_file$
+  
+  //print '!! Send email: '; email_cmd$
+  
+  write_to_email? = true
+  do
+    line input #body_ch, eof eof?: rec$
+    if eof? then exit do
+    do_substitutions
+    print #mailto_ch: rec$
+  loop
+ write_to_email? = false
+ 
+  close #body_ch
+  close #mailto_ch
+
+end routine
+
+
+
+

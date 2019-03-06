@@ -1,0 +1,146 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_startup.spsrc
+! System : test
+! Author : Peter
+! Company: RDA
+! Date   : 05-Mar-2019
+! Purpose: test
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+set system, logical 'TEST_production': value 'NO'
+if findfile$('sheerpower:production\TEST.txt') <> '' then
+  set system, logical 'TEST_production': value 'YES'
+end if
+
+is_production? = false
+ask system, logical 'TEST_production': value z0$
+if z0$ = 'YES' then  is_production? = true
+
+here$ = filespec$('@', 'location')
+
+poolfile$  = filespec$('sheerpower:sphandlers\spiis.gblpool')
+html_path$ = filespec$('@..\wwwroot')
+
+z0$ = ''
+if "8080" <> "80" then z0$ = ' -port 8080'
+webserver$ = filespec$('sheerpower:sphandlers\spins_webserver.exe') +
+             z0$ +
+             ' -wwwroot "' + html_path$ + '"'
+
+
+// Delay between TYPES of applications being launched
+// (set higher to detect on-screen errors)
+launch_delay = .5
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+version$ = 'V1.0'
+print 'TEST Startup '; version$; &
+       ' -- started '; date$(days(date$), 3); ' at '; time$
+
+set icon '@..\source\TEST.ico'
+
+set system, logical 'TEST_shutdown': value 'NO'  // reset shutdown flag
+
+if is_production? then
+  print '*** Waiting a minute for other layers to startup ***'
+  when exception in
+    line input prompt 'Press ENTER to continue sooner...', 
+               timeout 1*60: ans$
+  use
+  end when
+end if
+
+open structure session  : name '@..\data\session', access outin
+
+// Remove any session entries prior to today just to clean things up
+print 'Removing old SESSION entries '; fulltime$(seconds(fulltime$), 3)
+now$ = date$
+extract structure session
+  include session(session_id) < now$
+end extract
+for each session
+  delete structure session
+next session
+
+
+print 'Deleting SPINS_WEBSERVER global pool file'
+
+when exception in
+  if findfile$(poolfile$) <> '' then kill poolfile$
+use
+end when
+if _error then
+  message error: 'Error deleting '; poolfile$;' - '; systext$
+end if
+delay 2
+
+
+print 'Starting SPINS_WEBSERVER '; time$
+pass nowait, window: webserver$
+delay 2
+
+
+print 'Launching programs...'
+
+do
+  delay launch_delay
+  pass nowait: here$ + 'TEST_handler.spsrc'
+  delay 1
+  ! only start one handler if running development code
+  if not is_production? then exit do
+
+  pass nowait: here$ + 'TEST_handler.spsrc'
+  delay 1
+end do
+
+do
+  ! do not start cmh_critical if running development code
+  if not is_production? then exit do
+
+  delay launch_delay
+  pass nowait: here$ + 'TEST_critical.spsrc'
+  delay 1
+end do
+
+do
+  ! do not start daemon if running development code
+  if not is_production? then exit do
+
+  delay launch_delay
+  pass nowait: here$ + 'TEST_daemon.spsrc'
+  delay 1
+end do
+
+
+do
+  ! do not start api if running development code
+  if not is_production? then exit do
+
+  delay launch_delay
+  pass nowait: here$ + 'TEST_api.spsrc'
+  delay 1
+end do
+
+print 'Startup completed '; date$(days(date$), 3); ' at '; time$
+delay 5
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+end

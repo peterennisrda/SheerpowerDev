@@ -1,0 +1,146 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! h a n d l e _ a j a x _ r e q u e s t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    handle an ajax request that came in
+!
+! Expected on entry:
+!>	cgi_ch     = Web server communication channel
+!>	ajax_type$ = type of the ajax request 
+!>	ajax_args$ = ajax arguments passed in
+!
+!
+! Locals used:
+!
+!
+! Results on exit:
+!>   request is handled
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine handle_ajax_request
+
+  ask #cgi_ch, symbol 'type' : value ajax_type$
+  ask #cgi_ch, symbol 'args' : value ajax_args$
+  
+  //print #log_ch: fulltime$(seconds(fulltime$), 3);' Ajax type: '; ajax_type$
+
+
+  if  ajax_type$ = 'ping' then
+    ajax_write_xml_header
+    print #cgi_ch : '<results>pong</results>'
+    exit routine
+  end if
+
+  ajax_validate_user
+  if  _error  then  
+    print #cgi_ch: '<results>';
+    print #cgi_ch: '<status>logout</status>';
+    print #cgi_ch: '<reason>'; reason$;'</reason>';
+    print #cgi_ch: '</results>'
+    exit routine
+  end if
+
+  select case ajax_type$
+  case else
+    print '?? Unknown ajax type: '; ajax_type$
+  end select
+
+
+end routine
+
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! a j a x _ v a l i d a t e _ u s e r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    make sure this is a valid user (has cookie) and then
+!    set up user info
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    reason$ = any error reason
+!    _error = true if an error
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine ajax_validate_user
+  
+  reason$ = ''
+  session_id$ = ''
+  if  cookie$ = ''  then 
+    set error on
+    reason$ = 'no cookie'
+    exit routine
+  end if
+  validate_cookie
+  if  _error  then 
+    set error on
+    reason$ = 'Bad cookie'
+    exit routine
+  end if
+  set structure session, field session_id : key cookie_session_id$
+  if  _extracted = 0  then 
+    set error on
+    reason$ = 'no session'
+    exit routine
+  end if
+  if  session(status) <> 'LOGIN'  then 
+    set error on
+    reason$ = 'no login'
+    exit routine
+  end if
+  check_timeout
+  if  _error  then  
+    set error on
+    reason$ = 'session tinmeout'
+    exit routine
+  end if
+  session(last_activity_date_time) = fulltime$
+  session_id$ = cookie_session_id$
+  set structure user_login, field user_gid: key session(user_gid)
+  if _extracted = 0 then 
+    set error on
+    reason$ = 'No user for session'
+    exit routine
+  end if
+  unlock structure session
+  setup_user_information
+
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! a j a x _ w r i t e _ x m l _ h e a d e r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    write a header for xml returns to ajax
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine ajax_write_xml_header
+  print #cgi_ch : 'HTTP/1.1 200 OK'
+  print #cgi_ch : 'Content-Type: text/xml; charset=utf-8'
+  print #cgi_ch : ''
+end routine

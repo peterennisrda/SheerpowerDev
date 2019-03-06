@@ -4,11 +4,10 @@
 ! Author : peterennisrda
 ! Company: RDA
 ! Date   : January 28, 2019
-! Purpose: 
+! Purpose: Menu Program Example
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-! Menu Program Example
 ! Ref: http://www.ttinet.com/doc/sp4gl/sheerpower.html#heading_1.2.1
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -20,7 +19,6 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
   do
     line input menu '"calculator" = calc,"DOS prompt" = dos,"exit"': ans$ 

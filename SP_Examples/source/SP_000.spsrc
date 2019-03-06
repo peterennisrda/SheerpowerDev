@@ -14,20 +14,27 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+examplesfolder$ = "C:\RDAVSTS\SheerpowerDev\SP_Examples\source"
+sheerpower$     = "C:\Sheerpower\spdev.exe"
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-generate_menu_list
-HALT
+//generate_menu_list
+
+
+print "Directory currently running from = " + fileinfo$('', 'ALL')
+//HALT
 
 do
-  line input menu '"Calculator" = calc,"DOS Prompt" = dos,"EXIT"': ans$
+  line input menu '"001" = spdev,"DOS Prompt" = cmd,"EXIT"': ans$
   if  _exit  then  exit do
   select case ans$ 
-  case 'CALC' 
-    pass nowait: 'calc' 
+  case 'SPDEV'
+    print ">>case SP_001.spsrc"
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_001.spsrc' 
+    pass nowait, window: cmd$
   case 'DOS' 
     pass nowait: '$$' 
   end select

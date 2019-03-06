@@ -1,0 +1,147 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_finish_backup_processing.spsrc
+! System :
+! Author : Original by Daniel James Swain
+! Company: Touch Technologies, Inc
+! Date   : November 16, 2007
+! Purpose: The TEST_critical has kicked of the backup.bat file to
+!          do the nightly backup of sf.  That process has created
+!          (hopefully) some *.results files.
+!          So, this process will open the .results files and scan it.
+!          I am looking for two things:
+!            1. Did tonights backup get there
+!            2. any backup files more than 7 days old
+!
+!          Email the success or failure of the backups to Dan E.
+!          delete any old backup zip files
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+is_production? = false
+if findfile$('sheerpower:production\TEST.txt') <> '' then &
+  is_production? = true
+
+here$                    = filespec$('@')
+crlf$                    = chr$(13) + chr$(10)
+send_success_messages?   = true
+zip_pattern$             = '{|nocase|}?**.zip'
+
+// email information
+debug_email? = false
+sendto$   = ''
+mailfrom$ = 'noreply_message@'
+
+max_zipfiles = 999
+dim zipfiles$(max_zipfiles)
+
+genloc$ = fileinfo$('@..\generated\')
+
+// FTPed Files older than this date are deleted
+keepdate$ = date$(days(date$)-32)
+
+
+
+// M a i n   l o g i c   a r e a
+
+
+  
+// Assemble the names of the expected zipfiles so we can check 
+// for them later on
+now$ = date$
+zipfile_count = 0
+todays_zipfile_name$ = 'TEST_backup_' + now$ + '.zip'
+zipfile_count++
+zipfiles$(zipfile_count) = todays_zipfile_name$
+
+
+results_message$ = 'Backup completed for TEST'
+
+
+subject$ = 'TEST Nightly Backup'
+email_results
+
+print 'Sending email...'
+delay 5
+
+print fulltime$(seconds(fulltime$), 3);' Finished'
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d e l e t e _ o l d _ z i p _ f i l e s _ l o c a l l y 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Delete any local zipfiles that are old enough
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine delete_old_zip_files_locally
+
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! e m a i l _ r e s u l t s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    if there are any messages in the results_message variable
+!    mail them 
+!
+! Expected on entry:
+!>	sendto$          = who we are to send the message to 
+!>	mailfrom$        = name of user sending email 
+!>	is_production?   = true if running in production env. 
+!>	results_message$ = message that has been created
+!>	crlf$            = 
+!
+!
+! Locals used:
+!>	email$           = email command line 
+!
+!
+! Results on exit:
+!>  email is sent
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine email_results
+  
+  email$ = 'mailto://'   + sendto$   + 
+           '?subject='  + subject$  +
+           '&mailfrom=' + mailfrom$ + 
+           '&username=' +
+           '&password=' +
+           '&server=mail.authsmtp.com'
+           
+  if debug_email? then
+    mailto_ch = 0
+    debug_email? = false
+  else
+    open file mailto_ch: name email$, access output
+  end if
+  
+  for idx = 1 to elements(results_message$, crlf$)
+    z$ = element$(results_message$, idx, crlf$)
+    print #mailto_ch : z$
+  next idx
+  if mailto_ch > 0 then close #mailto_ch
+end routine
+
+
+
+
+
+end

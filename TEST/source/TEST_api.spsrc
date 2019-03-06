@@ -1,0 +1,250 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_api.spsrc
+! System : test
+! Author : Peter
+! Company: RDA
+! Date   : 05-Mar-2019
+! Purpose: test
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ask system: program this_program$
+
+handler_name$ = 'TEST-API'
+
+log_msg$ = ''
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+version$ = 'V1.0'
+
+print 'TEST API '; version$; &
+       ' -- started '; date$(days(date$), 3); ' at '; time$
+
+is_production? = true
+
+set icon '@..\source\TEST.ico'
+set system: process 'TEST API'
+
+
+open file cgi_ch: name 'cgi://' + handler_name$
+
+open file log_ch: name 'textwindow://TEST API Log?width=120', access output
+
+is_waiting? = false
+do
+  unlock all 
+  line input #cgi_ch: method$
+  if method$ = '' then
+    if not is_waiting? then
+      print
+      print #log_ch: fulltime$(seconds(fulltime$), 3);' Waiting...'
+      is_waiting? = true
+    end if
+    wait_counter++
+    if wait_counter > 10 then
+      wait_counter = 1
+      check_for_shutdown
+      check_new_code
+    end if
+    repeat do 
+  end if
+  is_waiting? = false
+  
+  get_env_variables
+
+  log_msg$ = client_ip$ + '>> http://' + http_host$ + '/' + path_info$
+  if query_string$ > '' then log_msg$ = log_msg$ + '?' + query_string$
+  log_it  
+  
+  process$ = lcase$(path_info$)
+
+  file_type$ = element$(process$, 2, '.')
+  process$   = element$(process$, 1, '.')
+
+  //*****  Set no-caching so browsers that support it will not cache ****
+  //*****  our data.
+  z$ = 'Pragma: no-cache'
+  print #cgi_ch : "HTTP/1.1 200 OK" + chr$(13) + chr$(10) + z$
+  print #cgi_ch:
+  
+
+  // Now we do the real work that was requested
+  // process$ is the major process that we are in
+  // processform$ is the form specific information
+  //print 'Process: '; process$
+  
+  msg$ = ''
+  error$ = ''
+  select case process$
+  case 'ping'
+    print #cgi_ch: 'Pong at '; fulltime$(seconds(fulltime$), 4)
+  case else
+    print #log_ch: '?? Unknown process: '; process$
+  end select
+
+loop
+
+close #cgi_ch
+stop
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e t _ e n v _ v a r i a b l e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Get the enviromental variables from the browser
+!
+! Expected on entry:
+!>	cgi_ch        = Channel to the browser 
+!
+!
+! Locals used:
+!
+!
+! Results on exit:
+!>	query_string$ = Any query string supplied
+!>	path_info$    = Path from the request
+!>	client_ip$    = ip address of the client machine
+!>	cookie$       = Any cookies stored so far 
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine get_env_variables
+  ask #cgi_ch, symbol 'env:QUERY_STRING' : value query_string$
+  ask #cgi_ch, symbol 'env:PATH_INFO'    : value path_info$
+  ask #cgi_ch, symbol 'env:REMOTE_ADDR'  : value client_ip$
+  ask #cgi_ch, symbol 'env:HTTP_COOKIE'  : value cookie$
+  ask #cgi_ch, symbol 'env:HTTP_HOST'    : value http_host$
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ n e w _ c o d e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if there is a new version of this program.
+!    If so, set our change_state to wating for new code
+!    Each cycle see if we have exclusive access to our code
+!    If we get exclusive access, then the new code is ready
+!    so restart ourselves.
+!
+!    This method keeps the current code running without
+!    interruption while the new code is loading.
+!
+! Expected on entry:
+!
+!    this_program$ = full filespec of this program
+!
+! Locals used:
+!    change_phase$ = current phase, eg. waiting_for_new_code
+!
+! Results on exit:
+!    change_phase$ reflects the new phase if any
+!    we restart this program if it has changed
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_new_code: private last_datetime$, change_phase$
+  
+  select case change_phase$
+  
+  case ''
+    z0$ = fileinfo$(this_program$, 'revision_date')
+    if last_datetime$ = '' then  // do nothing the first time we are here
+      last_datetime$ = z0$
+      exit routine
+    end if
+    if last_datetime$ = z0$ then exit routine  // nothing changed
+    change_phase$ = 'waiting_for_new_code'
+    
+  case 'waiting_for_new_code'
+    when exception in
+      open file temp_ch: name this_program$, lock
+      close #temp_ch
+      change_phase$ = 'restart'
+    use
+    end when
+    
+  case 'restart'
+    delay 1 // handle any race conditions, such as file flushing etc...
+    pass noreturn: this_program$
+    
+  end select
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ f o r _ s h u t d o w n 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if a shutodwn was requested or not.
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_for_shutdown
+  ask system, logical 'TEST_shutdown': value z0$
+  if z0$ = 'YES' then 
+    print '** Shutting down on '; date$(days(date$),4); ' at '; time$
+    close all
+    abort
+  end if
+end routine
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! l o g _ i t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    print a message to the log file
+!
+! Expected on entry:
+!
+!>	log_ch   = channel number for the log file
+!>	log_msg$ = message to be logged
+!
+! Locals used:
+!
+! Results on exit:
+!   message is written to the log file
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine log_it
+  print #log_ch: fulltime$(seconds(fulltime$), 3); ' '; log_msg$
+end routine
+
+
+
+
+end
+
+
+

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>[[handler]] Registration</title>
+
+<link rel="stylesheet" type="text/css" href="/css/[[handler]].css">
+<link href="/css/responsive.min.css?v=4.1.2" rel="stylesheet" />
+<script src="/js/[[handler]].js"></script>  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+.link {
+    background-color: #b8deb4;
+    border: 1px solid #3d4d61;
+    border-radius: 1px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 3px;
+}
+.nolink { border-radius:15px; background-color:  #B8DEB4; font-weight: bold;padding:3px 3px; font-size:16px}
+
+</style>
+
+</head>
+
+<body onload="document.registration.email.focus();"> 
+
+<div align="center">
+  <img class="loc-img" src="/images/[[handler]].jpg" width="300px" height="300px" border="0">
+  <div class="loc-nav" style="background-color:#E0B0FF; width:100%;">
+ 
+  </div>
+  <br>
+  <div class="loc-content">
+    <b><font size="+1" color="navy">[[handler]] FREE Registration</font></b>
+    <div align="right">
+      <a href="/scripts/spiis.dll/[[handler]]/login.html">
+        <button class="link">Already registered?</button></a>
+    </div>
+    [[error]] [[message]]
+    <p>
+    <h3>Welcome!  Please register for FREE!</h3>
+    
+    <form method="POST" name="registration" action="/scripts/spiis.dll/[[handler]]/register.html">
+    <input type=hidden name="source_code" value="">
+    <input type=hidden name="next_page" value="">
+    <table width="100%">
+      <tr>
+        <td>
+          <b>*Login Email:</b> <input type="text" id="email" name="email" value="[[reg_email]]" size="15" maxlength="100">
+        </td>
+        <td>
+          <b>*Confirm Email:</b> <input type="text" id="confirm_email" name="confirm_email" value="[[reg_conf_email]]" size="15" maxlength="100">
+        </td>
+      </tr>
+      
+      <tr>
+        <td>
+          <b>*Login Password (at least 8 characters):</b> <input type="password" id="password" name="password" value="" size="15" maxlength="50">
+        </td>
+        <td>
+          <b>*Confirm Password:</b> <input type="password" id="confirm_password" name="confirm_password" value="" size="15" maxlength="50">
+        </td>
+      </tr>
+      
+        <td colspan=99>
+          <b>*First Name:</b> <input type="text" id="firstname" name="firstname" value="" size="15" maxlength="20">
+        </td>
+      </tr>
+      <tr>
+        <td colspan=2>
+          <b>*Nickname:</b> <input type="text" id="nickname" name="nickname" value="[[reg_nickname]]" size="20" maxlength="20">
+        </td>
+        </tr>
+        <tr>
+        <td colspan=2>
+        <div align=right>
+            <button type="reset" name="do_cancel" class="link">Cancel</button> &nbsp;&nbsp;
+            <button type="submit" name="do_submit" class="link">Register</button>
+        </div>
+        
+        </td>
+      </tr>
+      
+    </table>
+
+  
+
+    </form>      
+  </div>
+  <br><br>
+  <div class="loc-footer">
+    [[copyright]] All Rights Reserved. |
+    <a href="#" target=_blank>Terms of Use</a>   |   
+    <a href="#" target=_blank>Privacy Policy</a>   | 
+    <a href="#" target=_blank>Disclaimer</a>
+  </div>
+</div>
+
+
+</body>
+</html>
