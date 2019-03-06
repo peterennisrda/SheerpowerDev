@@ -133,16 +133,24 @@ end routine
 routine process_one_file
   
   full_file$ = rec$
-  when exception in
+  when exception use fix_info
     full_name$ = fileinfo$(full_file$, 'name,type')
-  use
-    print add_counter, "EXCEPTION..."
-    full_name$ = ''
-    exit routine
-  //retry
   end when
+  
+  handler fix_info
+    print "fix_info EXCEPTION... " + full_name$
+    continue
+  end handler
 
-  file_type$ = mid(fileinfo$(full_file$, 'type'), 2) // skip the dot
+  when exception use fix_type
+    file_type$ = mid(fileinfo$(full_file$, 'type'), 2) // skip the dot
+  end when
+  
+  handler fix_type
+    print "fix_type EXCEPTION... " + file_type$
+    continue
+  end handler  
+  
   print file_type$, full_name$, full_file$
 //    full_file$ = ""
 //    full_name$ = ""

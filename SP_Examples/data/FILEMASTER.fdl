@@ -4,7 +4,7 @@ FILE
         ORGANIZATION      INDEXED
 
 RECORD
-        SIZE              685
+        SIZE              698
         ALLOCATION        1000
 
 AREA 0
@@ -14,14 +14,14 @@ KEY   0
         DUPLICATES        Yes
         NAME              "FILE_TYPE"
         SEG0_LENGTH       21
-        SEG0_POSITION     527
+        SEG0_POSITION     538
         TYPE              string
 
 KEY   1
         CHANGES           YES
         DUPLICATES        Yes
         NAME              "FULL_FILE"
-        SEG0_LENGTH       256
+        SEG0_LENGTH       268
         SEG0_POSITION     0
         TYPE              string
 
@@ -30,7 +30,7 @@ KEY   2
         DUPLICATES        Yes
         NAME              "FULL_NAME"
         SEG0_LENGTH       256
-        SEG0_POSITION     256
+        SEG0_POSITION     268
         TYPE              string
 
 KEY   3
@@ -38,5 +38,5 @@ KEY   3
         DUPLICATES        Yes
         NAME              "REVISION_DATE"
         SEG0_LENGTH       15
-        SEG0_POSITION     512
+        SEG0_POSITION     523
         TYPE              string
