@@ -29,14 +29,27 @@ if findfile$(tempfilelist$) = '' then
 else  
   print tempfilelist$ + ' Exists!!!'
   
-  menu$ ='%nomouseover, NO, YES, %title "Recreate YES/NO ?               "'
+  menu$ ='%nomouseover, NO, YES, %title "Recreate YES/NO ?                "'
   line input menu menu$ : ans$
   
   print "Your answer is " + ans$
   if ans$ = "NO" then
     // Continue using the same data
   else
-    print "Recreating file list..."
+    print "Recreating file list and rebuilding database..."
+    
+    open table filemaster: name '@..\data\filemaster', access outin 
+  
+    extract table filemaster 
+      delete table filemaster
+    end extract
+    
+    print 'Number of records in FILEMASTER: '; _extracted
+     
+    close table filemaster 
+ 
+ HALT
+  
     create_filelist
   end if
 end if
