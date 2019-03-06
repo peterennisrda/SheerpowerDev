@@ -1,0 +1,1402 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_handler.spsrc
+! System : test
+! Author : Peter
+! Company: RDA
+! Date   : 05-Mar-2019
+! Purpose: test
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%include '@handler_routines.spinc'
+%include '@ajax_routines.spinc'
+
+
+ask system: program this_program$
+
+handler_name$ = 'TEST'
+handler_url$  = '/scripts/spiis.dll/' + handler_name$
+handler_base$ = handler_url$ + '/'
+
+website_domain$ = lcase$('')
+if pos(website_domain$, 'http') <> 1 then
+  website_domain$ = 'http://' + website_domain$
+end if
+
+is_production? = true
+
+
+emoticon_file$ = '@..\wwwroot\emoticons.html'
+
+log_msg$ = ''
+
+size_list$ = 'XXS,XS,S,M,L,XL,2XL,3XL'
+kid_sizes$ = 'TWEEN,S/M,M/L,L/XL'
+
+mailfrom$     = ''
+friendlyname$ = ''
+bcc_emails$   = ''
+
+invalid_name_characters$ = '<>;&{}()[]'
+
+az_utc_offset = 7 // The server is always seven hours back from UTC (AZ time, no daylight saving changes either)
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+version$      = 'V1.00'
+
+set icon '@..\source\TEST.ico'
+set system : process 'TEST HANDLER'
+
+print 'TEST Handler '; version$; ' -- started '; &
+           date$(days(date$), 3); ' at '; time$
+
+init_handler
+
+do_main_logic
+
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! l o a d _ e m o t i c o n s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Load the emoticons
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!  emoticon_html$ = the html of the emoticons
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine load_emoticons
+  
+  emoticon_html$ = ''
+  
+  emoticon_data$ = fileinfo$(emoticon_file$, 'contents')
+  if emoticon_data$ = '' then
+    print '?? No data in '; emoticon_file$
+    delay
+    stop
+  end if
+
+  emoticon_counter = 0
+  scan_pos = 1
+  do
+    
+    z0$ = '<img src='
+    z0 = pos(emoticon_data$, z0$, scan_pos)
+    if z0 = 0 then exit do
+    z1 = pos(emoticon_data$, z0$, z0+len(z0$))
+    if z1 = 0 then z1 = len(emoticon_data$)+1 // at the end
+    scan_pos = z1
+    one_seg$ = emoticon_data$[z0:z1-1]
+    process_one_segment
+    emoticon_counter++
+    emoticon_html$ = emoticon_html$ + ' ' + img_html$ // add better html later
+  
+  loop
+  emoticon_html$[1:1] = ''
+  
+end routine
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r o c e s s _ o n e _ s e g m e n t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Given a segment of the emoticon html, proxess it
+!    The segment will start with a <img src> tag and end jusst before
+!    the next <img src> tag.
+!
+!    There will be a  <span class="bold">..</span>  that will contain
+!    the emoticon, such as ":)"
+!
+!    We want to end up with something like:
+!      <img src="http://static.ttinet.com/cw2/images/emoticons/regular_smile.gif" class="emoticon" onclick="test_it(this);" data-emoticon=":)">
+!
+! Expected on entry:
+!    one_seg$ = one segment
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    img_html$ = the clickable img html code for this segment
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine process_one_segment
+  
+  z0 = pos(one_seg$, '>')
+  if z0 = 0 then
+    print '?? missing ">" in "<img src" tag'
+    delay
+    stop
+  end if
+  
+  img_html$ = left(one_seg$, z0-1) + ' class="emoticon" onclick="insert_emoticon(this);" data-emoticon="'
+  
+  z0$ = '<span class="bold">'
+  z0  = pos(one_seg$, z0$)
+  if z0 = 0 then
+    print '?? missing '; z0$
+    delay
+    stop
+  end if
+  
+  z0 = pos(one_seg$, '>', z0)+1 // just after the '>'
+  
+  z1$ = '</span>'
+  z1 = pos(one_seg$, z1$, z0)
+  if z1 = 0 then
+    print '?? missing '; z1$
+    delay
+    stop
+  end if
+  
+  emoticon$ = one_seg$[z0:z1-1]
+  
+  img_html$ = img_html$ + emoticon$ + '">'
+  
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ m a i n _ l o g i c 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Do the main logic of getting browser requests and fulfilling them.
+!    (This is here mostly to help debug some weird errors)
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_main_logic
+  
+  start_seconds = 0
+  do
+    unlock all  // this is now a cheap operation, so do it every time
+    if start_seconds > 0 then 
+      //print #log_ch: 'Processed seconds: '; time(5) - start_seconds
+      start_seconds = 0
+    end if
+    line input #cgi_ch: method$
+    if method$ = '' then
+      unlock all: commit // write to disk when idle
+      if not is_waiting? then
+        //print #log_ch:
+        //log_msg$ = 'waiting...'
+        //log_it
+        is_waiting? = true
+      end if
+      wait_counter++
+      if wait_counter > 10 then
+        wait_counter = 1
+        unlock all: commit
+        check_for_shutdown
+        check_new_code  // see if we have new code to run
+      end if
+      repeat do 
+    end if
+    is_waiting? = false
+
+    cgi_header_written? = false  // for new headers before we begin
+    get_env_variables
+
+    start_seconds = time(5)
+    
+    msg$          = ''
+    error$        = ''
+
+    email$            = ''
+    confirm_email$    = ''
+    password$         = ''
+    confirm_password$ = ''
+    firstname$        = ''
+    lastname$         = ''
+    nickname$         = ''
+    next_page$        = ''
+    source_code$      = ''
+    genlink_gid$      = ''
+
+    ask #cgi_ch, symbol 'process' : value process$
+    if  process$ = ''  then  process$ = lcase$(path_info$)
+
+    if process$ = 'ajax' then
+      file_type$ = lcase$(element$(process$, 2, '.'))
+      handle_ajax_request
+      repeat do
+    end if
+    
+   
+    // AJAX calls are too frequent and make it hard to find things
+    log_msg$ = client_ip$ + ' ' + path_info$ + ' ' + query_string$
+    log_it  
+ 
+     if process$ = 'ping' or process$ = 'ping.html' then
+        print #cgi_ch, #log_ch: fulltime$(seconds(fulltime$), 3); ' Pong '; query_string$
+        repeat routine
+      end if
+
+
+    if process$ = 'pw_recovery' or process$ = 'pw_recovery.html' then
+      handle_pw_recovery
+      repeat routine
+    end if
+  
+
+    if  process$ = 'login' or process$ = 'login.html' then 
+      handle_login
+      if  _error  then  repeat do
+      setup_user_information
+      output_webpage with webpage 'profile'
+      repeat do
+    end if
+    
+    if process$ = 'register' or process$ = 'register.html' then
+      last_query$ = query_string$
+      do_register
+      repeat routine
+    end if
+                     
+    if process$ = 'genlink' or process$ = 'genlink.html' then
+      do_genlink
+      repeat routine
+    end if
+                               
+    if process$ = 'reset_one_password' or process$ = 'reset_one_password.html' then
+      do_reset_one_password
+      repeat routine
+    end if
+    
+    
+    do
+      login_okay? = true
+      request_handled? = false
+      // The API interface doesn't require any LOGIN.
+      if pos(process$, 'api_')  = 1 then exit do
+      check_login
+      if  session_id$ = '' then 
+        login_okay? = false
+        exit do ! not logged in
+      end if
+      set structure user_login, field user_gid: key session(user_gid)
+      if _extracted = 0 then
+        handle_login
+        if _error then 
+          login_okay? = false
+          exit do
+        end if
+        setup_user_information
+        request_handled? = true
+        output_webpage with webpage 'profile'
+        exit do
+      end if
+
+      session(last_action) = process$  // give us a CLUE as to what they are doing
+      unlock structure session !++ change dme June 14, 2005
+      setup_user_information
+      print #log_ch: '[] '; user_login(login_name); ' --> '; process$
+    end do
+    if not login_okay?  then repeat do
+    if request_handled? then repeat do
+    
+
+    // Some processes require us knowing which form we are on
+    // Now we do the real work that was requested
+    // process$ is the major process that we are in
+    // processform$ is the form specific information
+    file_type$ = element$(process$, 2, '.')
+    process$   = element$(process$, 1, '.')
+
+    // handle generic API calls (those that do not require a login session)
+    if pos(process$, 'api_') = 1 or pos(process$, 'open_') = 1 then 
+      print #log_ch: 'Outputting webpage: '; process$
+      write_cgi_initial_header
+      output_webpage with webpage process$
+      repeat do
+    end if
+      
+    select case process$
+      
+    case 'main_menu', 'TEST'
+      output_webpage with webpage 'TEST'
+    
+    case 'manager_dashboard'
+      if not is_manager? then repeat do // for hackers
+      output_webpage with webpage 'manager_dashboard'
+    
+    case 'logout'
+      session(status) = 'LOGOUT'
+      check_login
+
+    case else
+      print #log_ch: '?? Unknown process: '; process$
+      handle_login
+      if _error then repeat do
+      halt
+    end select
+
+    print #cgi_ch
+    print #cgi_ch
+            // Patch because somehow we don't return short data anymore
+  loop
+
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ f o r _ s h u t d o w n 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if a shutodwn was requested or not.
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_for_shutdown
+  ask system, logical 'TEST_shutdown': value z0$
+  if z0$ = 'YES' then 
+    print '** Shutting down on '; date$(days(date$),4); ' at '; time$
+    close all
+    abort
+  end if
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! h a n d l e _ p w _ r e c o v e r y 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Handle a password recovery request.  We send a recovery
+!    email with a special link to the user.
+!
+! Expected on entry:
+!    symbol>>email  = the email address to send to (if on file)
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine handle_pw_recovery
+  
+  email$ = getsymbol$('email')
+  if email$ = '' then
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  do_cancel$ = getsymbol$('do_cancel')
+  if do_cancel$ <> '' then
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  msg$ = 'If the email address entered is in our system, you will receive an email there within a ' +
+         'few minutes containing instructions for how to reset your password. Please be sure to check ' +
+         'your SPAM/JUNK email folders if you have not received the email shortly.'
+         
+  // If they are not known to us, don't tell them, just act as if all was well.
+  //** Otherwise a "bad actor" can use this information to snoop on people.
+  set table user_login, field login_name: key email$
+  if _extracted = 0 then
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  body_file$ = '@..\template\email\password_reset_email.html'
+  subject$   = "test Password Reset Request"
+  sendto$    = user_login(email)
+  bcc_emails$ = bcc_emails$
+  send_email
+  
+  data1$ = 'Request from IP ' + client_ip$
+  write_user_audit with audit_type 'pw_recovery_request'
+  
+  
+  output_webpage with webpage 'login'
+  
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e t u p _ u s e r _ i n f o r m a t i o n 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Setup user specific information given a user record
+!
+! Expected on entry:
+!    user_login()  is current
+!
+! Locals used:
+!
+! Results on exit:
+!>	user_gid$           = user's gid 
+!>	login_name$           = user's login_name 
+!>	users_menu_name$    = user's menu 
+!>	user_privs$         = user's privs 
+!>	users_name$         = user's name 
+!>	is_sysman?          = true if user is a system manager 
+!>  player()  is current
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine setup_user_information
+  
+  user_gid$           = user_login(user_gid)
+  login_name$         = user_login(login_name)
+  users_menu_name$    = user_login(menu_name)
+  user_email_address$ = user_login(email)
+  user_privs$         = user_login(user_privs)
+  nickname$           = user_login(nickname)
+  firstname$          = user_login(firstname)
+  
+  is_sysman?  = false
+  is_manager? = false
+  
+  if match(user_privs$, "SYSMAN")  > 0 then 
+    is_sysman?  = true
+    is_manager? = true
+  end if
+  
+  if match(user_privs$, "MANAGER") > 0 then is_manager? = true
+
+  utc_offset_secs = (user_login(utc_offset) - az_utc_offset)*60*60
+  
+  user_fulltime$ = fulltime$(seconds('') - utc_offset_secs)
+ 
+  user_login(last_interaction_datetime) = fulltime$
+  
+end routine
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ r e g i s t e r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    register a new user
+!
+! Expected on entry:
+!    symbol>>email            = their email address
+!    symbol>>email_confirm    = their email confirmed
+!    symbol>>password         = their password
+!    symbol>>confirm_password = their password confirmed
+!    symbol>>firstname        = their first name
+!    symbol>>lastname         = their last name
+!    symbol>>next_page$       = the next page to process on successful registration
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    We register them or gripe because they are already registered
+!    and also other validations of course
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_register
+  
+  min_password_len = 8
+  min_nickname_len = 5
+  
+  email$            = getsymbol$('email')
+  confirm_email$    = getsymbol$('confirm_email')
+  password$         = getsymbol$('password')
+  confirm_password$ = getsymbol$('confirm_password')
+  firstname$        = getsymbol$('firstname')
+  nickname$         = getsymbol$('nickname')
+
+  // Since these will be output, get rid of any characters that a bad person might try
+  firstname$ = change$(firstname$, invalid_name_characters$, '')
+  nickname$  = change$(nickname$,  invalid_name_characters$, '')
+  email$     = change$(email$,     invalid_name_characters$, '')
+  
+  // now validate everything
+  
+  if email$ <> confirm_email$ then
+    error$ = 'Email addresses must match'
+    print #log_ch: '!! register error for '; email$;'>> '; error$
+    output_webpage with webpage 'api_register'
+    exit routine
+  end if
+  
+  if pos(email$, '@') = 0 or pos(email$, '.') = 0 then
+    error$ = 'Invalid email address: ' + email$
+    print #log_ch: '!! register error for '; email$;'>> '; error$
+    output_webpage with webpage 'api_register'
+    exit routine
+  end if
+                 
+  if password$ <> confirm_password$ then
+    error$ = 'Passwords must match'
+    print #log_ch: '!! register error for '; email$;'>> '; error$
+    output_webpage with webpage 'api_register'
+    exit routine
+  end if
+  
+  if len(password$) < min_password_len then
+    error$ = 'Password must be at least ' + str$(min_password_len) + ' characters long'
+    print #log_ch: '!! register error for '; email$;'>> '; error$
+    output_webpage with webpage 'api_register'
+    exit routine
+  end if
+  
+  
+//  if firstname$ = '' or lastname$ = '' or nickname$ = '' then
+//    error$ = 'Your first name, last name, and nickname are all required.'
+//    output_webpage with webpage 'api_register'
+//    exit routine
+//  end if
+  
+  if len(nickname$) < min_nickname_len then
+    error$ = 'Nicknames must be at least ' + str$(min_nickname_len) + ' characters long'
+    print #log_ch: '!! register error for '; email$;'>> '; error$
+    output_webpage with webpage 'api_register'
+    exit routine
+  end if
+  
+  //print #log_ch: '<';nickname$;'>'
+  set table user_login, field nickname : key nickname$
+  if _extracted > 0  then
+    error$ = 'Nickname ' +  nickname$ + ' is already taken.  Please try a different nickname.'
+    print #log_ch: '!! register error for '; email$;'>> '; error$
+    output_webpage with webpage 'api_register'
+    exit routine
+  end if
+  
+  if next_page$ = '' then next_page$ = 'dashboard'
+  
+  existing_user? = true
+  login_name$ = email$
+  set table user_login, field login_name: key login_name$
+  if _extracted = 0 then
+    user_gid$ = date$ + uuid$
+    add table user_login
+      user_login(user_gid)   = user_gid$
+      user_login(login_name) = login_name$
+      user_login(firstname)  = firstname$
+      user_login(nickname)   = nickname$
+    end add
+    existing_user? = false
+  end if
+  
+  if existing_user? and (user_login(password) <> '') then
+    error$ = login_name$ + ' is already registered, please LOGIN'
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+    
+  user_login(email)       = email$
+  user_login(firstname)   = firstname$
+  user_login(nickname)    = nickname$
+  user_login(source_code) = source_code$
+  user_login(password)    = password$
+  user_login(status)      = 'ACTIVE'
+  
+  user_login(menu_name) = next_page$
+  
+  msg$ = 'Registration completed, please login.'
+  output_webpage with webpage 'login'
+  
+ // send_registered_email
+  write_user_audit with audit_type 'register'
+  
+end routine
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ g e n l i n k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Handle a generated link.  The link will tell us how it
+!    needs to be processed (by its TYPE field)
+!
+! Expected on entry:
+!    genlink_gid$  = the generated link's GID
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_genlink
+  
+  genlink_gid$ = getsymbol$('genlink_gid')
+  set table genlink, field genlink_gid: key genlink_gid$
+  if _extracted = 0 then
+    error$ = 'Unknown link: ' + genlink_gid$
+    write_error with error_text error$
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  if genlink(status) <> 'ACTIVE' then
+    error$ = 'This emailed link has already been used.'
+    write_error with error_text 'link expired for ' + genlink_gid$
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  if fulltime$ > genlink(expiration_datetime) then
+    error$ = 'Link has expired: ' + genlink_gid$
+    write_error with error_text error$
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  // Immediately show that it is no longer available
+  genlink(status) = 'CONSUMED'
+  
+  genlink_type$ = genlink(type)
+  select case genlink_type$
+  case 'pw_reset'
+    login_name$ = genlink(data1)
+    output_pw_reset_page
+    
+  case else
+    error$ = 'Unknown link type: ' + genlink_gid$
+    write_error with error_text error$
+    output_webpage with webpage 'login'
+    exit routine
+  end select
+    
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! o u t p u t _ p w _ r e s e t _ p a g e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Output the password reset page
+!
+! Expected on entry:
+!    login_name$  = a user's login name
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    We generate the password reset page so they can do their reset
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine output_pw_reset_page
+  
+  set table user_login, field login_name: key login_name$
+  if _extracted = 0 then
+    error$ = 'Unknown login using link: ' + genlink_gid$
+    write_error with error_text error$
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  user_gid$ = user_login(user_gid)
+  
+  output_webpage with webpage 'password_reset'
+  
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d o _ r e s e t _ o n e _ p a s s w o r d 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Given the user GID and their new passsword, reset their
+!    password and ask them to login again.
+!
+! Expected on entry:
+!    symbol>>user_gid$             = their user GID
+!    symbol>>new_password          = their new password
+!    symbol>>confirm_new_password  = confirmed password
+!    symbol>>genlink_gid           = generated link gid if any
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    We reset their password and show them the login page.
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine do_reset_one_password
+  
+  user_gid$             = getsymbol$('user_gid')
+  new_password$         = getsymbol$('new_password')
+  confirm_new_password$ = getsymbol$('confirm_new_password')
+  
+  genlink_gid$ = getsymbol$('genlink_gid')
+  if genlink_gid$ <> '' then
+    set table genlink, field genlink_gid: key genlink_gid$
+    if _extracted > 0 then delete from genlink
+    genlink_gid$ = ''
+  end if
+  
+  
+  set table user_login, field user_gid: key user_gid$
+  if _extracted = 0 then
+    error$ = 'Unknown user_gid: ' + user_gid$
+    write_error with error_text error$
+    output_webpage with webpage 'login'
+    exit routine
+  end if
+  
+  min_pw_len = 8
+  if len(new_password$) < min_pw_len then
+    error$ = 'Passwords must be at least ' + str$(min_pw_len) + ' characters long.  ' +
+             'Consider using a phrase or song lyrics that are easy to remember.'
+    output_webpage with webpage 'password_reset'
+    exit routine
+  end if
+  
+  if new_password$ <> confirm_new_password$ then
+    error$ = 'Passwords did not match.  Please try again.'
+    output_webpage with webpage 'password_reset'
+    exit routine
+  end if
+  
+  user_login(password) = new_password$
+  msg$ = 'Your password has been reset.  Please login with your new password.'
+  output_webpage with webpage 'login'
+  
+end routine
+
+
+
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e n d _ r e g i s t e r e d _ e m a i l 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Send then the email that they are now registered.
+!
+! Expected on entry:
+!    user_login()  is current
+!    bcc_emails$  = email addresses to BCC this email to
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine send_registered_email
+  
+  body_file$  = '@..\template\email\welcome_email.html'
+  subject$    = "test welcomes You"
+  sendto$     = user_login(email)
+  send_email
+  
+  write_user_audit with audit_type 'registered_email'
+  
+  user_login(welcome_sent_datetime) = fulltime$
+  
+
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! w r i t e _ u s e r _ a u d i t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Write a user_audit() record
+!
+! Expected on entry:
+!    user_login()  is current
+!    audit_type   = audit type name (download, login, etc)
+!    data1$       = additional data to audit (type specific)
+!    data2$       = additional data to audit (type specific)
+!    data3$       = additional data to audit (type specific)
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    An audit record is written
+!    data1$,data2$,data3$ are cleared
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine write_user_audit with audit_type
+  
+  add table user_audit
+    user_audit(user_gid) = user_login(user_gid)
+    user_audit(datetime) = fulltime$
+    user_audit(type)     = audit_type
+    user_audit(lastname) = user_login(lastname)
+    user_audit(data1)    = data1$
+    user_audit(data2)    = data2$
+    user_audit(data3)    = data3$
+  end add
+  
+  data1$ = ''
+  data2$ = ''
+  data3$ = ''
+  
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! w r i t e _ e r r o r 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Write an error to the error_audit() table and we write to the
+!    error log window.
+!
+! Expected on entry:
+!    error_text  = error text to write out
+!    error_audit()  is open
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    The error_audit() table is written to as is the log channel
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine write_error with error_text
+  
+  add table error_audit
+    error_audit(error_gid) = date$ + uuid$
+    error_audit(routine)   = ''
+    error_audit(datetime)  = fulltime$
+    error_audit(error_text)= error_text       
+  end add
+  
+  print #log_ch: fulltime$(seconds(fulltime$), 3);' ?? '; error_text
+  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! c h e c k _ n e w _ c o d e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Check to see if there is a new version of this program.
+!    If so, set our change_state to wating for new code
+!    Each cycle see if we have exclusive access to our code
+!    If we get exclusive access, then the new code is ready
+!    so restart ourselves.
+!
+!    This method keeps the current code running without
+!    interruption while the new code is loading.
+!
+! Expected on entry:
+!
+!    this_program$ = full filespec of this program
+!
+! Locals used:
+!    change_phase$ = current phase, eg. waiting_for_new_code
+!
+! Results on exit:
+!    change_phase$ reflects the new phase if any
+!    we restart this program if it has changed
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine check_new_code: private last_datetime$, change_phase$
+  
+  select case change_phase$
+  
+  case ''
+    z0$ = fileinfo$(this_program$, 'revision_date')
+    if last_datetime$ = '' then  // do nothing the first time we are here
+      last_datetime$ = z0$
+      exit routine
+    end if
+    if last_datetime$ = z0$ then exit routine  // nothing changed
+    change_phase$ = 'waiting_for_new_code'
+    
+  case 'waiting_for_new_code'
+    when exception in
+      open file temp_ch: name this_program$, lock
+      close #temp_ch
+      change_phase$ = 'restart'
+    use
+    end when
+    
+  case 'restart'
+    pass noreturn: this_program$
+  end select
+  
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! F I N D   S U B V A L U E
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!   Given a subsitution symbol, make the substitution if valid.
+!   If no substitution value, just return an error status.
+! 
+! Expected:
+!   subsymbol$  = symbol name (in lower case)
+!   subsymbol_arg$     = any argument  ( <<subsymbol subarg>> )
+!
+! Results:
+!   _error = TRUE  if an error
+!   subvalue$  = substituted value (if any)
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine find_subvalue
+  subvalue$ = ''
+
+  select case subsymbol$
+
+    case 'development'
+      if  is_production? then exit routine
+      subvalue$ = ' -- <font color="red" size="+1"><b>' +
+                  '* Development copy *</b></font>'
+    case 'error'
+       handle_error
+       
+    case 'message'
+      if msg$ <> '' then
+         subvalue$ = '<table border=2 cellspacing=0 cellpadding=5 bgcolor=lightblue width="400px"><tr><td>' + msg$ + '</td></tr></table><br>'
+      end if
+      msg$ = ''
+      
+    case 'ip' : subvalue$ = client_ip$
+    case 'login_name' : subvalue$ = login_name$
+      
+    case 'icon_shortcut'
+      subvalue$ = '<link rel="SHORTCUT ICON" href="/images/TEST.ico">'
+      
+    case 'handler_url'
+      subvalue$ = handler_url$
+      
+    case 'handler_base'
+      subvalue$ = handler_base$
+      
+    case 'user_gid'
+      subvalue$ = user_gid$
+      
+    case 'password_recover_link'
+      subvalue$ = '/scripts/spiis.dll/TEST/api_password_recovery.html'
+      
+    case 'pw_reset_email_link'
+      generate_pw_reset_link
+      subvalue$ = genlink$
+      
+    case 'pw_reset_email_link_data'
+      subvalue$ = genlink$
+      
+    case 'email'
+      subvalue$ = user_login(email)
+    
+    case 'reg_email'
+      subvalue$ = email$
+      
+    case 'reg_conf_email'
+      subvalue$ = confirm_email$
+      
+    case 'reg_nickname'
+      subvalue$ = nickname$
+
+
+    case 'friendly_time'
+      subvalue$ = fulltime$(0, 4)
+    
+      
+    case 'copyright'
+      subvalue$ = 'Copyright &copy; ' +  date$[1:4] + ' RDA'
+    case else
+      
+      print #log_ch:'?? Unknown substitution symbol: '; subsymbol$ 
+      subvalue$ = '[' +'[' + subsymbol$+']]'
+      
+  end select
+  
+end routine
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e n e r a t e _ p w _ r e s e t _ l i n k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Generate a password reset link.  This will be a consumable link
+!    in that it will only work once.. and it will expire after
+!    a set time.  In this case, one hour.
+!
+! Expected on entry:
+!    user_login()  is current
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    genlink$ = generated password link
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine generate_pw_reset_link
+  
+  gen_type$   = 'pw_reset'
+  expiration$ = fulltime$(seconds(fulltime$)+60*60) // when to expire
+  data1$      = user_login(login_name)
+  write_genlink with gentype 'pw_reset', expiration expiration$
+  
+  genlink$  = website_domain$ + '/scripts/spiis.dll/TEST/genlink.html?genlink_gid=' + genlink_gid$
+  
+end routine
+
+
+
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s h o w _ a c t i v e _ u s e r s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Show the active users
+!
+! Expected on entry:
+!    user_login() is open
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    We show the active users
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine show_active_users
+  
+  minutes_back$ = fulltime$(seconds('')-20*60)
+  extract table user_login
+    last_interaction$ = user_login(last_interaction_datetime)
+    include last_interaction$ >= minutes_back$
+    sort by user_login(nickname)
+  end extract
+  user_counter = _extracted
+  
+  make_friendly_datetime with datetime user_fulltime$, returning friendly friendly_datetime$
+
+  if user_counter = 0 then
+    print #cgi_ch: '<h1>There are no active users '; friendly_datetime$;'</h1>'
+    print #cgi_ch: '<a href="'; handler_base$;'active_users.html">'
+    print #cgi_ch: '<button class="link">Check active users again</button></a>'
+    exit routine
+  end if
+  
+  print #cgi_ch: '<h2>Active Users '; friendly_datetime$; ' :  '; user_counter;'</h2>'
+ 
+  print #cgi_ch: '<table border=1 cellpadding=10>'
+  print #cgi_ch: '<tr><th>Nickname</th><th>Last Active</th><th>Last SPID</th><th>Album</th><th>Product</th><th>Description</th></tr>'
+  
+  for each user_login
+    
+    spid$  = user_login(current_room)
+    
+    last_interaction$ = user_login(last_interaction_datetime)
+    make_friendly_datetime with datetime last_interaction$, returning friendly friendly_datetime$
+    
+    print #cgi_ch: '<td>'; user_login(nickname);'</td>'
+    print #cgi_ch: '<td>'; friendly_datetime$;'</td>' 
+  
+    print #cgi_ch: '</tr>'
+    
+  next user_login
+  print #cgi_ch: '</table>'
+  print #cgi_ch: '<br>'
+  
+  print #cgi_ch: '<a href="'; handler_base$;'active_users.html">'
+  print #cgi_ch: '<button class="link">Check active users again</button></a>'
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! w r i t e _ g e n l i n k 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Generate a link for users to follow
+!
+! Expected on entry:
+!    gentype      = generated link type (pw_reset, etc)
+!    expiration   = expiration fulltime
+!    data1$,data2$,data3$  = optional data
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    genlink_gid$  = the generated link id
+!    data1$,data2$,data3$  = are cleared
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine write_genlink with gentype, expiration
+  
+  genlink_gid$ = date$ + uuid$
+  add table genlink
+    genlink(genlink_gid)  = genlink_gid$
+    genlink(type)         = gentype
+    genlink(creation_datetime) = fulltime$
+    genlink(expiration_datetime) = expiration$
+    genlink(status) = 'ACTIVE'
+    genlink(data1)  = data1$
+    genlink(data2)  = data2$
+    genlink(data3)  = data3$
+  end add
+  
+  data1$ = ''
+  data2$ = ''
+  data3$ = ''
+  
+end routine
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! m a k e _ f r i e n d l y _ d a t e t i m e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Given a datetime stamp, return a friendly spoken one
+!    If the hh:mm is missing, then just give the date.
+!
+! Expected on entry:
+!    datetime = a fulltime of some datetime
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    friendly = the friendly version
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine make_friendly_datetime with datetime,  returning friendly
+  
+  friendly = ''
+  if datetime = '' then exit routine
+  
+  in_datetime$ = datetime
+  date_part$ = element$(datetime, 1, ' ')
+  time_part$ = element$(datetime, 2, ' ')
+
+  make_spoken_time with datetime in_datetime$, returning spoken spoken_time$
+  if spoken_time$ <> '' then spoken_time$ = ' at ' + spoken_time$
+  
+  date_part_days = days(date_part$)
+  elapsed_days = days(date$) - date_part_days
+  
+  select case elapsed_days
+  case 0
+    friendly = 'today' + spoken_time$
+  case 1
+    friendly = 'yesterday' + spoken_time$
+//  case 2,3,4,5
+//    friendly = str$(elapsed_days) + ' days ago' + spoken_time$
+  case -1
+    friendly = 'tomorrow at ' + spoken_time$
+  case -2,-3,-4,-5
+    friendly = 'in ' + str$(-elapsed_days) + ' days' + spoken_time$
+  case else
+    friendly = date$(date_part_days, 4) + spoken_time$
+  end select
+  
+  
+    
+  
+end routine
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! m a k e _ s p o k e n _ t i m e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Make the spoken time giben
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine make_spoken_time with datetime, returning spoken
+    // If they gave us the time, then figure it out
+    
+  date_part$ = element$(datetime, 1, ' ')
+  time_part$ = element$(datetime, 2, ' ')
+  
+  spoken_time$ = ''
+  if time_part$ <> '' then
+    hh$ = time_part$[1:2]
+    mm$ = time_part$[3:4]
+    ampm$ = ' a.m.'
+    z0 = val(hh$)
+    if z0 >= 12 then
+      z0 = z0 - 12
+      if z0 = 0 then z0 = 12
+      hh$ = str$(z0)
+      ampm$ = ' p.m.'
+    end if
+    spoken_time$ =  hh$ + ':' + mm$ + ampm$
+  end if
+  spoken = spoken_time$
+  
+end routine
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s e n d _ e m a i l 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!   We store the email data into the variable that contains the 
+!   email sending command line, and send the email. 
+!
+! Expected on entry:
+!   mailfrom$     = the value of the sender's email address
+!   friendlyname$ = the friendly name for this user
+!   sendto$       = the value of the recipient's email address
+!   subject$      = the subject line for the email
+!   body_file$    = the file containing the body of the email
+!   bcc_emails$   = list of people to get the BCC of this email
+!
+! Locals used:
+!
+!
+! Results on exit:
+!   email$ = stores the command line that contains the SMTP server name,
+!            'to' email address, 'from' email address and the subject 
+!            line of the email.              
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine send_email
+  email$ = 'mailto://'   + sendto$   + 
+           '?subject='   + subject$  +
+           '&mailfrom='  + mailfrom$ + 
+           '&friendlyname=' + friendlyname$ +
+           '&bcc='       + bcc_emails$ +
+           '&mime_type=' + 'html' +
+           '&username=ac21611' +
+           '&password=qrvw8psjf' +
+           '&server=mail.authsmtp.com' +
+           '&port=2525'
+            
+  open file mailto_ch: name email$, access output
+  
+  open file body_ch: name body_file$
+  
+  do
+    line input #body_ch, eof eof?: rec$
+    if eof? then exit do
+    do_substitutions
+    print #mailto_ch: rec$
+  loop
+  
+  close #body_ch
+  close #mailto_ch
+
+end routine
+
+
+
+
+
+
+
+end

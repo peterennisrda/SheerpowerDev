@@ -1,0 +1,18 @@
+
+FILE
+        NAME              "DAEMON_WORK.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              500
+        ALLOCATION        1000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "DATETIME"
+        SEG0_LENGTH       14
+        SEG0_POSITION     0
+        TYPE              string

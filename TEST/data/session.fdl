@@ -1,0 +1,18 @@
+
+FILE
+        NAME              "SESSION.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              200
+        ALLOCATION        1000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "SESSION_ID"
+        SEG0_LENGTH       30
+        SEG0_POSITION     0
+        TYPE              string

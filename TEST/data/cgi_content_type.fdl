@@ -1,0 +1,18 @@
+
+FILE
+        NAME              "CGI_CONTENT_TYPE.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              150
+        ALLOCATION        100
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "FILETYPE"
+        SEG0_LENGTH       20
+        SEG0_POSITION     0
+        TYPE              string

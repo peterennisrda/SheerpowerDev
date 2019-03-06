@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta http-equiv="PRAGMA" content="NO-CACHE">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[[project]] Login Page</title>
+    <script>
+    function do_onload ()
+      {
+      document.forms[0].user_name.focus()
+      }
+      
+    </script>
+  </head>
+  
+  
+  <body bgcolor="#FFFFFF" onload="javascript:do_onload();">
+
+<center>
+<table border=0  width=75%>
+<tr>
+<td>
+
+    <img src="/images/[[handler]]_logo.png">
+    <h2>Login [[development]]</h2>
+    <hr color="SteelBlue">
+    [[error]]
+    [[message]]
+
+    <FORM NAME="MAIN" METHOD="POST" ACTION="[[handler_url]]" AUTOCOMPLETE="off">
+      <input type=hidden name="process" value="login">
+
+      User Name: &nbsp;
+      <INPUT TYPE=text NAME="user_name" VALUE="" size="30">
+      <p>
+      Password: &nbsp;&nbsp;&nbsp;
+      <INPUT TYPE=password NAME=password VALUE="" size="30">
+      <p>
+      <input type="submit" name="login" value="Login"> 
+      <p>
+      <input type="submit" name="lost_password" value="Lost Password?">
+    </form>
+    <hr color="SteelBlue">
+
+    <b>
+      This is a RESTRICTED system. Unauthorized access is prohibited.&nbsp;&nbsp;
+      All user activity is subject to monitoring and audit controls.
+    </b>         
+    <hr color="SteelBlue">
+    [[copyright]]
+    <br>
+
+</td>
+</tr>
+</table>
+</center>
+    
+  </body>
+
+</html>

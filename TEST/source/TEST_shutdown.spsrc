@@ -1,0 +1,51 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: TEST_shutdown.spsrc
+! System : test
+! Author : Peter
+! Company: RDA
+! Date   : 05-Mar-2019
+! Purpose: test
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+is_production? = false
+ask system, logical 'TEST_production': value z0$
+if z0$ = 'YES' then  is_production? = true
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+print 'TEST Shutdown request processed on '; date$(days(date$), 4);'  at '; time$
+
+set icon '@..\source\TEST.ico'
+
+// Cause all related programs to shutdown
+set system, logical 'TEST_shutdown': value 'YES'
+
+// shutdown the spins webserver too...
+cmd$ = filespec$('sheerpower:sphandlers\spins_shutdown.spsrc')
+
+pass nowait : cmd$
+delay 5
+
+
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end

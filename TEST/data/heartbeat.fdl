@@ -1,0 +1,18 @@
+
+FILE
+        NAME              "HEARTBEAT.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              200
+        ALLOCATION        1000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "HEARTBEAT_KEY"
+        SEG0_LENGTH       80
+        SEG0_POSITION     0
+        TYPE              string

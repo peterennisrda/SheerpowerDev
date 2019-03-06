@@ -1,0 +1,34 @@
+
+FILE
+        NAME              "USER_LOGIN.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              2000
+        ALLOCATION        1000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "USER_GID"
+        SEG0_LENGTH       30
+        SEG0_POSITION     0
+        TYPE              string
+
+KEY   1
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "EMAIL"
+        SEG0_LENGTH       100
+        SEG0_POSITION     244
+        TYPE              string
+
+KEY   2
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "LASTNAME"
+        SEG0_LENGTH       20
+        SEG0_POSITION     544
+        TYPE              string
