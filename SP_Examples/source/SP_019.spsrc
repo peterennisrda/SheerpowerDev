@@ -37,16 +37,7 @@ else
     // Continue using the same data
   else
     print "Recreating file list and rebuilding database..."
-    
-    open table filemaster: name '@..\data\filemaster', access outin 
-  
-    extract table filemaster 
-      delete table filemaster
-    end extract
-    
-    print 'Number of records in FILEMASTER: '; _extracted
-     
-    close table filemaster 
+    delete_table_data
  
  HALT
   
@@ -63,6 +54,7 @@ add_counter = 0
 dup_counter = 0
 do
   line input #in_ch, eof eof?: rec$
+  print len(rec$)
   if eof? then exit do
   process_one_file
 loop
@@ -85,6 +77,37 @@ stop
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         R o u t i n e s
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d e l e t e _ t a b l e _ d a t a 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Delete records in FILEMASTER:
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    Record count if FILEMASTER: is 0
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine delete_table_data
+  open table filemaster: name '@..\data\filemaster', access outin 
+  
+  extract table filemaster 
+    delete table filemaster
+  end extract
+  
+  print 'Number of records in FILEMASTER: '; _extracted
+  close table filemaster 
+end routine
+
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ! p r o c e s s _ o n e _ f i l e 
@@ -110,8 +133,21 @@ stop
 routine process_one_file
   
   full_file$ = rec$
-  full_name$ = fileinfo$(full_file$, 'name,type')
+  when exception in
+    full_name$ = fileinfo$(full_file$, 'name,type')
+  use
+    print add_counter, "EXCEPTION..."
+    full_name$ = ''
+    exit routine
+  //retry
+  end when
+
   file_type$ = mid(fileinfo$(full_file$, 'type'), 2) // skip the dot
+  print file_type$, full_name$, full_file$
+//    full_file$ = ""
+//    full_name$ = ""
+//    file_type$ = ""
+
   if file_type$ = '' then exit routine // not a file, probably a folder
   
   sta++
