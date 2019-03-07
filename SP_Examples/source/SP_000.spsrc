@@ -29,14 +29,18 @@ print "Directory currently running from = " + fileinfo$('', 'ALL')
 
 do
   line input menu &  
-    '"001" = spdev001,' +
+    '"SP_001.spsrc" = 1,' +
+    '"SP_002.spsrc" = 2,' +
     '"DOS Prompt" = cmd,' +
     '"EXIT"': ans$
   if  _exit  then  exit do
   select case ans$ 
-  case 'SPDEV001'
+  case '1'
     print ">>case SP_001.spsrc"
     cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_001.spsrc' 
+    pass nowait, window: cmd$
+  case '2'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_002.spsrc' 
     pass nowait, window: cmd$
   case 'DOS' 
     pass nowait: '$$' 
