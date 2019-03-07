@@ -20,6 +20,9 @@ dirlocation$ = 'c:\windows'
 //tempfilelist$   = filespec$('c:\temp\temp_' + uuid$ + '.txt')
 tempfilelist$   = filespec$('c:\temp\tempfilelist.txt')
 
+test_flag = true
+load_recs = 10000
+
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -29,20 +32,24 @@ if findfile$(tempfilelist$) = '' then
 else  
   print tempfilelist$ + ' Exists!!!'
   
-  menu$ ='%nomouseover, NO, YES, %title "Recreate YES/NO ?               "'
+  menu$ ='%nomouseover, NO, YES, %title "Recreate YES/NO ?                "'
   line input menu menu$ : ans$
   
   print "Your answer is " + ans$
   if ans$ = "NO" then
     // Continue using the same data
   else
-    print "Recreating file list..."
+    print "Recreating file list and rebuilding database..."
+    delete_table_data
+ 
+ HALT
+  
     create_filelist
   end if
 end if
 
-
-open table filemaster: name '@..\data\filemaster', access outin
+close table filemaster  // make sure filemaster is closed
+open  table filemaster: name '@..\data\filemaster', access outin
 
 open file in_ch: name tempfilelist$
 
@@ -50,14 +57,24 @@ add_counter = 0
 dup_counter = 0
 do
   line input #in_ch, eof eof?: rec$
+  reclen = len(rec$)
+  if reclen >= max_reclen% then
+    max_reclen% = reclen
+    print 'max_reclen = ' + str$(max_reclen%)
+  end if
   if eof? then exit do
   process_one_file
+  if test_flag then
+    if add_counter > load_recs then
+      exit do
+    end if
+  end if
 loop
 close #in_ch
 
-print 'Records added: '; add_counter
-print 'Duplicates   : '; dup_counter
-
+print "Total Records Added: "; add_counter
+print "Duplicates   : "; dup_counter
+print "DONE !!!"
 
 
 HALT
@@ -72,6 +89,53 @@ stop
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         R o u t i n e s
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! d e l e t e _ t a b l e _ d a t a 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Delete records in FILEMASTER:
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    Record count if FILEMASTER: is 0
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine delete_table_data
+
+  print "delete_table_data"
+
+  ars_file$ = filespec$('@..\data\filemaster.ars')
+  fdl_file$ = filespec$('@..\data\filemaster.fdl')
+  
+  cmd$ = 'fdl2ars ' + fdl_file$ + ' ' + ars_file$
+  pass cmd$
+  
+//  open table filemaster: name '@..\data\filemaster', access outin 
+//  
+//  extract table filemaster 
+//    delete table filemaster
+//  end extract
+//  
+//  print 'Number of records in FILEMASTER: '; _extracted
+//  close table filemaster 
+
+  open table filemaster: name '@..\data\filemaster', access outin 
+  ask table filemaster: count the_count
+  close table filemaster
+  print 'Number of records in FILEMASTER: '; the_count
+  delay
+ 
+end routine
+
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ! p r o c e s s _ o n e _ f i l e 
@@ -97,8 +161,26 @@ stop
 routine process_one_file
   
   full_file$ = rec$
-  full_name$ = fileinfo$(full_file$, 'name,type')
-  file_type$ = mid(fileinfo$(full_file$, 'type'), 2) // skip the dot
+  when exception use fix_info
+    full_name$ = fileinfo$(full_file$, 'name,type')
+  end when
+  
+  handler fix_info
+    print "fix_info EXCEPTION... " + full_name$
+    continue
+  end handler
+
+  when exception use fix_type
+    file_type$ = mid(fileinfo$(full_file$, 'type'), 2) // skip the dot
+  end when
+  
+  handler fix_type
+    print "fix_type EXCEPTION... " + file_type$
+    continue
+  end handler  
+  
+  //print file_type$, full_name$, full_file$
+
   if file_type$ = '' then exit routine // not a file, probably a folder
   
   sta++
