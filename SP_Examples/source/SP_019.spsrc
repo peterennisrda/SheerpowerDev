@@ -54,15 +54,19 @@ add_counter = 0
 dup_counter = 0
 do
   line input #in_ch, eof eof?: rec$
-  print len(rec$)
+  reclen = len(rec$)
+  if reclen >= max_reclen% then
+    max_reclen% = reclen
+    print 'max_reclen = ' + str$(max_reclen%)
+  end if
   if eof? then exit do
   process_one_file
 loop
 close #in_ch
 
-print 'Records added: '; add_counter
-print 'Duplicates   : '; dup_counter
-
+print "Total Records Added: "; add_counter
+print "Duplicates   : "; dup_counter
+print "DONE !!!"
 
 
 HALT
@@ -98,6 +102,7 @@ stop
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 routine delete_table_data
+  print "delete_table_data"
   open table filemaster: name '@..\data\filemaster', access outin 
   
   extract table filemaster 
@@ -151,10 +156,7 @@ routine process_one_file
     continue
   end handler  
   
-  print file_type$, full_name$, full_file$
-//    full_file$ = ""
-//    full_name$ = ""
-//    file_type$ = ""
+  //print file_type$, full_name$, full_file$
 
   if file_type$ = '' then exit routine // not a file, probably a folder
   
