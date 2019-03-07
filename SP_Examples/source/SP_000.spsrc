@@ -28,8 +28,10 @@ print "Directory currently running from = " + fileinfo$('', 'ALL')
 //HALT
 
 do
-  line input menu '"001" = spdev001', &
-    "DOS Prompt" = cmd,"EXIT"': ans$
+  line input menu &  
+    '"001" = spdev001,' +
+    '"DOS Prompt" = cmd,' +
+    '"EXIT"': ans$
   if  _exit  then  exit do
   select case ans$ 
   case 'SPDEV001'
