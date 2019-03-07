@@ -45,8 +45,8 @@ else
   end if
 end if
 
-
-open table filemaster: name '@..\data\filemaster', access outin
+close table filemaster  // make sure filemaster is closed
+open  table filemaster: name '@..\data\filemaster', access outin
 
 open file in_ch: name tempfilelist$
 
@@ -102,15 +102,30 @@ stop
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 routine delete_table_data
+
   print "delete_table_data"
+
+  ars_file$ = filespec$('@..\data\filemaster.ars')
+  fdl_file$ = filespec$('@..\data\filemaster.fdl')
+  
+  cmd$ = 'fdl2ars ' + fdl_file$ + ' ' + ars_file$
+  pass cmd$
+  
+//  open table filemaster: name '@..\data\filemaster', access outin 
+//  
+//  extract table filemaster 
+//    delete table filemaster
+//  end extract
+//  
+//  print 'Number of records in FILEMASTER: '; _extracted
+//  close table filemaster 
+
   open table filemaster: name '@..\data\filemaster', access outin 
-  
-  extract table filemaster 
-    delete table filemaster
-  end extract
-  
-  print 'Number of records in FILEMASTER: '; _extracted
-  close table filemaster 
+  ask table filemaster: count the_count
+  close table filemaster
+  print 'Number of records in FILEMASTER: '; the_count
+  delay
+ 
 end routine
 
 
