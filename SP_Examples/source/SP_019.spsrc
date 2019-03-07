@@ -20,6 +20,9 @@ dirlocation$ = 'c:\windows'
 //tempfilelist$   = filespec$('c:\temp\temp_' + uuid$ + '.txt')
 tempfilelist$   = filespec$('c:\temp\tempfilelist.txt')
 
+test_flag = true
+load_recs = 10000
+
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -61,6 +64,11 @@ do
   end if
   if eof? then exit do
   process_one_file
+  if test_flag then
+    if add_counter > load_recs then
+      exit do
+    end if
+  end if
 loop
 close #in_ch
 
