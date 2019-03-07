@@ -31,20 +31,20 @@ do
   line input menu &  
     '"SP_001.spsrc" = 1,' +
     '"SP_002.spsrc" = 2,' +
-    '"DOS Prompt" = cmd,' +
+    '"DOS Prompt" = 99,' +
     '"EXIT"': ans$
   if  _exit  then  exit do
   select case ans$ 
   case '1'
     print ">>case SP_001.spsrc"
     cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_001.spsrc' 
-    pass nowait, window: cmd$
   case '2'
     cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_002.spsrc' 
-    pass nowait, window: cmd$
-  case 'DOS' 
-    pass nowait: '$$' 
+  case '99' 
+    cmd$ = '$$'
+    //pass nowait: '$$' 
   end select
+    pass nowait, window: cmd$
 loop
 end
 
