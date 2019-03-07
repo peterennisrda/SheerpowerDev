@@ -16,6 +16,7 @@
 
 examplesfolder$ = "C:\RDAVSTS\SheerpowerDev\SP_Examples\source"
 sheerpower$     = "C:\Sheerpower\spdev.exe"
+examplestext$   = "This is some example text for the menu"
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         M a i n   L o g i c   A r e a
@@ -29,7 +30,7 @@ print "Directory currently running from = " + fileinfo$('', 'ALL')
 
 do
   line input menu &  
-    '"SP_001.spsrc" = 1,' +
+    '"SP_001.spsrc ' + examplestext$ + '" = 1,' +
     '"SP_002.spsrc" = 2,' +
     '"SP_003.spsrc" = 3,' +
     '"SP_004.spsrc" = 4,' +
@@ -109,7 +110,7 @@ stop
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 routine generate_menu_list
-  pass nowait: '$$'
+
 
 end routine 
 
