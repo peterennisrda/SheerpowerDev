@@ -1,0 +1,110 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_022.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : March 08, 2019
+! Purpose: Accessing multiple database tables, use HTML form with INPUT DIALOGBOX
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open structure pers : name '@..\data\personalinfo'
+open structure cc   : name '@..\data\cardinfo'
+open structure trans: name '@..\data\transaction_info'
+open structure vend : name '@..\data\merchantinfo'
+
+extract structure pers
+end extract
+
+for each pers
+  get_transactions
+  input dialogbox trans_form$: data$
+  if  _exit then exit for
+next pers
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e t _ t r a n s a c t i o n s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine get_transactions
+  trans_form$ = '<form>'
+  trans_form$ = '<sheerpower color="99CC99" title="Customer Transaction Reports">'
+  trans_form$ = trans_form$ + '<form><table width="100%" border=1 bgcolor="FFFFCC">'
+  trans_form$ = trans_form$ + '<tr><td colspan=5>'
+  trans_form$ = trans_form$ + '<b><font color=red>' + pers(first_name) + ' ' + pers(last_name) + '</font></b></td>'
+  trans_form$ = trans_form$ + '<tr><td>ID</td><td>CC #</td><td>Vendor</td>'
+  trans_form$ = trans_form$ + '<td>Amount</td><td>Credit Limit</td></tr>'
+  extract structure trans, field personal_id: key pers(personal_id)
+    set structure vend, field vendor_id: key trans(vendor_id)
+    get_details
+  end extract
+  trans_form$ = trans_form$ + '</table>'
+  trans_form$ = trans_form$ + '<input type=submit value="Next"></form>' 
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e t _ d e t a i l s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine get_details
+  cc_limit$ = '(unknown)'
+  set structure cc, field personal_id: key trans(personal_id)
+  if _extracted > 0 then cc_limit$ = cc(credit_limit)
+  trans_form$ = trans_form$ + '<tr><td>' + trans(personal_id) + '</td><td>'
+  trans_form$ = trans_form$ + trans(card_number) + '</td><td>' + vend(vendor_name)
+  trans_form$ = trans_form$ + '</td><td align=right>'
+  trans_form$ = trans_form$ + trans(trans_amount) 
+  trans_form$ = trans_form$ + '</td><td align=right>' + cc_limit$ + '</td></tr>'
+end routine
+
+
+
+
+end
