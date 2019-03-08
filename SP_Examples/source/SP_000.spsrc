@@ -47,8 +47,11 @@ do
     '"SP_015.spsrc" = 15,' +
     '"SP_016.spsrc" = 16,' +
     '"SP_017.spsrc" = 17,' +
-    '"SP_018.spsrc" = 17,' +
-    '"SP_019.spsrc" = 17,' +
+    '"SP_018.spsrc" = 18,' +
+    '"SP_019.spsrc" = 19,' +
+    '"SP_020.spsrc" = 20,' +
+    '"SP_021.spsrc" = 21,' +
+    '"SP_022.spsrc" = 22,' +
     '"DOS Prompt" = 99,' +
     '"EXIT"': ans$
   if  _exit  then  exit do
@@ -89,9 +92,15 @@ do
   case '17'
     cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_017.spsrc' 
   case '18'
-    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_017.spsrc'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_018.spsrc'
   case '19'
-    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_017.spsrc'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_019.spsrc'
+  case '20'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_020.spsrc'
+  case '21'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_021.spsrc'
+  case '22'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_022.spsrc'
 
   case '99' 
     cmd$ = '$$'

@@ -1,0 +1,75 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_020.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : March 08, 2019
+! Purpose: Accessing multiple database tables and printing data to screen
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Based on multi_table_screen_statement.spsrc Sheerpower sample
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open structure pers:  name '@..\data\personalinfo'
+open structure trans: name '@..\data\transaction_info'
+open structure vend:  name '@..\data\merchantinfo'
+
+extract structure pers
+  sort by pers(last_name)
+  sort by pers(first_name)
+end extract
+
+for each pers
+  show_transactions
+next pers
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! s h o w _ t r a n s a c t i o n s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine show_transactions
+  print '=== '; pers(first_name); ' '; pers(last_name);' ==='
+
+  extract structure trans, field personal_id: key pers(personal_id)
+    set structure vend, field vendor_id: key trans(vendor_id) // find vendor
+    print trans(personal_id); tab(8);  trans(card_number); tab(20);
+    print  vend(vendor_name); tab(60); trans(trans_amount)
+  end extract
+
+  print
+end routine
+
+
+end

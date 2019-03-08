@@ -1,0 +1,207 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_021.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : March 08, 2019
+! Purpose: Accessing data from multiple tables database with html output
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+! Based on multi_table_html_statement.spsrc Sheerpower sample
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+statement$ = 'statement.html'
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open file html_ch: name statement$, access output
+open table pers: name '@..\data\personalinfo'
+open table cc  : name '@..\data\cardinfo'
+open table trans: name '@..\data\transaction_info'
+open table vend: name '@..\data\merchantinfo'
+
+print_html_heading
+print_names
+print_end_html
+pass url: statement$
+close all 
+
+stop
+
+
+
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r i n t _ h t m l _ h e a d i n g 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Print header for html file
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine print_html_heading
+  print #html_ch: '<html>'
+  print #html_ch: '<head>'
+  print #html_ch: '<title>Customer Credit Statements</title>'
+  print #html_ch: '</head>'
+  print #html_ch: '<body bgcolor="ffffcc">'
+
+  print #html_ch: '<center><h2>Customer Credit Statements</h2></center>'
+  print #html_ch: '<p>'
+  print #html_ch: '<hr color="black">'
+  print #html_ch: '<p>'  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r i n t _ n a m e s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine print_names
+  extract structure pers
+  end extract
+  for each pers
+    print #html_ch: '<table border="1" width="100%">'
+    print #html_ch: '<tr><td colspan="5">'
+    print #html_ch: '<b>'; pers(last_name); ', '; pers(first_name); '</b></td>' 
+    print #html_ch: '</tr>'
+    print_table_headers
+    get_data
+  next pers
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r i n t _ t a b l e _ h e a d e r s 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine print_table_headers
+  print #html_ch: '<tr>'
+  print #html_ch: '<td width="20%"><b>Customer ID</b></td>'
+  print #html_ch: '<td width="20%"><b>Card Number</b></td>'
+  print #html_ch: '<td width="20%"><b>Vendor</b></td>'
+  print #html_ch: '<td width="20%"><b>Amount</b></td>'
+  print #html_ch: '<td width="20%"><b>Post Date</b></td>'
+  print #html_ch: '</tr>'
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e t _ d a t a 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine get_data
+  extract table trans, field personal_id: key pers(personal_id)
+  end extract
+  for each trans 
+    set table vend, field vendor_id: key trans(vendor_id)
+    if _extracted = 0 then
+      print 'Vendor id '; trans(vendor_id);' not found in VENDOR table'
+      iterate for
+    end if    
+    set table cc, field card_number: key trans(card_number)
+    if _extracted = 0 then
+      print 'Card number '; trans(card_number); '  not found in CC table'
+      iterate for
+    end if
+    print #html_ch: '<tr>'
+    print #html_ch: '<td>'; trans(personal_id); '</td>' 
+    print #html_ch: '<td>'; cc(card_number); '</td>'
+    print #html_ch: '<td>'; vend(vendor_name); '</td>' 
+    print #html_ch: '<td align=right>';  trans(trans_amount); '</td>'
+    print #html_ch: '<td>'; date$(days(trans(post_date)), 3); '</td>'
+    print #html_ch: '</tr>'
+  next trans
+  print #html_ch: '</table>'
+  print #html_ch: '<p>'  
+end routine
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r i n t _ e n d _ h t m l 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine print_end_html
+  print #html_ch: '</body>'
+  print #html_ch: '</html>' 
+  close #html_ch    
+end routine
+
+
+
+end
