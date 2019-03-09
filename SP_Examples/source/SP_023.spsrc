@@ -1,0 +1,64 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_023.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : March 08, 2019
+! Purpose: Routines for SP_Examples menu generator SP_000.spsrc
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+print "Directory currently running from = " + fileinfo$('', 'ALL')
+
+get_examples_text  with abc$ "ABC, 123, message...", returning uvw% myresult$
+print myresult$
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! g e t _ e x a m p l e s _ t e x t 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    
+!
+! Expected on entry:
+!    abc
+!
+! Locals used:
+!    xyz
+!
+! Results on exit:
+!    uvw
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine get_examples_text with abc$,  returning uvw$,  private xyz$
+  print "abc$ = " + abc$
+  print "uvw$ = " + uvw$
+  print "xyz$ = " + ""
+  uvw$ = "The return value"
+  print "uvw$ = " + uvw$
+  xyz$ = "End of the alphabet"
+  print "xyz$ = " + xyz$
+end routine
+
+
+end

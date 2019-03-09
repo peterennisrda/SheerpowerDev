@@ -1,0 +1,35 @@
+                TRANSACTION_INFO.fdl
+
+FILE
+        NAME              "TRANSACTION_INFO.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              56
+        ALLOCATION        10000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "CARD_NUMBER"
+        SEG0_LENGTH       10
+        SEG0_POSITION     5
+        TYPE              string
+
+KEY   1
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "PERSONAL_ID"
+        SEG0_LENGTH       5
+        SEG0_POSITION     0
+        TYPE              string
+
+KEY   2
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "VENDOR_ID"
+        SEG0_LENGTH       6
+        SEG0_POSITION     15
+        TYPE              string

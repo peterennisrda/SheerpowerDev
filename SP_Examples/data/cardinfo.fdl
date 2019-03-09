@@ -1,0 +1,27 @@
+                CARDINFO.fdl
+
+FILE
+        NAME              "CARDINFO.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              88
+        ALLOCATION        10000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "CARD_NUMBER"
+        SEG0_LENGTH       10
+        SEG0_POSITION     61
+        TYPE              string
+
+KEY   1
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "PERSONAL_ID"
+        SEG0_LENGTH       5
+        SEG0_POSITION     0
+        TYPE              string

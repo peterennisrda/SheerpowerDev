@@ -1,0 +1,27 @@
+                MERCHANTINFO.fdl
+
+FILE
+        NAME              "MERCHANTINFO.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              38
+        ALLOCATION        10000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "VENDOR_ID"
+        SEG0_LENGTH       6
+        SEG0_POSITION     0
+        TYPE              string
+
+KEY   1
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "VENDOR_NAME"
+        SEG0_LENGTH       25
+        SEG0_POSITION     6
+        TYPE              string

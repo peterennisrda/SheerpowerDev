@@ -1,0 +1,27 @@
+                PERSONALINFO.fdl
+
+FILE
+        NAME              "PERSONALINFO.ARS"
+        ORGANIZATION      INDEXED
+
+RECORD
+        SIZE              122
+        ALLOCATION        10000
+
+AREA 0
+
+KEY   0
+        CHANGES           YES
+        DUPLICATES        No
+        NAME              "PERSONAL_ID"
+        SEG0_LENGTH       5
+        SEG0_POSITION     0
+        TYPE              string
+
+KEY   1
+        CHANGES           YES
+        DUPLICATES        Yes
+        NAME              "LAST_NAME"
+        SEG0_LENGTH       15
+        SEG0_POSITION     17
+        TYPE              string
