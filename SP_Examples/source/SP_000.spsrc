@@ -13,8 +13,13 @@
 !         I n i t i a l i z a t i o n
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+here$ = FILESPEC$('@')
+print here$
+reporoot$ = left$(here$, matchword(here$,'sheerpowerdev')-1)
+print "reporoot$ = " + reporoot$
 
-examplesfolder$ = "C:\RDAVSTS\SheerpowerDev\SP_Examples\source"
+examplesfolder$ = reporoot$ + "SheerpowerDev\SP_Examples\source"
+print "examplesfolder$ = " + examplesfolder$
 sheerpower$     = "C:\Sheerpower\spdev.exe"
 examplestext$   = "This is some example text for the menu"
 
