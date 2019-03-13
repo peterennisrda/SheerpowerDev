@@ -36,6 +36,14 @@ print
 
 print "spdev on row " & str$(findrow(report->name$, 'spdev')) & " of csv file"
 print "Dropbox on row " & str$(findrow(report->name$, 'Dropbox')) & " of csv file"
+print
+
+print "Current record being accessed is:"
+print cluster report
+print
+
+print cluster report, list
+print
 
 stop
 
