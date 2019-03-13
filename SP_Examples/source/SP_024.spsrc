@@ -13,7 +13,7 @@
 !         I n i t i a l i z a t i o n
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-process_file$ = 'c:\temp\my process report.csv'
+process_file$ = 'C:\RDAVSTS\SheerpowerDev\SP_Examples\assets\My_Process_Report.csv'
 
 cluster report: id$,Name$,Path$,StartTime$,RunTime$,WS$,VM$,Company$
 
@@ -32,7 +32,10 @@ end collect
 for each report
   print report->id$, report->name$, report->company$
 next report
+print
 
+print "spdev on row " & str$(findrow(report->name$, 'spdev')) & " of csv file"
+print "Dropbox on row " & str$(findrow(report->name$, 'Dropbox')) & " of csv file"
 
 stop
 
