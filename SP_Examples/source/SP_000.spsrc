@@ -57,6 +57,8 @@ do
     '"SP_020.spsrc" = 20,' +
     '"SP_021.spsrc" = 21,' +
     '"SP_022.spsrc" = 22,' +
+    '"SP_023.spsrc" = 23,' +
+    '"SP_024.spsrc" = 24,' +
     '"DOS Prompt" = 99,' +
     '"EXIT"': ans$
   if  _exit  then  exit do
@@ -106,10 +108,14 @@ do
     cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_021.spsrc'
   case '22'
     cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_022.spsrc'
+  case '23'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_023.spsrc'
+  case '24'
+    cmd$ =  sheerpower$ + ' ' + examplesfolder$+'\SP_024.spsrc'
 
   case '99' 
     cmd$ = '$$'
-    //pass nowait: '$$' 
+
   end select
     pass nowait, window: cmd$
 loop
