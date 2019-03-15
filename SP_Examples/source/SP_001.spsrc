@@ -4,11 +4,10 @@
 ! Author : peterennisrda
 ! Company: RDA
 ! Date   : January 24, 2019
-! Purpose: Learning SheerPower
+! Purpose: Example to retrieve and ouput a registry setting
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-! Example to retrieve and ouput a registry setting
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 !         I n i t i a l i z a t i o n
