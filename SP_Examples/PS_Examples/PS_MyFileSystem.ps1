@@ -23,6 +23,6 @@ $outputfile = "C:\TEMP\My File System Report.csv"
 # Using Filter is 4x faster than Where-Object and 3x faster than where() !!!
 
 
-gci -Force $mydir -Recurse | select Mode,Name,FullName,Extension,Directory,Length,CreationTime | Format-Table
+Get-ChildItem -Force $mydir -Recurse | Select-Object Mode,Name,FullName,Extension,Directory,Length,CreationTime | Format-Table
 
 
