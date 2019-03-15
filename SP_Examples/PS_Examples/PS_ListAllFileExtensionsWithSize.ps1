@@ -13,10 +13,10 @@ $results = @()
 $count.keys | ForEach-Object {
     $result = "" | Select-Object extension, extensionLength, count, size
     $result.extension = $_
-    $result.extensionLength = $_.lengths
+    $result.extensionLength = $_.length
     $result.count = $count[$_]
     $result.size = $size[$_]
     $results += $result
 }
 $results | Sort-Object -Property extensionLength | Format-Table -auto
-$results | export-csv c:\temp\result.csv
+$results | Export-Csv c:\temp\result.csv
