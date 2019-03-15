@@ -13,7 +13,7 @@ $results = @()
 $count.keys | sort |% {
 $result = ""|select extension,extensionLength,count,size
 $result.extension = $_
-$result.extensionLength = "TBD"
+$result.extensionLength = $_.length
 $result.count = $count[$_]
 $result.size = $size[$_]
 $results += $result
