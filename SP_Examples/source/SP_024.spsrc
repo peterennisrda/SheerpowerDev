@@ -1,0 +1,57 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_024.spsrc
+! System : .
+! Author : Peter
+! Company: RDA
+! Date   : March 13, 2019
+! Purpose: Cluster app sample using windows process data
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+process_file$ = '@..\assets\My_Process_Report.csv'
+
+cluster report: id$,Name$,Path$,StartTime$,RunTime$,WS$,VM$,Company$
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+cluster input name process_file$, headers 1: report
+
+collect cluster report
+  exclude report->name$ = 'chrome'
+  sort by report->company$
+end collect
+
+for each report
+  print report->id$, report->name$, report->company$
+next report
+print
+
+print "spdev on row " & str$(findrow(report->name$, 'spdev')) & " of csv file"
+print "Dropbox on row " & str$(findrow(report->name$, 'Dropbox')) & " of csv file"
+print
+
+print "Current record being accessed is:"
+print cluster report
+print
+
+print cluster report, list
+print
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end
