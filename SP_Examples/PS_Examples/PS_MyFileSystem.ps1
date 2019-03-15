@@ -12,4 +12,4 @@ $mydir = "."
 # Ref: https://stackoverflow.com/questions/6635059/filter-the-output-of-a-command-as-if-it-was-text
 # (Get-Alias | Out-String) -split "`r`n" | Select-String Get-ChildItem
 
-gci $mydir -Recurse | select Mode,Name,FullName,Directory,Length,CreationTime | Format-Table
+gci -Force $mydir -Recurse | select Mode,Name,FullName,Directory,Length,CreationTime | Format-Table
