@@ -10,7 +10,7 @@ gci $dir -recurse |%{
 [int64]$size[$_.extension] += $_.length
 }
 $results = @()
-$count.keys | sort |% {
+$count.keys |% {
 $result = ""|select extension,extensionLength,count,size
 $result.extension = $_
 $result.extensionLength = $_.length
@@ -18,5 +18,5 @@ $result.count = $count[$_]
 $result.size = $size[$_]
 $results += $result
 }
-$results | ft -auto
+$results | sort -Property extensionLength | ft -auto
 $results | export-csv c:\temp\result.csv
