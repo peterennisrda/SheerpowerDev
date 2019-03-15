@@ -20,10 +20,9 @@ $outputfile = "C:\TEMP\My File System Report.csv"
 
 # NOTE: Generally, the closer you can get to limiting the number of objects returned to the pipeline, the faster you code will run
 # Ref: https://mcpmag.com/articles/2018/01/16/filtering-command-output-in-powershell.aspx
+# Using Filter is 4x faster than Where-Object and 3x faster than where() !!!
 
 
-#gci -Force $mydir -Recurse | select Mode,Name,FullName,Extension,Directory,Length,CreationTime | Format-Table
+gci -Force $mydir -Recurse | select Mode,Name,FullName,Extension,Directory,Length,CreationTime | Format-Table
 
-# Example to show files with extension > 12
-$mydir = "C:\Windows"
-gci -Force $mydir -Recurse | select Name,Extension | Format-Table
+
