@@ -9,9 +9,9 @@ $outputfile = "C:\TEMP\My Process Report.csv"
 
 # Ref: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/export-csv?view=powershell-6
 
-get-process | where {$_.company -notmatch 'microsoft' -AND $_.path} | Sort StartTime -Descending | Select ID,Name,Path,
-StartTime,@{Name="RunTime";Expression={(Get-Date) - $_.StartTime}},
-WS,VM,Company | Export-Csv -Path $outputfile -NoTypeInformation
+get-process | Where-Object {$_.company -notmatch 'microsoft' -AND $_.path} |
+    Sort-Object StartTime -Descending | Select-Object ID, Name, Path, StartTime, @{Name = "RunTime"; Expression = {(Get-Date) - $_.StartTime}}, WS, VM, Company |
+    Export-Csv -Path $outputfile -NoTypeInformation
 
 Write-Host "Result sent to '$outputfile'"
 Read-Host -Prompt "Press Enter to continue"
