@@ -9,13 +9,14 @@ $outputfilecsv = "C:\TEMP\The Format Table.csv"
 
 #$dir = "."
 #$dir = "C:\Windows"
-$dir = "C:\INSTALL"
+#$dir = "C:\INSTALL"
+$dir = "C:\SARA.github"
 
 if (Test-Path $dir) {
-    throw $dir + " exists."
+    #throw $dir + " exists."
 }
 else {
-    # The thing you really wanted to do.
+    # Exit if $dir does NOT exist
     throw $dir + " does NOT exist."
     Exit
 }
@@ -38,4 +39,6 @@ $count.keys | ForEach-Object {
 }
 $final_results | Sort-Object -Property extensionLength -Descending |
     Format-Table -AutoSize > $outputfiletxt
-$final_results | Sort-Object -Property extensionLength -Descending | Export-Csv $outputfilecsv -NoTypeInformation
+
+$final_results | Sort-Object -Property extensionLength -Descending |
+    Export-Csv $outputfilecsv -NoTypeInformation
