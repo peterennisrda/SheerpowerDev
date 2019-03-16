@@ -4,7 +4,7 @@
 # Ref: http://tritoneco.com/2014/02/21/fix-for-powershell-script-not-digitally-signed/
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
-$outputfile = "C:\TEMP\The Format Table.txt"
+$outputfiletxt = "C:\TEMP\The Format Table.txt"
 $outputfilecsv = "C:\TEMP\The Format Table.csv"
 
 #$dir = "."
@@ -27,5 +27,5 @@ $count.keys | ForEach-Object {
     $final_results += $result
 }
 $final_results | Sort-Object -Property extensionLength -Descending |
-    Format-Table -AutoSize > $outputfile
+    Format-Table -AutoSize > $outputfiletxt
 $final_results | Sort-Object -Property extensionLength -Descending | Export-Csv $outputfilecsv -NoTypeInformation
