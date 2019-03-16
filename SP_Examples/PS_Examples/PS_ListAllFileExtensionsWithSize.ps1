@@ -11,6 +11,16 @@ $outputfilecsv = "C:\TEMP\The Format Table.csv"
 #$dir = "C:\Windows"
 $dir = "C:\INSTALL"
 
+if (Test-Path $dir) {
+    throw $dir + " exists."
+}
+else {
+    # The thing you really wanted to do.
+    throw $dir + " does NOT exist."
+    Exit
+}
+
+
 $count = @{}
 $size = @{}
 Get-ChildItem $dir -recurse | ForEach-Object {
