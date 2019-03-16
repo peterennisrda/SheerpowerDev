@@ -5,7 +5,17 @@
 $outputfiletxt = "C:\TEMP\My File System Report.txt"
 $outputfilecsv = "C:\TEMP\My File System Report.csv"
 #$mydir = "C:\Windows"
-$mydir = "C:\INSTALL"
+#$mydir = "C:\INSTALL"
+$mydir = "C:\SARA.github"
+
+if (Test-Path $dir) {
+    #throw $dir + " exists."
+}
+else {
+    # Exit if $dir does NOT exist
+    throw $dir + " does NOT exist."
+    Exit
+}
 
 # Get-ChildItem          ' alias is gci
 # Get-Alias | More       ' show paged list of all aliases
