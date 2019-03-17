@@ -34,7 +34,12 @@ else {
 # Using Filter is 4x faster than Where-Object and 3x faster than where() !!!
 
 # ALL properties for Get-ChildItem
+# TEST 1
 # Attributes, BaseName, CreationTime, Directory, DirectoryName, Exists, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, PSStandardMembers, Root, Target, VersionInfo |
+# RESULTS: Latitude E6430 : My File System Report.txt -> 555,569 KB : My File System Report.csv -> 181,384 KB
+# TEST 2 - Do not extport VersionInfo
+# Attributes, BaseName, CreationTime, Directory, DirectoryName, Exists, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, PSStandardMembers, Root, Target |
+
 
 # NOTE: Cannot use Format-Table as the output will be truncated
 
