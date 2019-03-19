@@ -1,6 +1,6 @@
 # This script creates an Azure Virtual Machine running Windows Server 2016.
 # After running the script, you can access the virtual machine through a Remote Desktop connection.
-# This example works in PowerShell.
+# This example works in PowerShell using the Azure CLI.
 
 # Ref: https://docs.microsoft.com/en-us/azure/virtual-machines/scripts/virtual-machines-windows-cli-sample-create-vm-quick-create?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json
 
