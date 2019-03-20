@@ -11,3 +11,6 @@
 #Get-InstalledModule -Name Az -AllVersions | Select-Object Name,Version
 
 
+# Get a list of all Resource Groups as a table
+Get-AzResourceGroup | Format-Table
+
