@@ -724,7 +724,7 @@ routine generate_sevenzip_commands
   print #bck_ch : 'pushd '; backup_path$ // get to OUR top level
   
   print #bck_ch : seven_zip$; ' a -tzip -p'; zip_password$; ' '; &
-                sevenzipfile_name$; ' *.* -r'
+                sevenzipfile_name$; ' *.* -r'
 
   print #bck_ch: 
   print #bck_ch: 'rem ** Move to offsite folder as well **'
