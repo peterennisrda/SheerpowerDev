@@ -3,19 +3,23 @@
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $outputfiletxt = "C:\TEMP\My File System Report.txt"
+$outputfileperformancetxt = "C:\TEMP\My File System Report Performance.txt"
 $outputfilecsv = "C:\TEMP\My File System Report.csv"
-$mydir = "C:\Windows"
-#$mydir = "C:\INSTALL"
+$outputfileperformancecsv = "C:\TEMP\My File System Report Performance.csv"
+#$mydir = "C:\Windows"
+$mydir = "C:\INSTALL"
 #$mydir = "C:\SARA.github"
 
-if (Test-Path $dir) {
-    #throw $dir + " exists."
+if (Test-Path $mydir) {
+    #throw $mydir + " exists."
 }
 else {
-    # Exit if $dir does NOT exist
-    throw $dir + " does NOT exist."
+    # Exit if $mydir does NOT exist
+    throw $mydir + " does NOT exist."
     Exit
 }
+
+
 
 # Get-ChildItem          ' alias is gci
 # Get-Alias | More       ' show paged list of all aliases
@@ -42,16 +46,19 @@ else {
 
 
 # NOTE: Cannot use Format-Table as the output will be truncated
+# Performance:
+# Ref: https://4sysops.com/archives/measure-the-run-time-of-a-powershell-command-with-measure-command/
+# Ref: https://www.pluralsight.com/blog/tutorials/measure-powershell-scripts-speed
 
 
-Get-ChildItem -Force $mydir -Recurse |
-    Select-Object Attributes, BaseName, CreationTime, Directory, DirectoryName, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, VersionInfo |
-    Sort-Object -Property Length -Descending > $outputfiletxt
+Measure-Command -Expression {Get-ChildItem -Force $mydir -Recurse |
+        Select-Object Attributes, BaseName, CreationTime, Directory, DirectoryName, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, PSStandardMembers, Root, Target |
+        Sort-Object -Property Length -Descending > $outputfiletxt} > $outputfileperformancetxt
 
 #Write-Host "Result sent to '$outputfiletxt'"
 #Read-Host -Prompt "Press Enter to continue"
 
-Get-ChildItem -Force $mydir -Recurse |
-    Select-Object Attributes, BaseName, CreationTime, Directory, DirectoryName, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, VersionInfo |
-    Sort-Object -Property Length -Descending |
-    Export-Csv $outputfilecsv -NoTypeInformation
+Measure-Command -Expression {Get-ChildItem -Force $mydir -Recurse |
+        Select-Object Attributes, BaseName, CreationTime, Directory, DirectoryName, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, PSStandardMembers, Root, Target |
+        Sort-Object -Property Length -Descending |
+        Export-Csv $outputfilecsv -NoTypeInformation } $outputfileperformancecsv
