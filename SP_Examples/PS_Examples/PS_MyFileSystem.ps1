@@ -3,12 +3,13 @@
 # Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 $outputfiletxt = "C:\TEMP\My File System Report.txt"
-$outputfileperformancetxt = "C:\TEMP\My File System Report Performance.txt"
+$outputfileperformancetxt = "C:\TEMP\My File System Report TXT Performance.txt"
 $outputfilecsv = "C:\TEMP\My File System Report.csv"
-$outputfileperformancecsv = "C:\TEMP\My File System Report Performance.csv"
+$outputfileperformancecsv = "C:\TEMP\My File System Report CSV Performance.txt"
 #$mydir = "C:\Windows"
-$mydir = "C:\INSTALL"
+#$mydir = "C:\INSTALL"
 #$mydir = "C:\SARA.github"
+$mydir = "C:\AndroidStudio"
 
 if (Test-Path $mydir) {
     #throw $mydir + " exists."
@@ -61,4 +62,4 @@ Measure-Command -Expression {Get-ChildItem -Force $mydir -Recurse |
 Measure-Command -Expression {Get-ChildItem -Force $mydir -Recurse |
         Select-Object Attributes, BaseName, CreationTime, Directory, DirectoryName, Extension, FullName, IsReadOnly, LastAccessTime, Length, LinkType, Mode, Name, Parent, PSStandardMembers, Root, Target |
         Sort-Object -Property Length -Descending |
-        Export-Csv $outputfilecsv -NoTypeInformation } $outputfileperformancecsv
+        Export-Csv $outputfilecsv -NoTypeInformation } > $outputfileperformancecsv
