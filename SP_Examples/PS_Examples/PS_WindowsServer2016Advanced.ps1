@@ -2,13 +2,17 @@
 # After running the script, you can access the virtual machine through a Remote Desktop connection.
 # This example works in PowerShell 5.1+
 # Create a fully configured virtual machine with PowerShell
-
 # Ref: https://docs.microsoft.com/en-us/azure/virtual-machines/scripts/virtual-machines-windows-powershell-sample-create-vm
+
+
+# Run the following command first in the console to bypass not digitally signed error
+# Ref: http://tritoneco.com/2014/02/21/fix-for-powershell-script-not-digitally-signed/
+# Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
 
 # Variables for common values
 $resourceGroup = "myResourceGroup"
-$location = "westeurope"
+$location = "westus"
 $vmName = "myVM"
 
 # Create user object
