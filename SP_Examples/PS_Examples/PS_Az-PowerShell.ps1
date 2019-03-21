@@ -5,4 +5,5 @@
 # NOTE: Login form is in background (bug) Ref: https://github.com/Azure/azure-powershell/issues/8476
 #Connect-AzAccount 
 
-
+# Get a list of all subscription names in your account
+#Get-AzSubscription 
