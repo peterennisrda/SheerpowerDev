@@ -8,7 +8,7 @@
 #Connect-AzAccount 
 # Set the subscription
 #az account set --subscription "The-Subscription-Id"
-# Filter the JSON result for a paged list of alphabetically sorted location names 
+# Get a list of all Azure Locations and filter the JSON result for a paged list of alphabetically sorted location names 
 #(az account list-locations | ConvertFrom-Json) | Select-Object name | Sort-Object -Property name | more
 
 
@@ -33,5 +33,4 @@
 #Get-AzResourceGroup | Format-Table
 
 
-# Get a list of all Azure Locations as a table
-Get-AzureRmLocation | Format-Table
+
