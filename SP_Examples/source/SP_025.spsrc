@@ -1,0 +1,59 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_025.spsrc
+! System : .
+! Author : Dan Esbensen, Peter Ennis
+! Company: RDA
+! Date   : March 26, 2019
+! Purpose: Quickly go to the last lines in a Windows text log file
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+crlf$ = chr$(13)+chr$(10)
+
+log_file$ = filespec$('@..\assets\robocopy-sample-output-result.log')
+
+lines_back = 14
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+start_time = time(5)
+// Map the entire file so we can read it backwards
+contents$ = fileinfo$(log_file$, 'contents')
+
+scan_pos = -1
+
+for idx = 1 to lines_back
+  new_pos = pos(contents$, crlf$, scan_pos)
+  print new_pos, scan_pos
+  if new_pos = 0 then exit for
+  scan_pos = _integer - 2 // move position before the crlf
+next idx
+
+end_lines$ = mid(contents$, new_pos+len(crlf$)) // start after the last crlf
+
+print
+print 'Elapsed time: '; time(5) - start_time
+print '--- last '; lines_back;' lines ---'
+print end_lines$
+print 'DONE !!!'
+
+delay
+
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+end
