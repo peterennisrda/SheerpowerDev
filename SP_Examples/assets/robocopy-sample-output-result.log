@@ -1,0 +1,809 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Tuesday, March 19, 2018 6:58:22 PM
+   Source : \\SOURCEDATA\Administration\
+     Dest : \\DESTDATA\DATABAK\Administration\
+
+    Files : *.*
+	    
+  Options : *.* /FFT /NFL /S /E /DCOPY:DA /COPY:DAT /ETA /XO /R:1 /W:1 
+
+------------------------------------------------------------------------------
+
+	                   4	\\SOURCEDATA\Administration\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Executive_Support\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\StrengthFinder\
+	                   0	\\SOURCEDATA\Administration\#recycle\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\Business_Operations\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\BIZ_Support\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\Executive_Support\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\Facilities_Equipment_Services\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\Invoicing\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\COM_Events\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\StrengthFinder\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\Travel\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\Vendor_Contacts\
+	  New Dir         12	\\SOURCEDATA\Administration\#recycle\Strengths\
+	  New Dir          2	\\SOURCEDATA\Administration\#recycle\Strengths\Strengths Brown Bag Materials\
+	                   0	\\SOURCEDATA\Administration\#recycle\RES\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Employee_Benefits\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Exiting\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Promotion\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Staff Engagement Survey\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Staff_Productivity\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Training\
+	                   0	\\SOURCEDATA\Administration\#recycle\RES\Hiring\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Applicants\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Interviewer-Resources\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Interviewing\
+	                   0	\\SOURCEDATA\Administration\#recycle\RES\Hiring\Job-Descriptions\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Business Development Associate\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Business-Operations-Associate\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Content-Writer\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Controller\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Director of Biz Dev\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Director-of-Finance-Talent-Operations\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Director-of-Practice-and-Project-Management\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Director_Justice_Practice\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\EA\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\OD-Specialist\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\PA\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\PA-Quant\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\PA-Quant-MH\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Proj-Asst\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\RA\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Senior-PM\
+	                   3	\\SOURCEDATA\Administration\#recycle\RES\Hiring\Job-Descriptions\Senior-PA\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Senior-PA\Senior PA-CJ\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Hiring\Job-Descriptions\Senior-PA\Senior-BH\
+	  New Dir          0	\\SOURCEDATA\Administration\#recycle\RES\Hiring\Job-Descriptions\_Archive\
+	  New Dir          3	\\SOURCEDATA\Administration\#recycle\RES\Hiring\Job-Descriptions\_Archive\ACTIVE\
+	                   0	\\SOURCEDATA\Administration\#recycle\RES\Orientation\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Orientation\Introductory-Period-Reviews\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Orientation\Onboarding-Protocols\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Orientation\Planning\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Orientation\Trainings\
+	                   0	\\SOURCEDATA\Administration\#recycle\RES\Orientation\New-Hire-Forms-and-Materials\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\#recycle\RES\Orientation\New-Hire-Forms-and-Materials\Zenefits-New-Hire-Templates\
+	                   4	\\SOURCEDATA\Administration\#recycle\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\
+	                   9	\\SOURCEDATA\Administration\#recycle\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\First-Day-Packet\
+	                   7	\\SOURCEDATA\Administration\#recycle\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\PW Sheets\
+	                   0	\\SOURCEDATA\Administration\#recycle\Staff-Meetings\
+	                   3	\\SOURCEDATA\Administration\#recycle\Staff-Meetings\2018\
+	                   2	\\SOURCEDATA\Administration\#recycle\Staff-Meetings\2018\February\
+	                   2	\\SOURCEDATA\Administration\#recycle\Staff-Meetings\2018\January\
+	  New Dir         13	\\SOURCEDATA\Administration\#recycle\Staff-Meetings\2018\March\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Admin_Planning_Meetings\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Admin_Projects\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Admin_Projects\Fed_COBRA\
+	                   0	\\SOURCEDATA\Administration\Admin_Committee\Admin_Projects\RES_Compliance\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Admin_Projects\RES_Compliance\Compliance Checklist\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Admin_Projects\RES_Compliance\Compliance Checklist\Archive\
+	                   5	\\SOURCEDATA\Administration\Admin_Committee\Admin_Projects\Invoice_Process-Flow\
+	                  15	\\SOURCEDATA\Administration\Admin_Committee\Admin_Weekly_CheckIns\
+	                   0	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_August_14\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_July_3\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_June_6\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_May_2\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_November_6\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_October_3\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Admin_Committee\Staff_Monthly_Meeting\2014_September_9\
+	                   0	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_August\
+	                   6	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_December\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_December\From November Meeting\
+	                   5	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_July\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_June\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_June\_archive\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_May\
+	                  11	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_November\
+	                   5	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_October\
+	                  10	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2014\2014_September\
+	                   0	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015 December\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_April\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_August\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_February\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_February\From_January_2015_Meeting\
+	                   6	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_February\From_January_2015_Meeting\From_December_Meeting\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_January\
+	                   6	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_January\From_December_Meeting\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_July\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_June\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_March\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_March\From February 2015 Meeting\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_March\From February 2015 Meeting\From_January_2015_Meeting\
+	                   6	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_March\From February 2015 Meeting\From_January_2015_Meeting\From_December_Meeting\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_May\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_November\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_October\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2015\2015_September\
+	                   0	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2016\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2016\2016 February\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2016\2016 March\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\2016\2016_January\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\1-3-14\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\10-14-13\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\11-1-13\
+	                   5	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\2-7-14\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\4-4-14\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\7-30-13\
+	                   2	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\7-30-13\Agenda\
+	                   5	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\7-30-13\Med-P Withholding Forms\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\7-30-13\Notes\
+	                   7	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\7-30-13\Paychex Quote\
+	                   4	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\9-12-13\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Staff_Monthly_Meeting\_Archive\9-12-13\Agenda\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\PC_and_Office_Wishlist\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\PC_and_Office_Wishlist\OLD\
+	                   3	\\SOURCEDATA\Administration\Admin_Committee\PC_Weekly_Meeting\
+	                   1	\\SOURCEDATA\Administration\Admin_Committee\Strengths\
+	                   2	\\SOURCEDATA\Administration\Admin_Responsibilities\
+	                  29	\\SOURCEDATA\Administration\Admin_Responsibilities\OLD\
+	                   0	\\SOURCEDATA\Administration\Admin_Responsibilities\Operations Manual\
+	                   4	\\SOURCEDATA\Administration\Admin_Responsibilities\Operations Manual\Archive\
+	                   2	\\SOURCEDATA\Administration\Admin_Responsibilities\Operations Manual\Outline\
+	                   8	\\SOURCEDATA\Administration\Admin_Responsibilities\Operations Manual\Sections\
+	                   0	\\SOURCEDATA\Administration\Archive_Administration\
+	                   7	\\SOURCEDATA\Administration\Archive_Administration\Admin Planning Meeting - 062713\
+	                  19	\\SOURCEDATA\Administration\Biz Card Stuff\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2012-09\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2013-01\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2013-04\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2013-08\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2013-10\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2014-02\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\2014-07\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Biz Card Stuff\Old\
+	                   2	\\SOURCEDATA\Administration\Biz Card Stuff\20160211\
+	                   5	\\SOURCEDATA\Administration\Biz Card Stuff\Business_Cards_Graphic-Files\
+	                   1	\\SOURCEDATA\Administration\Biz Card Stuff\Business_Cards_Graphic-Files\A&M_Printing\
+	                  14	\\SOURCEDATA\Administration\Biz Card Stuff\Invoices\
+	                   0	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\
+	                   5	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2012-09\
+	                   5	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2013-01\
+	                   9	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2013-04\
+	                   3	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2013-04\Fixed Eva\
+	                   6	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2013-08\
+	                   8	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2013-10\
+	                   6	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2014-02\
+	                   5	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2014-07\
+	                   2	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2015-01\
+	                   3	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2015-05\
+	                   8	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\2015-08\
+	                   5	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\Old\
+	                   4	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\Old\V1\
+	                   3	\\SOURCEDATA\Administration\Biz Card Stuff\Previous orders\Old\V2\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\
+	                   0	\\SOURCEDATA\Administration\Business_Operations\Business_License\
+	                   3	\\SOURCEDATA\Administration\Business_Operations\Business_License\Berkeley\
+	                   8	\\SOURCEDATA\Administration\Business_Operations\Business_License\City\
+	                   2	\\SOURCEDATA\Administration\Business_Operations\Client_Contacts\
+	                   6	\\SOURCEDATA\Administration\Business_Operations\Finance\
+	                   0	\\SOURCEDATA\Administration\Business_Operations\Grants.Gov\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Insurance\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\Insurance\COI\
+	                  67	\\SOURCEDATA\Administration\Business_Operations\Insurance\COI\2017\
+	                  51	\\SOURCEDATA\Administration\Business_Operations\Insurance\COI\2017\originals\
+	                   8	\\SOURCEDATA\Administration\Business_Operations\Insurance\COI\2018\
+	                  50	\\SOURCEDATA\Administration\Business_Operations\Insurance\COI\2018\Split\
+	                   2	\\SOURCEDATA\Administration\Business_Operations\Insurance\Employment-Practice-Liability_2018\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Insurance\General_Auto_Liability\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\Insurance\Hazard Insurance\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Insurance\Policies\
+	                   5	\\SOURCEDATA\Administration\Business_Operations\Insurance\Professional_Liability\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\Insurance\Professional_Liability\2013-14\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Insurance\Professional_Liability\2014-15\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\Insurance\Property_Insurance\
+	                   3	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\
+	                   0	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\20180402_Audit\
+	                   0	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\Estimates\
+	                   2	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\Estimates\12-13\
+	                   2	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\Estimates\14-15\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\Estimates\15-16\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\Estimates\16-17\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Insurance\Workers_Comp\Estimates\17-18\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\COM_Incorporation_Papers\
+	                   0	\\SOURCEDATA\Administration\Business_Operations\Secretary_of_State_Good_Standing\
+	                   3	\\SOURCEDATA\Administration\Business_Operations\Secretary_of_State_Good_Standing\2012\
+	                   2	\\SOURCEDATA\Administration\Business_Operations\Secretary_of_State_Good_Standing\2015\
+	                   1	\\SOURCEDATA\Administration\Business_Operations\Secretary_of_State_Good_Standing\2018\
+	                   0	\\SOURCEDATA\Administration\Business_Operations\Travel\
+	                   4	\\SOURCEDATA\Administration\Business_Operations\Travel\Hertz\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Accountability Chart\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Admin Team\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Articles for Pat\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2014_Renewal\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2014_Renewal\Business_License\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2014_Renewal\City_Lease\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2014_Renewal\Tax_Returns\
+	                  10	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\City_Lease-expired 20140930\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\Tax Returns\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\Tax Returns\2013\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\Tax Returns\2014\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\Tax Returns\2015\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\Tax Returns\2015\SAM\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2016_Renewal\Tax Returns\From Last Renewal\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\2014\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\2015\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\2015\SAM\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\2016\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\From Last Renewal\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\2018_Renewal\Tax Returns\From Last Renewal\2013\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_SLEB_Application\F-1 Information\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_Transportation_Commission_VLSBE\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_Transportation_Commission_VLSBE\201507 SLBE Renewal\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_Transportation_Commission_VLSBE\201507 SLBE Renewal\Tax Forms\
+	                   8	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_Transportation_Commission_VLSBE\20170830 Renewal\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_Transportation_Commission_VLSBE\20170830 Renewal\Returns\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Alameda_Transportation_Commission_VLSBE\VSLBE Certification Supplemental B\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\SBE Application 2014\
+	                  13	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\2nd\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\1_Application_&_PFS\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\2_Personal_Tax_Returns\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\3_Financial_Statements\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\4_Proof_of_Investment\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\6_Business_Tax_Returns\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\7_Shareholder_and_Board_Meeting_Minutes\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\April 2012\9_Check_Register\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\DBE Appeal Letter - 032122012\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\DBE Appeal Letter - 032122012\Finals\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\Denial\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\Jun_2009_Submission_1\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\Jun_2009_Submission_2\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Certification\Oct_2010_Update\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Certificate-of-Status\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2011-13\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2013-15\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2017\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2017\Corporate meeting minutes\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2017\DE9C Q1-4 2016\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2017\Fed Tax Return 2013 - 15\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2018\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CA_Small_Business\2018\DE-9\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\3A_Articles\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\3B_ByLaws\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\B_Proof_of_Qualifying_Ownership\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\C_Resumes\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\D_Bank_Acct_Info\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2011\F_Taxes\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\01 Archived Records\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\02 Signed Notarized Application Form\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\03 Bank Account Information\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\04 Most Recent Federal Tax Returns\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\04 Most Recent Federal Tax Returns\2012 Tax Return\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\05 Minutes Change of Ownership (NA)\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\06 Bank Letter\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\07 Fed Tax Returns Previous 2 Years\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\07 Fed Tax Returns Previous 2 Years\2011 Tax Return\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\07 Fed Tax Returns Previous 2 Years\2012 Tax Return\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\08 Sharehoolder-Board Meeting Minutes\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\08 Sharehoolder-Board Meeting Minutes\Shareholder Meeting\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\09 Written Authorization to Preform Verifications\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\2011 Tax Return\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\2012 Tax Return\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Bank Acct Info\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Stock Certificates and Transfer leger\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\
+	                  17	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2010\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2011\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2011\2011 Bennett Taxes\
+	                  11	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2011\2011COMTaxes\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2011\2011RentalTaxes\
+	                  10	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2011\EZ Vouchers\
+	                   7	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\2012\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\Tax Stuff\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2013\Tax Stuff\Tax Stuff\2012\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2016 Renewal\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2016 Renewal\Old Docs\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2016 Renewal\Renewal Docs\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\2016 Renewal\Submitted Renewal Application\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\CHW\E_Initial_Investment\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\LA_CBE_WBE\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\LA_CBE_WBE\Additional Required Documents\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Long_Beach_SBE\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Long_Beach_SBE\2015_Renewal\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\Long_Beach_SBE\2018_Renewal\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2011\
+	                  14	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2013\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\
+	                  14	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\Contracts\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\Signed\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\Signed\SAM\
+	                   7	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\Tax Returns\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\Tax Returns\1pg\
+	                   8	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\City_SLBE\2016\Renewal Stuff\Uploaded\
+	                  11	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\SBA_8(a)\
+	                  10	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\SBA_8(a)\More Info\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Business_Certifications\SF_WBE_Application\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Committees\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\EOS\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\EOS\VTO\
+	                  10	\\SOURCEDATA\Administration\BIZ_Support\Events\
+	                  17	\\SOURCEDATA\Administration\BIZ_Support\Events\2015 COM Retreat\
+	                   7	\\SOURCEDATA\Administration\BIZ_Support\Events\2015 COM Retreat\EBCF Forms\
+	                   9	\\SOURCEDATA\Administration\BIZ_Support\Events\3.4.15 Happy Hour Pics\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Events\5.4.16 Happy Hour\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Events\Lunch\
+	                  10	\\SOURCEDATA\Administration\BIZ_Support\Events\Lunch\2016 Staff Lunches\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Events\COM BBQ\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Events\COM BBQ\2016\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Events\Staff Meeting Food\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Events\Volunteer Day\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Events\Volunteer Day\2016\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\E_signature\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Finance\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Form_700\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Form_700\2013-2014\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Form_700\2016\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Form_700\2017\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Form_700\2018\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Form_700\Conflict-of-Interest-Code\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Gallup\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Managers\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Managers\Manager Conversation 1\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Managers\Manager Conversation 2\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Managers\Manager Conversation 3\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\Preparation Tools\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\Team Conversation 1\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\Team Conversation 1\OLD\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\Team Conversation 2\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\Team Conversation 3\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Tools to Support Coaching Teams\Team Conversation 4\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Videos_mp4 Version\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Videos_mp4 Version\Learning Videos\
+	                  35	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Videos_mp4 Version\Theme Testimonial Videos\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Videos_Windows Version\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Videos_Windows Version\Learning Videos\
+	                  35	\\SOURCEDATA\Administration\BIZ_Support\Gallup\Tools To Coaching\Videos_Windows Version\Theme Testimonial Videos\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Holiday Planning\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Leadership Meetings\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Leadership Meetings\2016 Meetings\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Leadership Meetings\2016 Meetings\February Notes\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Leadership Meetings\2018 Meetings\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Memberships\
+	                  12	\\SOURCEDATA\Administration\BIZ_Support\Memos\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\MHA\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Photos\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Photos\2018\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\Planning_Council_Reimbursement\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Sr. Leadership Support\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Staff Meetings\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Staff Meetings\Presentations\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Staff Meetings\Templates\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Take a Break Strengthsfinder Brown Bag\
+	                  31	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\
+	                  30	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Desktop\
+	                  43	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\$RECYCLE.BIN\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\Custom Office Templates\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\FSA\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Data Sources\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Music\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Music\$RECYCLE.BIN\
+	                  15	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Pictures\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Pictures\$RECYCLE.BIN\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Videos\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\My Videos\$RECYCLE.BIN\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\NonProfits\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\Phone List\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\Space\
+	                   2	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Documents\Templates\
+	                 107	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\Downloads\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\TIMELINE\LACGS\
+	                  23	\\SOURCEDATA\Administration\BIZ_Support\Strengths\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Finance\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Strengths\How To Be a Great Boss\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Strengths\IT\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Strengths\LACCJCC\
+	                   4	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Office Management\
+	                   6	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Scoring Committee\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Strengths\staff retreat\
+	                  10	\\SOURCEDATA\Administration\BIZ_Support\Strengths\staff retreat\2015 COM Retreat\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Strengths\staff retreat\2015 COM Retreat\B.E.C\
+	                   1	\\SOURCEDATA\Administration\BIZ_Support\Strengths\staff retreat\2016 COM Retreat\
+	                  27	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Strength Finder\
+	                   3	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Strength Finder\Coaching Materials\
+	                  20	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Strength Finder\Doman Grid\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Strengths\Strength Finder\StrengthFinders Reports\
+	                   0	\\SOURCEDATA\Administration\BIZ_Support\Travel\
+	                   5	\\SOURCEDATA\Administration\BIZ_Support\Travel\Hertz\
+	  New Dir         13	\\SOURCEDATA\Administration\CliftonStrengths\
+	  New Dir          3	\\SOURCEDATA\Administration\Strengths\Coaching-Materials\
+	  New Dir          9	\\SOURCEDATA\Administration\Strengths\OLD\
+	  New Dir          9	\\SOURCEDATA\Administration\Strengths\Strengths Brown Bag Materials\
+	  New Dir          8	\\SOURCEDATA\Administration\Strengths\Team-Building-Materials\
+	  New Dir          6	\\SOURCEDATA\Administration\Strengths\Tools\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Facilities_Equipment_Services\Business_Cards\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Chromecast\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Conference_Call\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Conference_Call\Loop-Up\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Conference_Call\Loop-Up\Archive\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Data_Destruction\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Electricity\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Electricity\PG&E\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Email\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Email\Admin\
+	                   4	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Email\Admin\OLD\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Equipment_Loan_Agreement\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Equipment_Loan_Agreement\Xerox\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Important_Account_Logins\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Internet\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Internet\Comcast\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Internet\Comcast\Business_Class_Internet\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Internet\Comcast\High_Speed_Internet\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Internet\Megapath\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\PC_Facilities_Requests\
+	                  21	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Kitchen Committee\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Kitchen Committee\OLD\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Mailing\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Mailing\COM_Return_Address_Labels\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Call Box and Entry Info\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Coffee\
+	                   8	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Janitorial\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Janitorial\Eden\
+	                  19	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Layout_Proposal\
+	                   5	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\New Carpet Research\
+	                   7	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Office_Expansion\
+	                  19	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Office_Expansion\2016 Office Search\
+	                   4	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Office_Expansion\Key_Informant_Interviews\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Seating_Chart\
+	                   6	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Seating_Chart\OLD\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Staff_Roster\
+	                  29	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Staff_Roster\Contact_List\
+	                   5	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office\Staff_Roster\Extension_List\
+	                   4	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office_Supplies\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Office_Supplies\OLD\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Operations_Manual_Drafts\
+	                   4	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Operations_Manual_Drafts\Recruitment_Practice\
+	                   4	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Phones\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Phones\Account\
+	                  18	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Phones\Account\Bills\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Phones\Account\Complaints\
+	                   2	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Phones\OLD\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Printer_Copier_Fax\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Printer_Copier_Fax\Fax\
+	                   4	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Printer_Copier_Fax\Lanier\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Printer_Copier_Fax\Ricoh\
+	                   3	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Project_Insight\
+	                   7	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Safety\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Transportation\
+	                   0	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Transportation\Air_Travel\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Transportation\Air_Travel\SWABIZ\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Transportation\Car\
+	                   8	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Webinar Best Practices\
+	                   1	\\SOURCEDATA\Administration\Facilities_Equipment_Services\Zipcar\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Employee-Setup-Forms\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\First-Day-Email\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Mentor Docs Development\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Orientation-Evaluation-Survey-Data\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Orientation-Policies-Procedures-Packet\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Orientation-Protocol_Spreadsheat\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Orientation-Trainings\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\PI Documentation\
+	                  27	\\SOURCEDATA\Administration\RES\Orientation\Introductory-Period-Reviews\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\
+	                  34	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\
+	                  11	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\First-Day-Packet\
+	                   6	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\New Form Drafts 2015\
+	                  30	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\PW Sheets\
+	                  12	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\New-Hire-Forms\_Archive\
+	                  61	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\
+	                  46	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\OLD\
+	                  40	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\OLD\OLD VERSIONS\
+	                   8	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\OLD\OLD VERSIONS\ON HOLD\
+	                   7	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\OLD\OLD VERSIONS\Revised Policies & Procedures\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\OLD\COM_Personnel_Manual_March_2014\
+	                   4	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\Personnel_Manual\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Personnel-Policies\PPP\
+	                   6	\\SOURCEDATA\Administration\RES\Orientation\New-Hire-Forms-and-Materials\Zenefits-New-Hire-Templates\
+	                   3	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\
+	                  13	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\First-Day-Email\
+	                   4	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\First-Day-Email\OLD\
+	                   7	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Mentor-Docs-Development\
+	                   6	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Mentor-Docs-Development\OLD\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Orientation-Evaluation-Survey\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Orientation\Onboarding-Protocols\Orientation-Evaluation-Survey\Evaluation-Interviews\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Orientation-Evaluation-Survey\Evaluation-SurveyGizmo\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Orientation-Evaluation-Survey\Evaluation-SurveyGizmo\2013\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Orientation-Evaluation-Survey\Evaluation-SurveyGizmo\2014\
+	                   4	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Orientation-Evaluation-Survey\OLD\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\PI-Documentation\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\PI-Documentation\OLD\
+	                   9	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\
+	                   8	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\
+	                  29	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Archive\
+	                  16	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Forms\
+	                   6	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Forms\_Archive\
+	                  12	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Materials\
+	                  26	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Orientation Packet\
+	                   7	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Orientation Packet\Archive\
+	                  24	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Orientation Packet\Forms\
+	                  17	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Orientation Packet\Revamped Materials\
+	                   4	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Orientation Packet\Revamped Materials\Process Flows\
+	                  21	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Orientation Packet\Revamped Materials\_Archive\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Protocol-Spreadsheets\_Archive\Protocol\
+	                   9	\\SOURCEDATA\Administration\RES\Orientation\Onboarding-Protocols\Welcome-Email-Week-Prior-to-Start\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Planning\
+	                   4	\\SOURCEDATA\Administration\RES\Orientation\Trainings\
+	                   8	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Additional_Trainings\
+	                   3	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Additional_Trainings\OLD\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Business_Development\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Consulting_101\
+	                   7	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Data_Security_Staff_Training\
+	                  10	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Data_Security_Staff_Training\OLD\
+	                   3	\\SOURCEDATA\Administration\RES\Orientation\Trainings\File_Naming_and_Folder_Structures\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro to Roles and Expectations\
+	                   5	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Communication\
+	                  11	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Communication\OLD\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Effective_Meetings\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Formatting\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Learning Styles\
+	                   4	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Shared-Leadership\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Intro_to_Style Guide\
+	                   9	\\SOURCEDATA\Administration\RES\Orientation\Trainings\PC_Overview\
+	                  14	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Orientation_PPT\
+	                  11	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Orientation_PPT\OLD\
+	                  14	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Resourcing_Training\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Resourcing_Training\OLD\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Professional_Presence\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Project_Delivery\
+	                   2	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Project_Delivery\Archive\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Supervision at COM\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Team-Effectiveness\
+	                   6	\\SOURCEDATA\Administration\RES\Orientation\Trainings\The COM Way_Clients\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\Trainings\The COM Way_Projects\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Time_Management\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Time_Management\old\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Using Supervision Effectively\
+	                   1	\\SOURCEDATA\Administration\RES\Orientation\Trainings\Writing\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\_Archive\
+	                   0	\\SOURCEDATA\Administration\RES\Orientation\_Archive\Fingerprinting\
+	                   7	\\SOURCEDATA\Administration\RES\Orientation\_Archive\Onboarding_Forms\
+	                   3	\\SOURCEDATA\Administration\RES\Orientation\_Archive\Personnel_Manual_Drafts\
+	                  14	\\SOURCEDATA\Administration\RES\Orientation\_Archive\Personnel_Manual_Drafts\Archive\
+	                   6	\\SOURCEDATA\Administration\RES\Promotion\
+	                   1	\\SOURCEDATA\Administration\RES\Promotion\Archive\
+	                   2	\\SOURCEDATA\Administration\RES\Record Retention-Destruction\
+	                   4	\\SOURCEDATA\Administration\RES\Research\
+	                  11	\\SOURCEDATA\Administration\RES\Staff Engagement Survey\
+	                   6	\\SOURCEDATA\Administration\RES\Staff Engagement Survey\ARIVE\
+	                   7	\\SOURCEDATA\Administration\RES\Staff Engagement Survey\Survey Screen Shots\
+	                   0	\\SOURCEDATA\Administration\RES\Subcontractor\
+	                   1	\\SOURCEDATA\Administration\RES\Training\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Training\Cal Chamber Slides\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Training\OLD\
+	                   4	\\SOURCEDATA\Administration\RES\Training\Cultural Competence\
+	                   4	\\SOURCEDATA\Administration\RES\Training\Training\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\RES\Training\Training\CalChamber-Setup-Files_2018\
+	                   3	\\SOURCEDATA\Administration\RES\Training\Harassment Training\2018\
+	                   5	\\SOURCEDATA\Administration\RES\Training\Harassment Training\2018\Employee-Certificates\
+	                   7	\\SOURCEDATA\Administration\RES\Training\Harassment Training\2018\Supervisors-Certificates\
+	                  33	\\SOURCEDATA\Administration\RES\Training\Harassment Training\Cal Chamber Harassment Slides\
+	                   1	\\SOURCEDATA\Administration\RES\Training\Harassment Training\OLD\
+	                   4	\\SOURCEDATA\Administration\RES\Training\Harassment Training\Worker Classification Presentation\
+	                   6	\\SOURCEDATA\Administration\RES\Vacation_Tracking\
+	                 151	\\SOURCEDATA\Administration\RES\Vacation_Tracking\Archive_Vacation_Tracking\
+	                  38	\\SOURCEDATA\Administration\RES\Vacation_Tracking\Archive_Vacation_Tracking\_Vacation Request Logs Archive\
+	                  35	\\SOURCEDATA\Administration\RES\_Archive\
+	                  17	\\SOURCEDATA\Administration\Invoicing\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-01-JAN\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-02-FEB\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-03-MAR\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-04-APR\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-05-MAY\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-06-JUNE\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-07-JULY\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-08-AUG\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-09-SEP\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-10-OCT\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-11-NOV\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2016-12-DEC\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-01-JAN\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-02-FEB\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-03-MAR\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-04-APR\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-05-MAY\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-06-JUNE\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-07-JULY\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-08-AUG\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-09-SEPT\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-10-OCT\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-11-NOV\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2017-12-DEC\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Invoicing\2018-02-JAN\
+	                   0	\\SOURCEDATA\Administration\Invoicing\2015-ARIVE\
+	                  37	\\SOURCEDATA\Administration\Invoicing\2015-ARIVE\DEC2015\
+	                  26	\\SOURCEDATA\Administration\Invoicing\2015-ARIVE\NOV2015\
+	                  22	\\SOURCEDATA\Administration\Invoicing\2015-ARIVE\OCT2015\
+	                   1	\\SOURCEDATA\Administration\Invoicing\2015-ARIVE\SEPT2015\
+	                   0	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\
+	                  29	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-01-JAN\
+	                  33	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-02-FEB\
+	                  36	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-03-MAR\
+	                  42	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-04-APR\
+	                  40	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-05-MAY\
+	                  40	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-06-JUNE\
+	                  43	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-07-JULY\
+	                  41	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-08-AUG\
+	                  42	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-09-SEP\
+	                  46	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-10-OCT\
+	                  39	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-11-NOV\
+	                  45	\\SOURCEDATA\Administration\Invoicing\2016-ARIVE\2016-12-DEC\
+	                   0	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\
+	                  46	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-01-JAN\
+	                  35	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-02-FEB\
+	                  44	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-03-MAR\
+	                  44	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-04-APR\
+	                  42	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-05-MAY\
+	                  48	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-06-JUNE\
+	                  50	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-07-JULY\
+	                  42	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-08-AUG\
+	                  51	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-09-SEPT\
+	                  26	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-09-SEPT\2017-10-OCT\
+	                  46	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-10-OCT\
+	                  44	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-11-NOV\
+	                  53	\\SOURCEDATA\Administration\Invoicing\2017-ARIVE\2017-12-DEC\
+	                  45	\\SOURCEDATA\Administration\Invoicing\2018-01-JAN\
+	                  46	\\SOURCEDATA\Administration\Invoicing\2018-02-FEB\
+	                  42	\\SOURCEDATA\Administration\Invoicing\2018-03-MAR\
+	                  42	\\SOURCEDATA\Administration\Invoicing\2018-04-APRIL\
+	                  46	\\SOURCEDATA\Administration\Invoicing\2018-05-MAY\
+	                  48	\\SOURCEDATA\Administration\Invoicing\2018-06-JUNE\
+	                   4	\\SOURCEDATA\Administration\Invoicing\2018-06-JUNE\SCC-A_DPH\
+	                  36	\\SOURCEDATA\Administration\Invoicing\2018-07-JULY\
+	                  20	\\SOURCEDATA\Administration\Invoicing\2018-08-AUG\
+	                  23	\\SOURCEDATA\Administration\Invoicing\2018-09-SEPT\
+	                  56	\\SOURCEDATA\Administration\Invoicing\2018-10-OCT\
+	                  47	\\SOURCEDATA\Administration\Invoicing\2018-11-NOV\
+	                  46	\\SOURCEDATA\Administration\Invoicing\2018-12-DEC\
+	                  47	\\SOURCEDATA\Administration\Invoicing\2018-01-JAN\
+	                  36	\\SOURCEDATA\Administration\Invoicing\2018-02-FEB\
+	                   0	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\
+	                   5	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\AB86\
+	                   4	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\PCG_ALCOHCSA\
+	                   0	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\
+	                   0	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\Expense_Form\
+	                   4	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\Invoicing_Sheet\
+	                   1	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\Mileage_Form\
+	                   1	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\Payroll_Report\
+	                   4	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\Timesheet_Report\
+	                   2	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\_2013_March\
+	                   1	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\_2014_April\
+	                   2	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\_2014_February\
+	                   1	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Court_DD_Grant_Evaluation_(2014)\_2014_March\
+	                   2	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Probation\
+	                   8	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\Sheriffs_Implementation-Phase_2_(2013)\
+	                   7	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\County_RFP_Development_and_TA_(2014)\
+	                  14	\\SOURCEDATA\Administration\Invoicing\Invoices-to-be-placed\County_RFP_Development_and_TA_(2014)\Invoicing\
+	                   1	\\SOURCEDATA\Administration\Invoicing\Temp-Agreements\
+	                  33	\\SOURCEDATA\Administration\Invoicing\travel expenses\
+	                   0	\\SOURCEDATA\Administration\Invoicing\travel expenses\2016\
+	                   1	\\SOURCEDATA\Administration\Invoicing\travel expenses\2016\December\
+	                   0	\\SOURCEDATA\Administration\Invoicing\travel expenses\2018\
+	                   6	\\SOURCEDATA\Administration\Invoicing\travel expenses\2018\Feb\
+	                   6	\\SOURCEDATA\Administration\Invoicing\travel expenses\April\
+	                   4	\\SOURCEDATA\Administration\Invoicing\travel expenses\August\
+	                   2	\\SOURCEDATA\Administration\Invoicing\travel expenses\December\
+	                   5	\\SOURCEDATA\Administration\Invoicing\travel expenses\Jan-2018\
+	                   5	\\SOURCEDATA\Administration\Invoicing\travel expenses\July\
+	                  10	\\SOURCEDATA\Administration\Invoicing\travel expenses\June\
+	                   8	\\SOURCEDATA\Administration\Invoicing\travel expenses\March\
+	                   5	\\SOURCEDATA\Administration\Invoicing\travel expenses\May\
+	                   7	\\SOURCEDATA\Administration\Invoicing\travel expenses\november\
+	                   4	\\SOURCEDATA\Administration\Invoicing\travel expenses\october\
+	                   0	\\SOURCEDATA\Administration\Invoicing\travel expenses\September\
+	                   3	\\SOURCEDATA\Administration\Invoicing\Travel-Rates-Deliverables\
+	                   0	\\SOURCEDATA\Administration\Invoicing\Travel-Rates-Deliverables\Inactive Contracts\
+	                  12	\\SOURCEDATA\Administration\Invoicing\_2018 Folder Audit Reports\
+	                   0	\\SOURCEDATA\Administration\PC_Meetings\
+	                   0	\\SOURCEDATA\Administration\PC_Meetings\2014\
+	                   0	\\SOURCEDATA\Administration\PC_Meetings\2014\December\
+	                   1	\\SOURCEDATA\Administration\PC_Meetings\2014\November\
+	                   0	\\SOURCEDATA\Administration\PC_Meetings\2014\October\
+	                   3	\\SOURCEDATA\Administration\PC_Meetings\2014\September\
+	                  22	\\SOURCEDATA\Administration\PC_Meetings\2015\
+	                  28	\\SOURCEDATA\Administration\PC_Meetings\2016\
+	                   1	\\SOURCEDATA\Administration\PC_Meetings\2017\
+	                   0	\\SOURCEDATA\Administration\Leadership\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\Leadership\Agendas\
+	                   0	\\SOURCEDATA\Administration\Leadership\Executive_PD_Meeting\
+	                   2	\\SOURCEDATA\Administration\Leadership\Executive_PD_Meeting\2016\
+	                   0	\\SOURCEDATA\Administration\COM_Events\
+	                   1	\\SOURCEDATA\Administration\COM_Events\Paper\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Happy_Hour\
+	                   2	\\SOURCEDATA\Administration\COM_Events\Happy_Hour\Invitations\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\COM_Events\Holiday_Party\2012\
+	*EXTRA Dir        -1	\\DESTDATA\DATABAK\Administration\COM_Events\Holiday_Party\2013\
+	                   1	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\2012 Holiday Party\
+	                  11	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\2013 Holiday Party\
+	                  16	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\2013 Holiday Party\COM Holiday Party Pictures 2013\
+	                   6	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\2014 Holiday Party\
+	                   5	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\2014 Holiday Party\ARIVE\
+	                   6	\\SOURCEDATA\Administration\COM_Events\Holiday_Party\2015 Holiday Party\
+	                   5	\\SOURCEDATA\Administration\COM_Events\Lettered-Pennants\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Progressive-Party-2014\
+	                  94	\\SOURCEDATA\Administration\COM_Events\Progressive-Party-2014\Progressive Party 2014\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Retreat\
+	                   1	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\
+	                   3	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Activity Notes\
+	                   2	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Food\
+	                   3	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Planning\
+	                   2	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Retreat Evaluation\
+	                   6	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Retreat Homework\
+	                   3	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Retreat Materials\
+	                   2	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Retreat Materials\Quotes\
+	                   3	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Retreat Materials\Scale of Engagement\
+	                   9	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Retreat Materials\Word Clouds\
+	                   3	\\SOURCEDATA\Administration\COM_Events\Retreat\2014\Staff Engagement Survey Results\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Retreat\2015\
+	                  16	\\SOURCEDATA\Administration\COM_Events\Retreat\2015\Pictures\
+	                   1	\\SOURCEDATA\Administration\COM_Events\Retreat\2015\Post Retreat Items\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Retreat\2016\
+	                   9	\\SOURCEDATA\Administration\COM_Events\Retreat\2016\EBCF Rental Documents\
+	                   0	\\SOURCEDATA\Administration\COM_Events\Retreat\2017\
+	                  14	\\SOURCEDATA\Administration\COM_Events\Retreat\2017\Notes\
+	                   8	\\SOURCEDATA\Administration\COM_Events\Retreat\2018\
+	                   5	\\SOURCEDATA\Administration\COM_Events\Retreat\2018\old\
+	                  15	\\SOURCEDATA\Administration\COM_Events\Retreat\2018\Posters\
+	                   2	\\SOURCEDATA\Administration\COM_Events\Retreat\2018\Space-Rental\
+	                   1	\\SOURCEDATA\Administration\COM_Events\Potluck Signup\
+	                   1	\\SOURCEDATA\Administration\COM_Events\White Elephant\
+	                   3	\\SOURCEDATA\Administration\Staff-Meetings\
+	                   4	\\SOURCEDATA\Administration\Staff-Meetings\2018\
+	                   5	\\SOURCEDATA\Administration\Staff-Meetings\2018\February\
+	                  10	\\SOURCEDATA\Administration\Staff-Meetings\2018\January\
+	  New Dir          3	\\SOURCEDATA\Administration\Staff-Meetings\2018\March\
+	                  92	\\SOURCEDATA\Administration\Staff-Meetings\2018\Staff-Mtg_Ratings_2018_files\
+	                   0	\\SOURCEDATA\Administration\Travel\
+	                   0	\\SOURCEDATA\Administration\Travel\Travel 2018\
+	                   3	\\SOURCEDATA\Administration\Travel\Travel 2018\Hotel\
+	                   0	\\SOURCEDATA\Administration\Travel\Travel 2018\Lyft\
+	                   1	\\SOURCEDATA\Administration\Travel\Travel 2018\Lyft\December\
+	                   0	\\SOURCEDATA\Administration\Travel\Travel 2018\Lyft\Historical_Previous\
+	                   0	\\SOURCEDATA\Administration\Travel\Travel 2018\
+	                   0	\\SOURCEDATA\Administration\Travel\Travel 2018\Flights\
+	                   2	\\SOURCEDATA\Administration\Vendor_Contacts\
+	                   4	\\SOURCEDATA\Administration\Vendor_Contacts\OLD\
+	                   1	\\SOURCEDATA\Administration\Vendor_Contacts\Salesforce\
+	                   1	\\SOURCEDATA\Administration\Vendor_Contacts\Vendor_Account_Info\
+
+------------------------------------------------------------------------------
+
+               Total    Copied   Skipped  Mismatch    FAILED    Extras
+    Dirs :      2484        12         0         0         0       115
+   Files :     11986       135     11851         0         0       397
+   Bytes :   4.951 g   54.79 m   4.897 g         0         0   86.93 m
+   Times :   0:00:54   0:00:08                       0:00:00   0:00:45
+
+
+   Speed :             6544774 Bytes/sec.
+   Speed :             374.494 MegaBytes/min.
+   Ended : Tuesday, March 19, 2018 6:59:18 PM
+
