@@ -1,0 +1,176 @@
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! Program: SP_026.spsrc
+! System : .
+! Author : Peter Ennis
+! Company: RDA
+! Date   : March 26, 2019
+! Purpose: Scan log files and store summary results into a CSV file
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         I n i t i a l i z a t i o n
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+dim log_files$(0)
+
+log_spec$ = filespec$('\\some\location\BackupLogs\*.log')
+
+csv_file$ = '\\some\other\location\backup_log_summary.csv'
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         M a i n   L o g i c   A r e a
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+open file csv_ch: name csv_file$, access output
+
+// Make the CSV header
+
+print #csv_ch: 'Run_date,File_name,status,' +
+      'dirs_total,dirs_copied,dirs_skipped,dirs_mismatched,dirs_failed,dirs_extras,'       +
+      'files_total,files_copied,files_skipped,files_mismatched,files_failed,files_extras,' +
+      'bytes_total,bytes_copied,bytes_skipped,bytes_mismatched,bytes_failed,bytes_extras,' 
+
+   
+print fulltime$(0,3);' Start loading log files'
+
+print 'Gather the log files'
+
+processed = 0
+for idx = 1 to 9999999
+  file$ =findfile$(log_spec$, idx)
+  if file$ = '' then exit for
+  process_one_log_file
+  processed++
+next idx
+
+close #csv_ch
+
+print 'Log files processed: '; processed
+delay 5
+
+
+stop
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!         R o u t i n e s
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! p r o c e s s _ o n e _ l o g _ f i l e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Give a log file, process it into a CSV format
+!
+! Expected on entry:
+!    file$  = the patch and file name of the log file to process
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine process_one_log_file
+  
+  filename$ = fileinfo$(file$, 'name,type')
+
+  z0$ = element$(filename$, 2, '.')
+  run_date$ = left(z0$, 8) // yyyymmdd from the file name
+  
+  when exception in
+    open file in_ch: name file$
+  use
+  end when
+  if _error then
+    print '?? Cannot open '; file$;': '; systext$
+    exit routine
+  end if
+  
+  notes$ = ''
+  end_indicator$ = 'Total    Copied   Skipped  Mismatch    FAILED    Extras'
+  found_end? = false
+  do
+    line input #in_ch, eof eof?: rec$
+    if eof? then exit do
+    if pos(rec$, end_indicator$) > 0 then
+      found_end? = true
+      exit do
+    end if
+  loop
+  
+  if not found_end? then
+    close #in_ch
+    print #csv_ch: run_date$;',';filename$;',failure'
+    exit routine
+  end if
+    
+  
+
+  line input #in_ch, eof eof: rec$
+  if eof? then
+    print '?? Did not get DIRS line'
+    exit routine
+  end if
+  dirs$ = rec$
+                   
+  line input #in_ch, eof eof: rec$
+  if eof? then
+    print '?? Did not get FILES line'
+    exit routine
+  end if
+  files$ = rec$
+
+  line input #in_ch, eof eof: rec$
+  if eof? then
+    print '?? Did not get BYTES line'
+    exit routine
+  end if
+  bytes$ = rec$
+  
+  
+  close #in_ch
+  
+  dirs$  = trim$(edit$(dirs$, 16)) // get rid of all extra spaces
+  files$ = trim$(edit$(files$, 16)) // get rid of all extra spaces
+  bytes$ = trim$(edit$(bytes$, 16)) // get rid of all extra spaces
+  
+  dirs$  = replace$(dirs$,  ' m=MB, g=GB')
+  files$ = replace$(files$, ' m=MB, g=GB')
+  bytes$ = replace$(bytes$, ' m=MB, g=GB')
+  
+  print #csv_ch: run_date$;',';filename$;',success,';  // start the line
+
+  print #csv_ch: element$(dirs$, 3, ' ');','; element$(dirs$, 4,' ');','; element$(dirs$, 5, ' ');','; 
+  print #csv_ch: element$(dirs$, 6, ' ');','; element$(dirs$, 7,' ');','; element$(dirs$, 8, ' ');',';
+                   
+  print #csv_ch: element$(files$, 3, ' ');','; element$(files$, 4,' ');','; element$(files$, 5, ' ');','; 
+  print #csv_ch: element$(files$, 6, ' ');','; element$(files$, 7,' ');','; element$(files$, 8, ' ');',';
+
+  print #csv_ch: element$(bytes$, 3, ' ');','; element$(bytes$, 4,' ');','; element$(bytes$, 5, ' ');','; 
+  print #csv_ch: element$(bytes$, 6, ' ');','; element$(bytes$, 7,' ');','; element$(bytes$, 8, ' ');',';
+  
+  print #csv_ch // finish the line
+  
+//  Total    Copied   Skipped  Mismatch    FAILED    Extras
+//    Dirs :         9         0         0         0         0         0
+//   Files :       408         0       408         0         0         0
+//   Bytes :   28.62 m         0   28.62 m         0         0         0
+
+  
+  print 'Finished with '; filename$
+  
+  
+  
+end routine
+
+
+
+
+end
