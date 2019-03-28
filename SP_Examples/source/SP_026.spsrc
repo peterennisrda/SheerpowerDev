@@ -1,10 +1,11 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-! Program: SP_026.spsrc
+! Program: check-logs.spsrc
 ! System : .
-! Author : Peter Ennis
+! Author : Dan Esbensen, Peter Ennis
 ! Company: RDA
 ! Date   : March 26, 2019
 ! Purpose: Scan log files and store summary results into a CSV file
+!          then report on failure and success
 !
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -15,7 +16,9 @@
 
 dim log_files$(0)
 
-log_spec$ = filespec$('\\some\location\BackupLogs\*.log')
+datestring$ = '20190325'
+
+log_spec$ = filespec$('\\some\location\BackupLogs\*'+datestring$+'*.log')
 
 csv_file$ = '\\some\other\location\backup_log_summary.csv'
 
@@ -48,7 +51,41 @@ next idx
 
 close #csv_ch
 
-print 'Log files processed: '; processed
+
+// Get count of failure and success
+
+processed_failure = 0
+processed_success = 0
+
+when exception in
+  open file in_ch: name csv_file$
+use
+end when
+// print 'END WHEN'
+if _error then
+  print '?? Cannot open '; csv_file$;': '; systext$
+  stop
+end if
+// print '_error'
+
+do
+  line input #in_ch, eof eof?: rec$
+  if eof? then exit do
+  if pos(rec$, 'failure') > 0 then
+    processed_failure++
+    print 'FAILURE IN: ';rec$
+  end if
+  if pos(rec$, 'success') > 0 then
+    processed_success++
+  end if
+loop
+
+
+print 'Log files processed : '; str$(processed)
+print 'Log file date       : '; datestring$
+print 'Results in          : '; csv_file$
+print 'Failure Count       : '; str$(processed_failure)
+print 'Success Count       : '; str$(processed_success)
 delay 5
 
 
