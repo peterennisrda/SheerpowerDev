@@ -49,8 +49,9 @@ print #csv_ch: 'Run_date,File_name,status,' +
       'bytes_total,bytes_copied,bytes_skipped,bytes_mismatched,bytes_failed,bytes_extras,' 
 
    
+start_time = time(5)
+print   
 print fulltime$(0,3);' Start loading log files'
-
 print 'Gather the log files'
 
 processed = 0
@@ -98,6 +99,9 @@ print 'Log file date       : '; latestfiledate$
 print 'Results in          : '; csv_file$
 print 'Failure Count       : '; str$(processed_failure)
 print 'Success Count       : '; str$(processed_success)
+print fulltime$(0,3);' Finished processing log files'
+print 'processing time     : '; str$(time(5) - start_time)
+
 delay 5
 
 
