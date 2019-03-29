@@ -14,11 +14,23 @@
 !         I n i t i a l i z a t i o n
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 dim log_files$(0)
 
-datestring$ = '20190325'
+sourcedir$      = '\\some\location\BackupLogs\'
+yearstring$     = '2019'
+latestfiledate$ = ''
 
-log_spec$ = filespec$('\\some\location\BackupLogs\*'+datestring$+'*.log')
+// Only search file names of the current year
+filename$ = filespec$(sourcedir$+'*'+yearstring$+'*.log')
+find_most_recent_file
+latestfiledate$ = left$(latest_revision$, 8)
+print 'latestfiledate$ = ';latestfiledate$
+
+// Set the file name spec to the latest date and check the logs
+filename$ = filespec$(sourcedir$+'*'+latestfiledate$+'*.log')
+
+//HALT
 
 csv_file$ = '\\some\other\location\backup_log_summary.csv'
 
@@ -37,13 +49,14 @@ print #csv_ch: 'Run_date,File_name,status,' +
       'bytes_total,bytes_copied,bytes_skipped,bytes_mismatched,bytes_failed,bytes_extras,' 
 
    
+start_time = time(5)
+print   
 print fulltime$(0,3);' Start loading log files'
-
 print 'Gather the log files'
 
 processed = 0
 for idx = 1 to 9999999
-  file$ =findfile$(log_spec$, idx)
+  file$ =findfile$(filename$, idx)
   if file$ = '' then exit for
   process_one_log_file
   processed++
@@ -82,10 +95,13 @@ loop
 
 
 print 'Log files processed : '; str$(processed)
-print 'Log file date       : '; datestring$
+print 'Log file date       : '; latestfiledate$
 print 'Results in          : '; csv_file$
 print 'Failure Count       : '; str$(processed_failure)
 print 'Success Count       : '; str$(processed_success)
+print fulltime$(0,3);' Finished processing log files'
+print 'processing time     : '; str$(time(5) - start_time)
+
 delay 5
 
 
@@ -200,13 +216,54 @@ routine process_one_log_file
 //   Files :       408         0       408         0         0         0
 //   Bytes :   28.62 m         0   28.62 m         0         0         0
 
-  
-  print 'Finished with '; filename$
+
+//  print 'Finished with '; filename$
   
   
   
 end routine
 
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+! f i n d _ m o s t _ r e c e n t _ f i l e 
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+!
+! Brief description:
+!    Find the most recent file given a wildcard filename
+!
+! Expected on entry:
+!    filename$ = wild-card filename
+!
+! Locals used:
+!    
+!
+! Results on exit:
+!    filename$ = the most recent filename
+!
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+routine find_most_recent_file
+
+  location$ = ''
+  lastest_revision$ = ''
+  file_count = 0
+  for file_idx = 1 to 9999
+
+    file$ = findfile$(filename$, file_idx)
+    // print '>file$ = ';file$
+    if file$ = '' then exit for
+    file_count++
+    revision$ = fileinfo$(file$, 'revision_date')
+    if revision$ > lastest_revision$ then
+      latest_revision$ = revision$
+      location$ = file$      
+     end if
+
+   next file_idx
+
+   filename$ = location$
+   print 'file_count = ';file_count
+   print 'latest_revision$ = ';latest_revision$
+end routine
 
 
 
