@@ -6,6 +6,8 @@ Public Function RemoveIllegalCharacters(ByVal strText As String) As String
     ' Ref: https://access-programmers.co.uk/forums/showthread.php?t=261147
 
     Const cstrIllegals As String = "\,/,:,*,?,"",<,>,|"
+    
+    'Debug.Print cstrIllegals
 
     Dim lngCounter As Long
     Dim astrChars() As String
