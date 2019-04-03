@@ -1,0 +1,90 @@
+Operation =1
+Option =8
+Where ="(((Patients.Age) Between [Minimum] And [Maximum]))"
+Begin InputTables
+    Name ="Patients"
+    Name ="Age Groups"
+End
+Begin OutputColumns
+    Expression ="[Age Groups].[Group Name]"
+    Alias ="CountOfID"
+    Expression ="Count(Patients.ID)"
+End
+Begin OrderBy
+    Expression ="[Age Groups].[Group ID]"
+    Flag =0
+End
+Begin Groups
+    Expression ="[Age Groups].[Group Name]"
+    GroupLevel =0
+    Expression ="[Age Groups].[Group ID]"
+    GroupLevel =0
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Calibri"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="204"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbText "Description" ="Frequency distribution"
+dbByte "Orientation" ="0"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x313c96ad59412f4096f91c9e174ffa6e
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="[Age Groups].[Group Name]"
+        dbInteger "ColumnWidth" ="1440"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="CountOfID"
+        dbInteger "ColumnWidth" ="1275"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =53
+    Top =22
+    Right =849
+    Bottom =444
+    Left =-1
+    Top =-1
+    Right =764
+    Bottom =150
+    Left =0
+    Top =0
+    ColumnsShown =543
+    Begin
+        Left =38
+        Top =6
+        Right =164
+        Bottom =140
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+    Begin
+        Left =192
+        Top =8
+        Right =341
+        Bottom =124
+        Top =0
+        Name ="Age Groups"
+        Name =""
+    End
+End

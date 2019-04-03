@@ -1,0 +1,85 @@
+Operation =1
+Option =8
+Where ="(((Patients.State) Is Null))"
+Begin InputTables
+    Name ="States"
+    Name ="Patients"
+End
+Begin OutputColumns
+    Expression ="States.State"
+    Expression ="States.Name"
+End
+Begin Joins
+    LeftTable ="States"
+    RightTable ="Patients"
+    Expression ="States.State = Patients.State"
+    Flag =2
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbText "Description" ="States without any patients"
+dbByte "Orientation" ="0"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x0c1ed2fe7b1c1f46970714aab7c18006
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="States.State"
+        dbInteger "ColumnWidth" ="855"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="States.Name"
+        dbInteger "ColumnWidth" ="2475"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =552
+    Bottom =569
+    Left =-1
+    Top =-1
+    Right =480
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =83
+        Top =0
+        Name ="States"
+        Name =""
+    End
+    Begin
+        Left =172
+        Top =6
+        Right =268
+        Bottom =113
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+End

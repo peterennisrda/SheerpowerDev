@@ -1,0 +1,74 @@
+Operation =1
+Option =8
+Begin InputTables
+    Name ="Titles"
+End
+Begin OutputColumns
+    Alias ="Adjusted"
+    Expression ="StripLead([Names])"
+    Alias ="Original"
+    Expression ="Titles.Names"
+End
+Begin OrderBy
+    Expression ="StripLead([Names])"
+    Flag =0
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "Description" ="Custom VBA function to create a new field"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbByte "Orientation" ="0"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0xfd73124a8b36c04491a2f1281a441e0e
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="Adjusted"
+        dbInteger "ColumnWidth" ="4380"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Original"
+        dbInteger "ColumnWidth" ="4590"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =768
+    Bottom =507
+    Left =-1
+    Top =-1
+    Right =696
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =68
+        Top =0
+        Name ="Titles"
+        Name =""
+    End
+End

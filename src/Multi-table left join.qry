@@ -1,0 +1,102 @@
+Operation =1
+Option =8
+Begin InputTables
+    Name ="States"
+    Name ="Patients"
+End
+Begin OutputColumns
+    Expression ="States.State"
+    Expression ="States.Name"
+    Alias ="MaxOfAge"
+    Expression ="Max(Patients.Age)"
+    Alias ="AvgOfCholesterol"
+    Expression ="Avg(Patients.Cholesterol)"
+End
+Begin Joins
+    LeftTable ="States"
+    RightTable ="Patients"
+    Expression ="States.State = Patients.State"
+    Flag =2
+End
+Begin Groups
+    Expression ="States.State"
+    GroupLevel =0
+    Expression ="States.Name"
+    GroupLevel =0
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbText "Description" ="Outer Join"
+dbByte "Orientation" ="0"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0xf3b7fdf1c20c8447887d56ba38cc506e
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="AvgOfCholesterol"
+        dbInteger "ColumnWidth" ="1905"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="States.State"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="MaxOfAge"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="States.Name"
+        dbLong "AggregateType" ="-1"
+        dbInteger "ColumnWidth" ="2415"
+        dbBoolean "ColumnHidden" ="0"
+    End
+End
+Begin
+    State =0
+    Left =53
+    Top =3
+    Right =650
+    Bottom =596
+    Left =-1
+    Top =-1
+    Right =565
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =543
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =83
+        Top =0
+        Name ="States"
+        Name =""
+    End
+    Begin
+        Left =172
+        Top =6
+        Right =268
+        Bottom =113
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+End

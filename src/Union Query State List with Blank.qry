@@ -1,0 +1,32 @@
+dbMemo "SQL" ="SELECT \"\" AS State, \"\" AS Name\015\012FROM States\015\012WHERE (((States.Sta"
+    "te)=\"VA\"));\015\012\015\012UNION SELECT States.State, States.Name\015\012FROM "
+    "States;\015\012"
+dbMemo "Connect" =""
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0xa4cd23e27ccc1f4fb837e170a1d847c9
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+Begin
+    Begin
+        dbText "Name" ="State"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0xbdb01d102d9f7c40a29b78c759f86939
+        End
+    End
+    Begin
+        dbText "Name" ="Name"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0x7012ca4a175e7642803c15b934b912bb
+        End
+        dbInteger "ColumnWidth" ="2325"
+        dbBoolean "ColumnHidden" ="0"
+    End
+End

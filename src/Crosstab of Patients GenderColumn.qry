@@ -1,0 +1,88 @@
+Operation =6
+Option =0
+Begin InputTables
+    Name ="Patients"
+End
+Begin OutputColumns
+    Expression ="Patients.State"
+    GroupLevel =2
+    Expression ="Patients.Gender"
+    GroupLevel =1
+    Alias ="The Value"
+    Expression ="Avg(Patients.Cholesterol)"
+    Alias ="Row Summary"
+    Expression ="Avg(Patients.Cholesterol)"
+    GroupLevel =2
+End
+Begin Groups
+    Expression ="Patients.State"
+    GroupLevel =2
+    Expression ="Patients.Gender"
+    GroupLevel =1
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbText "Description" ="Crosstab"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0xc9b6b00bf3719d4d8d353d321cc53fd5
+End
+Begin
+    Begin
+        dbText "Name" ="Patients.State"
+        dbInteger "ColumnWidth" ="1020"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Row Summary"
+        dbInteger "ColumnWidth" ="2235"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="F"
+        dbInteger "ColumnWidth" ="2235"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="M"
+        dbInteger "ColumnWidth" ="2235"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Gender"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="PIVOT"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =804
+    Bottom =500
+    Left =-1
+    Top =-1
+    Right =732
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =559
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =113
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+End

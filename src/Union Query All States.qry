@@ -1,0 +1,61 @@
+Operation =1
+Option =0
+Begin InputTables
+    Name ="States"
+End
+Begin OutputColumns
+    Expression ="States.State"
+    Expression ="States.Name"
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x025dc27c58683b4bb700793a4085d38c
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="Countries.Country"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0x2353585a77fc27478b4c583d5554f9b3
+        End
+    End
+    Begin
+        dbText "Name" ="States.State"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="States.Name"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =0
+    Top =0
+    Right =689
+    Bottom =716
+    Left =-1
+    Top =-1
+    Right =673
+    Bottom =467
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =17
+        Right =182
+        Bottom =161
+        Top =0
+        Name ="States"
+        Name =""
+    End
+End

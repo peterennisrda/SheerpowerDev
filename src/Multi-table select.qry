@@ -1,0 +1,114 @@
+Operation =1
+Option =8
+Where ="(((Products.[English Name])=\"Licorice Syrup\"))"
+Begin InputTables
+    Name ="Customers"
+    Name ="Orders"
+    Name ="Products"
+    Name ="Order Details"
+End
+Begin OutputColumns
+    Expression ="Customers.[Company Name]"
+    Expression ="Customers.[Contact Name]"
+    Expression ="Products.[English Name]"
+End
+Begin Joins
+    LeftTable ="Customers"
+    RightTable ="Orders"
+    Expression ="Customers.[Customer ID] = Orders.[Customer ID]"
+    Flag =1
+    LeftTable ="Orders"
+    RightTable ="Order Details"
+    Expression ="Orders.[Order ID] = [Order Details].[Order ID]"
+    Flag =1
+    LeftTable ="Products"
+    RightTable ="Order Details"
+    Expression ="Products.[Product ID] = [Order Details].[Product ID]"
+    Flag =1
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbByte "Orientation" ="0"
+dbText "Description" ="Multi-table select queries"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0xe092d36ef4bd1e4bbf49b8bc2370d260
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="Customers.[Company Name]"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.[Contact Name]"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Products.[English Name]"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =53
+    Top =22
+    Right =971
+    Bottom =570
+    Left =-1
+    Top =-1
+    Right =886
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =113
+        Top =0
+        Name ="Customers"
+        Name =""
+    End
+    Begin
+        Left =172
+        Top =6
+        Right =268
+        Bottom =113
+        Top =0
+        Name ="Orders"
+        Name =""
+    End
+    Begin
+        Left =451
+        Top =9
+        Right =547
+        Bottom =116
+        Top =0
+        Name ="Products"
+        Name =""
+    End
+    Begin
+        Left =306
+        Top =9
+        Right =402
+        Bottom =116
+        Top =0
+        Name ="Order Details"
+        Name =""
+    End
+End
