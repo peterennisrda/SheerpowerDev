@@ -2,7 +2,6 @@
 "Module","aebasTEST_aegit_expClass","DateCreated"
 "Module","aegit_expClass","DateCreated"
 "Module","basChangeLogFMSQUERY","DateCreated"
-"Module","basTesting","DateCreated"
 "Module","modSampleFunction","DateCreated"
 "Module","modUsingQueries","DateCreated"
 "Query","Basic: Total Avg Patient","DateCreated"
