@@ -1,0 +1,44 @@
+Operation =1
+Option =8
+Where ="(((Patients.State)=[State Abbreviation]))"
+Begin InputTables
+    Name ="Patients"
+End
+Begin OutputColumns
+    Expression ="Patients.*"
+End
+Begin Parameters
+    Name ="State Abbreviation"
+    Flag =10
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "Description" ="Parameter query for user input of filter"
+dbByte "Orientation" ="0"
+Begin
+End
+Begin
+    State =0
+    Left =53
+    Top =22
+    Right =729
+    Bottom =502
+    Left =-1
+    Top =-1
+    Right =669
+    Bottom =144
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =171
+        Bottom =113
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+End

@@ -1,0 +1,107 @@
+Operation =1
+Option =0
+Begin InputTables
+    Name ="Fortune100"
+    Name ="Fortune100 Totals"
+End
+Begin OutputColumns
+    Expression ="Fortune100.Company"
+    Expression ="Fortune100.Sales"
+    Alias ="Sales%"
+    Expression ="100*[Sales]/[TotalSales]"
+    Expression ="Fortune100.Profits"
+    Alias ="Profit%"
+    Expression ="[Profits]/[TotalProfits]"
+End
+Begin OrderBy
+    Expression ="Fortune100.Sales"
+    Flag =1
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="-1"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbMemo "OrderBy" ="Sales DESC"
+dbLong "DatasheetForeColor12" ="33554432"
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+dbBinary "GUID" = Begin
+    0x5542aaa09048234a9abba5d538fc2bac
+End
+Begin
+    Begin
+        dbText "Name" ="Profit%"
+        dbText "Format" ="Percent"
+        dbByte "DecimalPlaces" ="2"
+        dbInteger "ColumnWidth" ="1050"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Fortune100.Sales"
+        dbInteger "ColumnWidth" ="1140"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Sales%"
+        dbInteger "ColumnWidth" ="1920"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Fortune100.Profits"
+        dbInteger "ColumnWidth" ="1095"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Fortune100.Company"
+        dbInteger "ColumnWidth" ="2460"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =2
+    Top =12
+    Right =920
+    Bottom =561
+    Left =-1
+    Top =-1
+    Right =886
+    Bottom =131
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =205
+        Bottom =126
+        Top =0
+        Name ="Fortune100"
+        Name =""
+    End
+    Begin
+        Left =255
+        Top =7
+        Right =431
+        Bottom =127
+        Top =0
+        Name ="Fortune100 Totals"
+        Name =""
+    End
+End

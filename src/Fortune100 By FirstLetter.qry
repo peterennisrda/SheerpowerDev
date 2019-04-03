@@ -1,0 +1,88 @@
+Operation =1
+Option =0
+Begin InputTables
+    Name ="Fortune100"
+End
+Begin OutputColumns
+    Alias ="Letter"
+    Expression ="Left([Company],1)"
+    Alias ="Count"
+    Expression ="Count(Fortune100.Company)"
+    Alias ="AvgOfSales"
+    Expression ="Avg(Fortune100.Sales)"
+    Alias ="AvgOfProfits"
+    Expression ="Avg(Fortune100.Profits)"
+End
+Begin Groups
+    Expression ="Left([Company],1)"
+    GroupLevel =0
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x49354486421493459feedc6e6fbf0cd4
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="Letter"
+        dbInteger "ColumnWidth" ="915"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0xcf446a6d5d4cad45ad081a41a98588d9
+        End
+    End
+    Begin
+        dbText "Name" ="Count"
+        dbInteger "ColumnWidth" ="930"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0x381b2464d35b43499a725b74c169d38e
+        End
+    End
+    Begin
+        dbText "Name" ="AvgOfSales"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0x77fcd849abf7fd458868dbfb0444ecf4
+        End
+    End
+    Begin
+        dbText "Name" ="AvgOfProfits"
+        dbLong "AggregateType" ="-1"
+        dbBinary "GUID" = Begin
+            0x498aa1436e999642b2918f2db09f27d2
+        End
+    End
+End
+Begin
+    State =0
+    Left =0
+    Top =40
+    Right =900
+    Bottom =631
+    Left =-1
+    Top =-1
+    Right =868
+    Bottom =271
+    Left =0
+    Top =0
+    ColumnsShown =543
+    Begin
+        Left =48
+        Top =12
+        Right =192
+        Bottom =156
+        Top =0
+        Name ="Fortune100"
+        Name =""
+    End
+End

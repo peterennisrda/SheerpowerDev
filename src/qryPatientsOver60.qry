@@ -1,0 +1,44 @@
+Operation =1
+Option =0
+Where ="(((Patients.Age)>60))"
+Begin InputTables
+    Name ="Patients"
+End
+Begin OutputColumns
+    Expression ="Patients.State"
+End
+Begin Groups
+    Expression ="Patients.State"
+    GroupLevel =0
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbText "Description" ="Select patients who are over 60 years old"
+Begin
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =1002
+    Bottom =553
+    Left =-1
+    Top =-1
+    Right =955
+    Bottom =144
+    Left =0
+    Top =0
+    ColumnsShown =543
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =113
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+End

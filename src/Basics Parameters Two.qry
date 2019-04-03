@@ -1,0 +1,90 @@
+Operation =1
+Option =8
+Where ="(((Patients.Age)>=[Enter Minimum Age:]) AND ((Patients.State)=[Enter State Name:"
+    "]))"
+Begin InputTables
+    Name ="Patients"
+End
+Begin OutputColumns
+    Expression ="Patients.*"
+End
+Begin Parameters
+    Name ="[Enter State Name:]"
+    Flag =10
+    Name ="[Enter Minimum Age:]"
+    Flag =3
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbText "Description" ="Parameter query for user input of filter"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x1843a515889f024da310064e994e98ed
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="Patients.Age"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.ID"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.State"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Gender"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Weight"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Height"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Cholesterol"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Systolic"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Patients.Diastolic"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =53
+    Top =22
+    Right =729
+    Bottom =502
+    Left =-1
+    Top =-1
+    Right =644
+    Bottom =110
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =171
+        Bottom =113
+        Top =0
+        Name ="Patients"
+        Name =""
+    End
+End

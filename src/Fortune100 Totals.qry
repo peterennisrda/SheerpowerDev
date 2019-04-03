@@ -1,0 +1,69 @@
+Operation =1
+Option =0
+Begin InputTables
+    Name ="Fortune100"
+End
+Begin OutputColumns
+    Alias ="TotalSales"
+    Expression ="Sum(Fortune100.Sales)"
+    Alias ="TotalProfits"
+    Expression ="Sum(Fortune100.Profits)"
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+dbBinary "GUID" = Begin
+    0x47763d319df4e441bfae896048638b65
+End
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbLong "DatasheetForeColor12" ="33554432"
+Begin
+    Begin
+        dbText "Name" ="TotalSales"
+        dbInteger "ColumnWidth" ="2220"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="TotalProfits"
+        dbInteger "ColumnWidth" ="1980"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =28
+    Top =18
+    Right =433
+    Bottom =337
+    Left =-1
+    Top =-1
+    Right =373
+    Bottom =98
+    Left =0
+    Top =0
+    ColumnsShown =543
+    Begin
+        Left =38
+        Top =6
+        Right =211
+        Bottom =124
+        Top =0
+        Name ="Fortune100"
+        Name =""
+    End
+End

@@ -1,0 +1,71 @@
+Operation =1
+Option =16
+RowCount ="10"
+Begin InputTables
+    Name ="Fortune100"
+End
+Begin OutputColumns
+    Expression ="Fortune100.*"
+End
+Begin OrderBy
+    Expression ="Fortune100.Profits"
+    Flag =1
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbByte "Orientation" ="0"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x1cf6f366e603b240a53dbd19a510e8ef
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbLong "DatasheetForeColor12" ="33554432"
+Begin
+    Begin
+        dbText "Name" ="Fortune100.Company"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Fortune100.Sales"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Fortune100.Profits"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =23
+    Top =33
+    Right =970
+    Bottom =567
+    Left =-1
+    Top =-1
+    Right =915
+    Bottom =144
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =190
+        Bottom =125
+        Top =0
+        Name ="Fortune100"
+        Name =""
+    End
+End

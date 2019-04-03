@@ -1,0 +1,154 @@
+Operation =1
+Option =0
+Begin InputTables
+    Name ="qryCustomerSales"
+    Name ="Customers"
+End
+Begin OutputColumns
+    Expression ="qryCustomerSales.Sales"
+    Expression ="Customers.*"
+End
+Begin Joins
+    LeftTable ="Customers"
+    RightTable ="qryCustomerSales"
+    Expression ="Customers.[Customer ID] = qryCustomerSales.[Customer ID]"
+    Flag =1
+End
+Begin OrderBy
+    Expression ="qryCustomerSales.Sales"
+    Flag =1
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbText "Description" ="Total sales by customer"
+dbByte "Orientation" ="0"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x8d848b0bbc5eaf4e8e4ea4ba18ee056d
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="qryCustomerSales.Sales"
+        dbInteger "ColumnWidth" ="1950"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Customer ID"
+        dbInteger "ColumnWidth" ="2040"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Company Name"
+        dbInteger "ColumnWidth" ="3990"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Contact Name"
+        dbInteger "ColumnWidth" ="2625"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Contact Title"
+        dbInteger "ColumnWidth" ="4260"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Address"
+        dbInteger "ColumnWidth" ="3840"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.City"
+        dbInteger "ColumnWidth" ="2160"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Region"
+        dbInteger "ColumnWidth" ="1440"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Postal Code"
+        dbInteger "ColumnWidth" ="1995"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Country"
+        dbInteger "ColumnWidth" ="1470"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Phone"
+        dbInteger "ColumnWidth" ="2610"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Fax"
+        dbInteger "ColumnWidth" ="2610"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="Customers.Total Sales"
+        dbInteger "ColumnWidth" ="1860"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =884
+    Bottom =555
+    Left =-1
+    Top =-1
+    Right =812
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =185
+        Top =11
+        Right =307
+        Bottom =88
+        Top =0
+        Name ="qryCustomerSales"
+        Name =""
+    End
+    Begin
+        Left =38
+        Top =6
+        Right =144
+        Bottom =113
+        Top =0
+        Name ="Customers"
+        Name =""
+    End
+End

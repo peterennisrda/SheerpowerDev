@@ -1,0 +1,85 @@
+Operation =1
+Option =8
+Where ="(((qryPatientsOver60.State) Is Null))"
+Begin InputTables
+    Name ="States"
+    Name ="qryPatientsOver60"
+End
+Begin OutputColumns
+    Expression ="States.State"
+    Expression ="States.Name"
+End
+Begin Joins
+    LeftTable ="States"
+    RightTable ="qryPatientsOver60"
+    Expression ="States.State = qryPatientsOver60.State"
+    Flag =2
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbText "Description" ="States without any patients over 60"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="10"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="162"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbByte "Orientation" ="0"
+dbLong "DatasheetForeColor12" ="33554432"
+dbByte "DefaultView" ="2"
+dbBinary "GUID" = Begin
+    0x82ad86a1e4e61c48bfcaaffc871cdac8
+End
+dbBoolean "FilterOnLoad" ="0"
+dbBoolean "OrderByOnLoad" ="-1"
+dbBoolean "TotalsRow" ="0"
+Begin
+    Begin
+        dbText "Name" ="States.State"
+        dbInteger "ColumnWidth" ="855"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+    Begin
+        dbText "Name" ="States.Name"
+        dbInteger "ColumnWidth" ="3570"
+        dbBoolean "ColumnHidden" ="0"
+        dbLong "AggregateType" ="-1"
+    End
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =718
+    Bottom =429
+    Left =-1
+    Top =-1
+    Right =646
+    Bottom =127
+    Left =0
+    Top =0
+    ColumnsShown =539
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =83
+        Top =0
+        Name ="States"
+        Name =""
+    End
+    Begin
+        Left =306
+        Top =6
+        Right =402
+        Bottom =113
+        Top =0
+        Name ="qryPatientsOver60"
+        Name =""
+    End
+End

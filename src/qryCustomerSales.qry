@@ -1,0 +1,80 @@
+Operation =1
+Option =0
+Begin InputTables
+    Name ="Orders"
+    Name ="Order Details"
+End
+Begin OutputColumns
+    Expression ="Orders.[Customer ID]"
+    Alias ="Sales"
+    Expression ="Sum([Unit Price]*[Quantity]*(1-[Discount]))"
+End
+Begin Joins
+    LeftTable ="Orders"
+    RightTable ="Order Details"
+    Expression ="Orders.[Order ID] = [Order Details].[Order ID]"
+    Flag =1
+End
+Begin Groups
+    Expression ="Orders.[Customer ID]"
+    GroupLevel =0
+End
+dbBoolean "ReturnsRecords" ="-1"
+dbInteger "ODBCTimeout" ="60"
+dbByte "RecordsetType" ="0"
+dbBoolean "OrderByOn" ="0"
+dbText "DatasheetFontName" ="Arial"
+dbInteger "DatasheetFontHeight" ="16"
+dbInteger "DatasheetFontWeight" ="400"
+dbBoolean "DatasheetFontItalic" ="0"
+dbBoolean "DatasheetFontUnderline" ="0"
+dbByte "TabularCharSet" ="0"
+dbByte "TabularFamily" ="34"
+dbLong "DatasheetForeColor" ="33554432"
+dbText "Description" ="Total sales by customer"
+dbByte "Orientation" ="0"
+Begin
+    Begin
+        dbText "Name" ="Orders.[Customer ID]"
+        dbInteger "ColumnWidth" ="2025"
+        dbBoolean "ColumnHidden" ="0"
+    End
+    Begin
+        dbText "Name" ="Sales"
+        dbInteger "ColumnWidth" ="2130"
+        dbBoolean "ColumnHidden" ="0"
+        dbText "Format" ="$#,##0.00;($#,##0.00)"
+    End
+End
+Begin
+    State =0
+    Left =40
+    Top =22
+    Right =842
+    Bottom =590
+    Left =-1
+    Top =-1
+    Right =951
+    Bottom =144
+    Left =0
+    Top =0
+    ColumnsShown =543
+    Begin
+        Left =38
+        Top =6
+        Right =134
+        Bottom =113
+        Top =0
+        Name ="Orders"
+        Name =""
+    End
+    Begin
+        Left =172
+        Top =6
+        Right =268
+        Bottom =113
+        Top =1
+        Name ="Order Details"
+        Name =""
+    End
+End
