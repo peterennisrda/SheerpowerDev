@@ -43,10 +43,10 @@ Option Explicit
 ' %179 -
 ' %178 -
 ' %177 -
-' %176 -
-' %175 -
-' %174 -
-' %173 - Kill file error for "Basics: Access Functions" etc. - needs fix for file names
+' %176 - No object with the given name and type exists in the current database, DocumentTheQueries
+' %175 - Invalid procedure call in DocumentTheQueries
+' %174 - Kill file error for "Basics: Access Functions" etc. - needs fix for file names
+' %173 - varTablesArray has no value!!! - subscript out of range, TablesExportToXML
 ' %170 - Add feature to allow scrolling of big list in form _chtBigList
 ' %166 - Update and test basUTF8
 ' %162 - Encoding - manual conversion, Ref: http://opinions.co.il/ogdan/converting-microsoft-access-database-tables-in-local-encoding-into-utf-8-encoding/
