@@ -4,12 +4,30 @@
     <link rel="stylesheet" type="text/css" href="index.css" />
     <!-- Ref: https://flaviocopes.com/javascript-async-defer/ -->
     <script defer src="index.js"></script>
+
+    <!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
     <title>
       A Simple HTML Document
     </title>
   </head>
 
   <body>
+    <!-- Ref: https://www.w3schools.com/howto/howto_js_topnav_responsive.asp -->
+    <div class="topnav" id="myTopnav">
+      <a href="#home" class="active">Home</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+      <a href="#about">About</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
+
     <!-- Ref: https://codepen.io/michellebarker/pen/zWEKQE -->
     <div class="wrapper">
       <div class="grid">
