@@ -1,0 +1,94 @@
+:root {
+  --x: .5;
+  --y: .5;
+  --side: 30vmin;
+  --duration: 1500ms;
+  --easing: ease-in-out;
+}
+
+.shape {
+  animation: rotate 1000ms infinite linear;
+  transition: transform-origin var(--duration) var(--easing);
+  transform-origin: calc(var(--x) * 100%) calc(var(--y) * 100%);
+  width: var(--side);
+  height: var(--side);
+  background: 
+    linear-gradient(315deg, hsl(248, 40%,50%) 10%, transparent 10%, transparent), 
+    linear-gradient(225deg, hsl(348, 40%,50%) 10%, transparent 10%, transparent), 
+    linear-gradient(135deg, hsl(48, 40%,50%) 10%, transparent 10%, transparent), 
+    linear-gradient(45deg, hsl(168, 40%,50%) 10%, hsl(168, 70%,50%) 10%, hsl(168, 70%,50%));
+  position: relative;
+  will-change: transform, transform-origin;
+}
+
+.point {
+  --point: 1vmin;
+  background: black;
+  width: var(--point);
+  height: var(--point);
+  border-radius: 50%;
+  position: absolute;
+  top: calc(var(--point) * -.5);
+  left: calc(var(--point) * -.5);
+  transform: translate(calc(var(--x) * var(--side)), calc(var(--y) * var(--side)));
+  transition: transform var(--duration) var(--easing);
+  will-change: transform;
+  opacity: .6;
+}
+
+.origin {
+  width: var(--side);
+  height: var(--side);
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed hsl(233, 70%, 50%);
+  background: linear-gradient(315deg, hsla(248, 40%,50%, .2) 10%, transparent 10%, transparent), 
+    linear-gradient(225deg, hsla(348, 40%,50%, .2) 10%, transparent 10%, transparent), 
+    linear-gradient(135deg, hsla(48, 40%,50%, .2) 10%, transparent 10%, transparent), 
+    linear-gradient(45deg, hsla(168, 40%,50%, .2) 10%, transparent 10%, transparent);
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg)
+  }
+}
+
+p {
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,var(--side));
+  text-align: center;
+  z-index:10;
+}
+
+span {
+  display: block;
+}
+
+#instruction {
+  position: absolute;
+  top: 2vmin;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: .78;
+  text-align: center;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle, hsl(198, 70%, 96%), hsl(198, 70%, 90%));
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
