@@ -1,9 +1,16 @@
 
-
+$Date = Get-Date
+Write-Host "Today is "$Date
 
 Write-Host "The current logged in user:"
-Write-Host '$ENV:UserName =' $ENV:UserName
-Write-Host
+Write-Host "   >>> "'$ENV:UserName =' $ENV:UserName
+
+$DomainServer = Read-Host -Prompt 'Input the domain server name'
+Write-Host "   >>> "'$DomainServer =' $DomainServer
+
+$User = Read-Host -Prompt 'Input the user name'
+Write-Host "   >>> "'$User =' $User
+
 
 Exit
 
