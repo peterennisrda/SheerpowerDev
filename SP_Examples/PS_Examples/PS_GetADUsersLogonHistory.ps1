@@ -54,9 +54,10 @@ param( [switch]$LastLogonOnly, [switch]$OuOnly, [int]$MaxEvent = 1000)
 ############## Find EventID 4768 with user's requesting Kerberos TGT, skipping Exchange Health Mailbox request and extracting  Users/Client names,IP Addresses ####
 $Domain = (Get-WmiObject Win32_Computersystem).domain
 $read_log = {
-    Param ($MaxEvent, $OuOnly, $Domain)																					## Define parameter to pass maxevent to scripblock
-    $EventInfo = Get-WinEvent -FilterHashTable @{LogName = "Security"; ID = 4768 } -MaxEvents 200000 | select -first $MaxEvent | where { $_.Message -notmatch "SM_" } | where { $_.Message -notmatch "\$" } | 
-    select @{N = "Authenticated DC"; Exp = { $_.MachineName } }, 
+    Param ($MaxEvent, $OuOnly, $Domain)			## Define parameter to pass maxevent to scripblock
+    $EventInfo = Get-WinEvent -FilterHashTable @{LogName = "Security"; ID = 4768 } -MaxEvents 200000 | `
+        Select-Object -first $MaxEvent | Where-Object { $_.Message -notmatch "SM_" } | Where-Object { $_.Message -notmatch "\$" } | `
+        Select-Object @{N = "Authenticated DC"; Exp = { $_.MachineName } }, 
     @{N = "LoggedOn Time"; Exp = { $_.TimeCreated } }, 
     @{N = "User"; Exp = { $SplitAccountName = (($_.Message -Split "\n") -match "Account Name") -split ':'; $SplitAccountName[$SplitAccountName.Length - 1].Trim() } }, 
     @{N = "User Location"; Exp = { } }, @{N = "Workstation"; Exp = { } }, 
@@ -65,7 +66,7 @@ $read_log = {
     }, 
     @{N = "Computer Location"; Exp = { } }
 
-    $EventInfo | foreach {
+    $EventInfo | ForEach-Object {
         $IPAddress = $_."Client Address"
 
         if ($_."IP Address" -eq "localhost")
@@ -115,7 +116,7 @@ $read_log = {
         $Full_Workstation_Property = 0
 
         If ($OuOnly -AND ($_."Computer Location" -ne "NOT FOUND")) {
-            ##Trim the last computer part if -OuOnly flag is set
+            ## Trim the last computer part if -OuOnly flag is set
             $_."Computer Location" = $_."Computer Location".Remove($_."Computer Location".LastIndexOf("/"))
         }
         Return $_
@@ -124,7 +125,7 @@ $read_log = {
 
 ########### Job starts to query replica domain controllers #############
 $result = @()
-$RemoteJob = @()                                                           						       ## Make array of remote jobs
+$RemoteJob = @()	## Make array of remote jobs
 
 $DomainControllers = (Get-ADDomainController -Filter { isGlobalCatalog -eq $true -or isGlobalCatalog -eq $false }).Name
 ############### Start the Local Job and Remote Job to find the event id ################
@@ -134,21 +135,33 @@ If ($DomainControllers -contains $(hostname)) {
     $LocalJob = Start-Job -scriptblock $read_log -ArgumentList $MaxEvent, $OuOnly, $Domain; $LocalJobExists = 1	## If so, start job to query local domain controller
 }
 
-$DomainControllers | where { $_ -ne $(hostname) } | foreach { ## Start remote jobs on each other domain controllers
+$DomainControllers | `
+    Where-Object { $_ -ne $(hostname) } | `
+    ForEach-Object { ## Start remote jobs on each other domain controllers
     $RemoteJob += Invoke-Command -ComputerName $_ -ScriptBlock $read_log -ArgumentList $MaxEvent, $OuOnly, $Domain -AsJob  
 }
 
 If ($LocalJobExists) {
-    $result = $LocalJob | Wait-Job | Receive-Job; Remove-Job $LocalJob									## If the computer running the script is not a domain controller(may be RSAT installed), then all jobs will be remote jobs
+    $result = $LocalJob | Wait-Job | Receive-Job; Remove-Job $LocalJob		## If the computer running the script is not a domain controller(may be RSAT installed), then all jobs will be remote jobs
 }
 
-$RemoteJob | foreach { $result += $_ | Wait-Job | Receive-Job ; Remove-Job $_ }							## Wait and Receive remote jobs on each remote DCs and add to Local job result
+$RemoteJob | `
+    ForEach-Object { $result += $_ | `
+        Wait-Job | `
+        Receive-Job ; Remove-Job $_ }	## Wait and Receive remote jobs on each remote DCs and add to Local job result
 
 If ($LastLogonOnly) {
-    $result | Sort-Object "LoggedOn Time" -Descending | Group-Object User | foreach { $_ | Select -ExpandProperty Group | select * -First 1 -ExcludeProperty PsComputerName, RunSpaceID, PsShowComputerName }   ## the Last LoggedOn time of Each User
+    $result | `
+        Sort-Object "LoggedOn Time" -Descending | `
+        Group-Object User | `
+        ForEach-Object { $_ | `
+            Select-Object -ExpandProperty Group | `
+            Select-Object * -First 1 -ExcludeProperty PsComputerName, RunSpaceID, PsShowComputerName }   ## the Last LoggedOn time of Each User
 }
 else {
-    $result | Sort-Object "LoggedOn Time" -Descending | Select * -ExcludeProperty PsComputerName, RunSpaceID, PsShowComputerName  ## Normal Results
+    $result | `
+        Sort-Object "LoggedOn Time" -Descending | `
+        Select-Object * -ExcludeProperty PsComputerName, RunSpaceID, PsShowComputerName  ## Normal Results
 }
 
 
