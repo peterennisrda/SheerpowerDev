@@ -2,7 +2,7 @@
 
 Clear-Host
 
-Set-Location C:\ae
+Set-Location C:\TEMP
 
 $comp = $args[0]
     
@@ -11,11 +11,11 @@ if (($comp -eq "/?") -or ($comp -eq "-h")) {
 }  
 else { 
     if ($comp -lt 1) {
-        Write-Host -fore Green "=======Uninstall regkey======="
+        Write-Host -fore Green "======= Uninstall regkey ======="
         Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*' | `
             Where-Object { $_.DisplayName } | Select-Object DisplayName, DisplayVersion, Publisher | `
             Sort-Object DisplayName | Format-Table -AutoSize 
-        Write-Host -fore Green "=======Wow6432Node Uninstall regkey======="
+        Write-Host -fore Green "======= Wow6432Node Uninstall regkey ======="
         Get-ItemProperty 'HKLM:\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*' | `
             Where-Object { $_.DisplayName } | Select-Object DisplayName, DisplayVersion, Publisher | `
             Sort-Object DisplayName | `
