@@ -8,17 +8,18 @@ Script that will list the logon information of AD users.
 
 .DESCRIPTION
 This script will list the AD users logon information with their logged on computers by inspecting the Kerberos TGT Request
-Events(EventID 4768) from domain controllers. Not Only User account Name is fetched, but also users OU path and Computer 
-Accounts are retrieved. You can also list the history of last logged on users. In Environment where Exchange Servers are 
-used, the exchange servers authentication request for users will also be logged since it also uses EventID (4768) to for 
+Events(EventID 4768) from domain controllers. Not only User Account Name is fetched, but also users OU path and Computer 
+Accounts are retrieved. You can also list the history of last logged on users. In an environment where Exchange Servers are 
+used, the exchange servers authentication request for users will also be logged since it also uses EventID (4768) for the 
 TGT Request. You can also export the result to CSV file format. Powershell version 3.0 is needed to use the script.
-You can Define the following parameters to suite your need:																					
+You can define the following parameters to suit your need:																					
 -MaxEvent		Specify the number of all (4768) events to search for TGT Requests. Default is 1000.											
 -LastLogonOnly	Display only the history of last logon users.																				
 -OuOnly			Do not display the full path of users/computers. Only OU is displayed.														
 Author: phyoepaing3.142@gmail.com																											
 Country: Myanmar(Burma)																														
 Released Date: 08/29/2016
+Updated: Peter Ennis, RDA
 
 Example usage:																					  
 .\PS_GetADUsersLogonHistory.ps1 -MaxEvent 800 -LastLogonOnly -OuOnly
@@ -37,7 +38,7 @@ related logged on computers. Only OU name is displayed in results.
 This command will retrieve AD users logon within default 1000 EventID-4768 events and export the result to CSV file.
 
 .PARAMETER MaxEvent
-This paraemeter will specify the number of EventID-4768 events to look for.
+This parameter will specify the number of EventID-4768 events to look for.
 
 .PARAMETER LastLogonOnly
 This paraemeter will display the history of last logged on users in descending order.
