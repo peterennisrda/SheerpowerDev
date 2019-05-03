@@ -1,6 +1,6 @@
 
 $Date = Get-Date
-Write-Host "Today is "$Date
+Write-Host "Today is"$Date
 
 Write-Host "The current logged in user:"
 Write-Host "   >>> "'$ENV:UserName =' $ENV:UserName
