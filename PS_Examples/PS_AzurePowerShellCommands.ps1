@@ -37,10 +37,16 @@
 #Get-AzResourceGroup | Format-Table
 
 
-### Popular PowerShell Commands ###
+########## Popular PowerShell Commands ##########
+
 
 # Get build information for Windows
 #$(gin).WindowsBuildLabEx
 
+
 # Set preview for PowerShell files
 #Set-ItemProperty Registry::HKEY_CLASSES_ROOT\.ps1 -Name PerceivedType -Value text
+
+
+# Set preview for Sheerpower source files
+#Set-ItemProperty Registry::HKEY_CLASSES_ROOT\.spsrc -Name PerceivedType -Value text
