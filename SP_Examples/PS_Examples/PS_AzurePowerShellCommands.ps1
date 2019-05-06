@@ -37,4 +37,6 @@
 #Get-AzResourceGroup | Format-Table
 
 
+# Get build information for Windows
+#$(gin).WindowsBuildLabEx
 
