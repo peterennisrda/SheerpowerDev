@@ -50,3 +50,7 @@
 
 # Set preview for Sheerpower source files
 #Set-ItemProperty Registry::HKEY_CLASSES_ROOT\.spsrc -Name PerceivedType -Value text
+
+
+# Get-PSDrive cmdlet gets the drives in the current session
+#Get-PSDrive
