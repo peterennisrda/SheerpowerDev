@@ -13,11 +13,18 @@ Write-Host "   >>> "'$DomainServer =' $DomainServer
 # Write-Host "   >>> "'$User =' $User
 
 # Set the reg key location
-Set-Location -path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
+$SetLocation = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders'
+Write-Host
+Write-Host "   >>> "'$SetLocation =' $SetLocation
+Set-Location -path $SetLocation
 # List the item properties
 Get-ItemProperty -Path .
 
-
+$SetLocation = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders'
+Write-Host
+Write-Host "   >>> "'$SetLocation =' $SetLocation
+Set-Location -path $SetLocation
+Get-ItemProperty -Path .
 
 
 Exit
