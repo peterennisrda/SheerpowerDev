@@ -11,5 +11,44 @@ Clear-Host
 
 Write-Host "Start=>"
 
-# Ref: https://www.petri.com/how-to-get-ntfs-file-permissions-using-powershell
-Get-Acl -Path W:\peterennis | Format-Table -Wrap
+### Ref: https://www.petri.com/how-to-get-ntfs-file-permissions-using-powershell
+#Get-Acl -Path W:\peterennis | Format-Table -Wrap
+
+### Get more information
+#Get-Acl -Path W:\peterennis | Format-List
+
+### Get specific information
+#(Get-Acl -Path W:\peterennis).Access
+
+### Show users or groups listed in the ACL
+#(Get-Acl -Path W:\peterennis).Access.IdentityReference
+
+# Generate a report on a folder hierarchy
+$FolderPath = Get-ChildItem -Directory -Path "W:\peterennis" -Recurse -Force
+ForEach ($Folder in $FolderPath) {
+    $Acl = Get-Acl -Path $Folder.FullName
+    ForEach ($Access in $Acl.Access) {
+        $Properties = [ordered]@{'Folder Name' = $Folder.FullName; 'Group/User' = $Access.IdentityReference; 'Permissions' = $Access.FileSystemRights; 'Inherited' = $Access.IsInherited }
+        New-Object -TypeName PSObject -Property $Properties
+    } 
+}
+Write-Host $FolderPath
+Write-Host ""
+
+# Permissions of folders
+$FolderPath = Get-ChildItem -Directory -Path "C:\TEMP" -Recurse -Force
+$Output = @()
+ForEach ($Folder in $FolderPath) {
+    $Acl = Get-Acl -Path $Folder.FullName
+    ForEach ($Access in $Acl.Access) {
+        $Properties = [ordered]@{'Folder Name' = $Folder.FullName; 'Group/User' = $Access.IdentityReference; 'Permissions' = $Access.FileSystemRights; 'Inherited' = $Access.IsInherited }
+        $Output += New-Object -TypeName PSObject -Property $Properties            
+    }
+}
+$Output | Out-GridView
+
+# The above output only lists folders. There are no files in the results.
+# To see files then also create an array ($Output) and pipe the results to Out-GridView or a .csv file.
+
+
+
