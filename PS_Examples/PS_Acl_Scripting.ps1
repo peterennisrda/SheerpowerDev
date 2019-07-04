@@ -24,7 +24,8 @@ Write-Host "Start=>"
 #(Get-Acl -Path W:\peterennis).Access.IdentityReference
 
 # Generate a report on a folder hierarchy
-$FolderPath = Get-ChildItem -Directory -Path "W:\peterennis" -Recurse -Force
+$FolderPath = Get-ChildItem -Directory -Path "C:\TEMP" -Recurse -Force
+Write-Host $FolderPath
 ForEach ($Folder in $FolderPath) {
     $Acl = Get-Acl -Path $Folder.FullName
     ForEach ($Access in $Acl.Access) {
@@ -32,7 +33,6 @@ ForEach ($Folder in $FolderPath) {
         New-Object -TypeName PSObject -Property $Properties
     } 
 }
-Write-Host $FolderPath
 Write-Host ""
 
 # Permissions of folders
@@ -48,7 +48,23 @@ ForEach ($Folder in $FolderPath) {
 $Output | Out-GridView
 
 # The above output only lists folders. There are no files in the results.
-# To see files then also create an array ($Output) and pipe the results to Out-GridView or a .csv file.
+# To see files create an array ($Output) and pipe the results to Out-GridView or a .csv file.
 
-
-
+# Output as a CSV
+$BaseFolder = "C:\INSTALL"
+Write-Host "BaseFolder="$BaseFolder
+$FolderPath = Get-ChildItem -Directory -Path $BaseFolder -Recurse -Force
+$Output = @()
+$Acl = Get-Acl -Path $BaseFolder
+ForEach ($Access in $Acl.Access) {
+    $Properties = [ordered]@{'Folder Name' = $BaseFolder; 'Group/User' = $Access.IdentityReference; 'Permissions' = $Access.FileSystemRights; 'Inherited' = $Access.IsInherited }
+    $Output += New-Object -TypeName PSObject -Property $Properties
+}
+ForEach ($Folder in $FolderPath) {
+    $Acl = Get-Acl -Path $Folder.FullName
+    ForEach ($Access in $Acl.Access) {
+        $Properties = [ordered]@{'Folder Name' = $Folder.FullName; 'Group/User' = $Access.IdentityReference; 'Permissions' = $Access.FileSystemRights; 'Inherited' = $Access.IsInherited }
+        $Output += New-Object -TypeName PSObject -Property $Properties       
+    }
+}
+$Output | Export-Csv "C:\TEMP\Folder-Permissions-TEMP.csv"
