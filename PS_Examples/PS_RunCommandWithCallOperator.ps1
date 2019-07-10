@@ -12,10 +12,17 @@ Clear-Host
 Write-Host "Start=>"
 # Ref: https://social.technet.microsoft.com/wiki/contents/articles/7703.powershell-running-executables.aspx
 
-$PATH = 'C:\SysinternalsSuite\'
-$CMD = $PATH + 'accesschk.exe'
+$OutputFile = 'C:\TEMP\AccessCheckDetails.txt'
+$OutputFileCsv = 'C:\TEMP\AccessCheckDetails.csv'
+$CMDPATH = 'C:\SysinternalsSuite\'
+$CMD = $CMDPATH + 'accesschk.exe'
 $arg1 = 'W:'
  
-& $CMD $arg1
- 
+& $CMD $arg1 | Out-File -FilePath $OutputFile -Encoding ascii
+
+# Write the contents of output file to the terminal
+Get-Content -Path $OutputFile | Export-Csv -Path $OutputFileCsv -NoTypeInformation
+Get-Content -Path $OutputFile
+Write-Host $OutputFile
+
 Write-Host "<=End"
