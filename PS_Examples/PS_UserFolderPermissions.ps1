@@ -29,7 +29,8 @@ Write-Host "Start=>"
 # Generate a report on a user folder and output as csv
 # Ref: https://social.technet.microsoft.com/wiki/contents/articles/51422.how-to-export-folder-permissions-to-excel-or-csv-file.aspx
 # The following fails due to ItemNotFoundException for path tool long (node_modules)
-<#$Report = @()
+<#
+$Report = @()
 Foreach ($Folder in $FolderPath) {
     $Acl = Get-Acl -Path $Folder.FullName
     foreach ($Access in $acl.Access) {
