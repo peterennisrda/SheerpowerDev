@@ -21,6 +21,7 @@ $arg1 = 'W:'
 & $CMD $arg1 | Out-File -FilePath $OutputFile -Encoding ascii
 
 # Write the contents of output file to the terminal
+# Ref: https://docs.microsoft.com/en-us/windows/win32/secauthz/well-known-sids
 Get-Content -Path $OutputFile | Export-Csv -Path $OutputFileCsv -NoTypeInformation
 Get-Content -Path $OutputFile
 Write-Host $OutputFile
