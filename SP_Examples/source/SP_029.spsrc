@@ -6,12 +6,12 @@ grand_max_tries = -1
 
 
 // use these when doing multiple characters at a time
-prime1 = 490_001
+prime1 = 490001
 prime2 = 17
 //prime1 = 19
 //prime2 = 13
 
-data_items = 2_000_000
+data_items = 2000000
 maxsize = data_items * 2
 
 max_tries = 0
@@ -80,7 +80,7 @@ next i
 
 if max_tries > grand_max_tries then grand_max_tries = max_tries
 
-debug show max_tries
+debug on show max_tries
 
 elapsed = time(5) - start_time
 print 'loading time was: '; elapsed
@@ -105,7 +105,7 @@ for data_idx = 1 to data_items
   find_key
   if lookup_tries > max_lookup_tries then 
     max_lookup_tries = lookup_tries
-    debug show lookup_tries
+    debug on show lookup_tries
   end if
   
   if not found? then
@@ -115,7 +115,7 @@ for data_idx = 1 to data_items
   end if
   
   if data$(found) <> key$ then 
-    debug show rnd_hidx, hidx
+    debug on show rnd_hidx //, hidx
     halt 'wrong indexes'
   end if
   
@@ -130,7 +130,7 @@ for data_idx = 1 to data_items
     find_key
     if lookup_tries > max_lookup_tries then 
       max_lookup_tries = lookup_tries
-      debug show lookup_tries
+      debug on show lookup_tries
     end if
   
     if not found? then
