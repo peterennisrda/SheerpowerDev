@@ -36,7 +36,7 @@ This posting is provided "AS IS" with no warranties, and confers no rights. Use 
 # eg. run the analysis on a DC
 #-----------------------------------------------------------------------------
 
-cls
+Clear-Host
 
 import-module activedirectory
 
@@ -64,7 +64,7 @@ ForEach-Object { $schemaIDGUID.add([System.GUID]$_.rightsGUID, $_.name) }
 
 $ErrorActionPreference = 'Continue'
 
-#(*)
+# (*)
 
 #-----------------------------------------------------------------------------
 #Functions
@@ -104,10 +104,10 @@ Write-Host "Top Domain OUs:"$OUs
 $OUs += Get-ADOrganizationalUnit -Filter * | Select-Object -ExpandProperty DistinguishedName
 
 # add other containers
-$OUs += Get-ADObject -SearchBase (Get-ADDomain).DistinguishedName -LDAPFilter '(|(objectClass=container)(objectClass=builtinDomain))' | Select-Object -ExpandProperty DistinguishedName
+##$OUs += Get-ADObject -SearchBase (Get-ADDomain).DistinguishedName -LDAPFilter '(|(objectClass=container)(objectClass=builtinDomain))' | Select-Object -ExpandProperty DistinguishedName
 
-#if you don't want to scan the builtin container use line below instead of line above
-#$OUs += Get-ADObject -SearchBase (Get-ADDomain).DistinguishedName -LDAPFilter '(objectClass=container)' | Select-Object -ExpandProperty DistinguishedName
+# if you don't want to scan the builtin container use line below instead of line above
+$OUs += Get-ADObject -SearchBase (Get-ADDomain).DistinguishedName -LDAPFilter '(objectClass=container)' | Select-Object -ExpandProperty DistinguishedName
 
 # set the target objects types to investigate
 # including users, groups, contacts, computers
@@ -115,7 +115,7 @@ $ldapfilter = '(|(objectclass=user)(objectclass=group)(objectclass=contact)(obje
 
 #$ldapfilter = '(|(objectclass=user)(objectclass=group)(objectclass=contact)(objectclass=computer)(objectclass=Foreign-Security-Principal))'
 
-#not included: Foreign-Security-Principal, msTPM-InformationObjectsContainer, msDS-QuotaContainer, lostAndFound,
+# not included: Foreign-Security-Principal, msTPM-InformationObjectsContainer, msDS-QuotaContainer, lostAndFound,
 
 $iSeqNo = 0
 
@@ -128,51 +128,31 @@ ForEach ($OU in $OUs) {
     $activity = "Analyzing container: " + $OU
     Write-Progress -activity $activity -status "Please wait" -percentcomplete $pct -currentoperation "now processing container $iSeqNo of $OUCount" -id 1
 
-    #check the protection of the parent container
-
+    # check the protection of the parent container
     $isProtected = ''
-
     $isProtected = CheckProtection $OU
+    if ($null -ne $isProtected) { $report += $isProtected }
 
-    if ($isProtected -ne $null) { $report += $isProtected }
-
-    
-
-    #Lookup the child target objects in the parent container
-
+    # Lookup the child target objects in the parent container
     $objects = Get-ADObject -SearchBase $OU -SearchScope OneLevel -LDAPFilter $ldapfilter | Select-Object -ExpandProperty DistinguishedName
-
     $iSubSeqNo = 0
-
     $ObjCount = $objects.Count
 
-    
-
-    #check the protection of the child objects
-
+    # check the protection of the child objects
     ForEach ($object in $objects) {
-
         $iSubSeqNo++
-
         $iSubpct = ([int]($iSubSeqNo / $ObjCount * 100))
-
         $SubActivity = "Analyzing object: " + $object 
-
         Write-Progress -activity $SubActivity -status "Please wait" -percentcomplete $iSubpct -currentoperation "now processing object $iSubSeqNo of $ObjCount" -ParentId 1 -id 2
 
-    
-
         $isProtected = ''
-
         $isProtected = CheckProtection $object
-
-        if ($isProtected -ne $null) { $report += $isProtected }
-
+        if ($null -ne $isProtected) { $report += $isProtected }
     }
 
     Write-Progress -activity "Analyzing object completed." -status "Proceeding" -Completed -ParentId 1 -id 2
-
 }
+Write-Host "Loop completed!"
 
 $report | Format-Table -Wrap
 
