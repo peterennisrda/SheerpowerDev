@@ -1,3 +1,6 @@
+# This is the PowerShell equivalent for
+# netdom query fsmo
+
 Get-ADForest |`
     Select-Object SchemaMaster, DomainNamingMaster |`
     Format-List
